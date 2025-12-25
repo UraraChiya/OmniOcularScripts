@@ -1,0 +1,109 @@
+<!--Author: Leong123-->
+<!--Date: 2025/12/22-->
+<!--Version: V33a-->
+<oo>
+    <tileentity id="RC.*">
+        <line displayname="hud.msg.RotaryCraft.place">
+            return nbt['place']
+        </line>
+        <line displayname='hud.msg.RotaryCraft.Power'>
+            if(nbt['power']) return nbt['power']+" W"
+        </line>
+        <line displayname='hud.msg.RotaryCraft.Torque'>
+            if(nbt['torque']) return nbt['torque']+" Nm"
+        </line>
+        <line displayname='hud.msg.RotaryCraft.Speed'>
+            if(nbt['omega']) return nbt['omega']+" rad/s"
+        </line>
+        <line displayname='melt'>
+            return nbt["melt"]
+        </line>
+    </tileentity>
+    <tileentity id="RCdynamo">
+        <line displayname='hud.msg.RotaryCraft.RFGeneration'>
+            if(nbt['power']) return nbt['power'] / 512 + " RF/t"
+        </line>
+    </tileentity>
+    <tileentity id="RCfan">
+        <line displayname="hud.msg.RotaryCraft.Fan.Range">
+            if(nbt['power']) {
+                return (8 + (nbt['power'] - 2048) / 1024) + " m"
+            }
+        </line>
+        <line displayname="hud.msg.RotaryCraft.Fan.Mode">
+            var mode = [];
+            if(nbt['omega'] >= 64) {
+                mode.push(translate("hud.msg.RotaryCraft.Fan.FireExtinguish"));
+                if(nbt['omega'] >= 512) {
+                    mode.push(translate("hud.msg.RotaryCraft.Fan.Harvesting"));
+                }
+                return mode.join(", ")
+            }
+        </line>
+    </tileentity>
+    <!-- 
+            Stage 1 Power: 65536W
+            Stage 2 Power: 16384W
+            Stage 3 Power: 32768W
+            Stage 4 Power: 65536W
+            Stage 1 Torque: 512Nm
+            Stage 4 Torque: 256Nm
+            Stage 2 Speed: 2048rad/s
+            Stage 3 Speed: 8192rad/s
+
+            x = Speed
+            Stage 1 Time = 900.0-60.0*log_2.0(x+1)
+            Stage 2 Time = 400.0-20.0*log_2.0(x+1)
+            Stage 3 Time = 600.0-30.0*log_2.0(x+1)
+            Stage 4 Time = 1200.0-80.0*log_2.0(x+1)
+
+            {torque:2048,extractor:{FluidName:"water",Amount:16000},emp:0b,no_drops:0b,placeUUID:"34b7ce33-953f-4b7d-871b-6574e8c0c2c0",bedrock:0b,no_mine:0b,pox:0,poz:0,Items:[0:{Slot:2b,id:5861s,Count:16b,Damage:9s},1:{Slot:3b,id:5861s,Count:34b,Damage:17s},2:{Slot:7b,id:5861s,Count:20b,Damage:25s},3:{Slot:8b,id:5861s,Count:1b,Damage:33s}],power:65536L,poy:0,place:"Leong123",thisredstone:0b,_:[0:"Class: Reika.RotaryCraft.TileEntities.Processing.TileEntityExtractor",1:"ID: RCextractor",2:"Block: tile..name",3:"Block Class: Reika.RotaryCraft.Blocks.BlockMIMachine",4:"Position: [330, 64, 337]",5:"Mod: RotaryCraft",6:"Ticking: true"],CookTime:[0,0,0,641,],address:"31596210-f7f3-4627-9994-4e7bc2083b2a",io:0,read3:-1,read2:-1,read4:-1,tick:0,omni:0b,drill:4096,lastredstone:0b,omega:32,read1:0,meta:0,write1:-1,age_ticks:25711L,write2:-1}
+    -->
+    <tileentity id="RCextractor">
+        <line displayname="hud.msg.RotaryCraft.Extractor.Stage">
+            var power = nbt['power'] ? nbt['power'] : 0;
+            var speed = nbt['omega'] ? nbt['omega'] : 0;
+            var torque = nbt['torque'] ? nbt['torque'] : 0;
+            var times = [Infinity, Infinity, Infinity, Infinity];
+            var cooktimes = [
+                nbt['CookTime'][0],
+                nbt['CookTime'][1],
+                nbt['CookTime'][2],
+                nbt['CookTime'][3]
+            ];
+            var enableds = [
+                power >= 65536 && torque >= 512,
+                power >= 16384 && speed >= 2048,
+                power >= 32768 && speed >= 8192,
+                power >= 65536 && torque >= 256
+            ];
+            var ln2 = 0.693147180559945;
+            if(enableds[0]) {
+                times[0] = 900.0 - 60.0 * Math.log(speed + 1) / ln2;
+            }
+            if(enableds[1]) {
+                times[1] = 400.0 - 20.0 * Math.log(speed + 1) / ln2;
+            }
+            if(enableds[2]) {
+                times[2] = 600.0 - 30.0 * Math.log(speed + 1) / ln2;
+            }
+            if(enableds[3]) {
+                times[3] = 1200.0 - 80.0 * Math.log(speed + 1) / ln2;
+            }
+            var result = ["\\n"];
+            for(var i=0; i<4; i++) {
+                if(times[i] >= 0 && cooktimes[i] >= 0) {
+                    if(enableds[i]) {
+                        result.push("  " + GREEN + translate("hud.msg.RotaryCraft.Extractor.Stage") + " " + (i+1) +
+                        ": " + WHITE +
+                        " " + cooktimes[i] + " / " + Math.ceil(times[i]) + " " + translate("hud.msg.common.Ticks"));
+                    } else {
+                        result.push("  " + RED + translate("hud.msg.RotaryCraft.Extractor.Stage") + " " + (i+1) +
+                        ": " + translate("hud.msg.common.Disabled"));
+                    }
+                }
+            }
+            if(result.length > 1) return result.join("\\n ");
+        </line>
+    </tileentity>
+</oo>

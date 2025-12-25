@@ -1,0 +1,25 @@
+<!--Author: Leong123-->
+<!--Date: 2025/12/24-->
+<!--Version: V33a-->
+<oo>
+    <tileentity id="CC.*">
+        <line displayname="hud.msg.ChromatiCraft.place">
+            if(nbt['place']) {
+                if(nbt['placeUUID']) {
+                    return nbt['place'] + ' ' + nbt['placeUUID'].split('-')[0];
+                }
+                return nbt['place'];
+            }
+        </line>
+        <line displayname="hud.msg.ChromatiCraft.owner">
+            if(nbt['owners'] && nbt['owners']['0']) {
+                return nbt['owners']['0'].split('-')[0];
+            }
+        </line>
+    </tileentity>
+    <tileentity id="CCchroma.table">
+        <line displayname="XP">
+            return nbt['xp'];
+        </line>
+    </tileentity>
+</oo>

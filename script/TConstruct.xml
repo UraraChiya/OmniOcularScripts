@@ -1,0 +1,16 @@
+<!--Author: Leong123-->
+<!--Date: 2022/12/22-->
+<!--Version: 1.7.10-1.8.8.build991-->
+<oo>
+    <tileentity id="TConstruct.Smeltery">
+        <line displayname='hud.msg.TConstruct.Layer'>
+            if(nbt['ValidStructure']) return nbt['Layers']
+        </line>
+        <line displayname='hud.msg.TConstruct.Capacity'>
+            if(nbt['ValidStructure']) return nbt['MaxLiquid'] + " mB"
+        </line>
+        <line displayname='hud.msg.temperature'>
+            if(nbt['ValidStructure']) return nbt['InternalTemp'] + " °C"
+        </line>
+    </tileentity>
+</oo>

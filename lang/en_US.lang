@@ -1,0 +1,23 @@
+hud.msg.common.Top=Top
+hud.msg.common.Bottom=Bottom
+hud.msg.common.North=North
+hud.msg.common.South=South
+hud.msg.common.West=West
+hud.msg.common.East=East
+hud.msg.common.Ticks=Ticks
+hud.msg.common.Enabled=Enabled
+hud.msg.common.Disabled=Disabled
+
+hud.msg.appliedenergistics2.Parts=Parts
+
+hud.msg.ChromatiCraft.place=Placer
+hud.msg.ChromatiCraft.owner=Owner
+
+hud.msg.RotaryCraft.place=Placer
+hud.msg.RotaryCraft.RFGeneration=Generated
+
+hud.msg.RotaryCraft.Fan.Range=Range
+hud.msg.RotaryCraft.Fan.Mode=Mode
+hud.msg.RotaryCraft.Fan.FireExtinguish=Fire Extinguish
+hud.msg.RotaryCraft.Fan.Harvesting=Harvesting
+hud.msg.RotaryCraft.Extractor.Stage=Stage

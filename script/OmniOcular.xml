@@ -1,0 +1,11 @@
+<!--Author: Leong123-->
+<!--Date: 2025/12/22-->
+<!--Version: 1.7.10-->
+<oo>
+    <setting id="displaynameTileentity">
+        "|" + GREEN + "DISPLAYNAME" + ": " + WHITE+ "RETURN"
+    </setting>
+    <!--<setting id="displaynameTileentity">-->
+        <!--YELLOW + "DISPLAYNAME" + " : "  + WHITE + "RETURN"-->
+    <!--</setting>-->
+</oo>
