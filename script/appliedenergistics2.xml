@@ -4,12 +4,12 @@
 <oo>
     <tileentity id="BlockDrive">
         <line displayname="gui.appliedenergistics2.Priority">
-            nbt['priority']
+            nbt.priority;
         </line>
     </tileentity>
     <tileentity id="BlockChest">
         <line displayname="gui.appliedenergistics2.Priority">
-            nbt['priority']
+            nbt.priority;
         </line>
     </tileentity>
     <!-- 
@@ -22,25 +22,26 @@
     -->
     <tileentity id="BlockCableBus">
         <line displayname="hud.msg.appliedenergistics2.Parts">
-            var part = ["\\n"];
+            var part = ['\\n'];
             var directions = [
-                translate("hud.msg.common.Bottom"),
-                translate("hud.msg.common.Top"),
-                translate("hud.msg.common.North"),
-                translate("hud.msg.common.South"),
-                translate("hud.msg.common.West"),
-                translate("hud.msg.common.East")
+                translate('hud.msg.common.Bottom'),
+                translate('hud.msg.common.Top'),
+                translate('hud.msg.common.North'),
+                translate('hud.msg.common.South'),
+                translate('hud.msg.common.West'),
+                translate('hud.msg.common.East')
             ];
-            for(i = 0; i < 6; i++) {
-                if(nbt['def:' + i]) {
-                    var info = "  " GREEN + directions[i] + ": " + WHITE + name(nbt['def:' + i]);
-                    if(nbt['extra:' + i]["priority"] != undefined) {
-                        info += "\\n    " + GREEN + translate("gui.appliedenergistics2.Priority") + ": " + WHITE + nbt['extra:' + i]["priority"];
+            for (i = 0; i < 6; i++) {
+                if (nbt['def:' + i]) {
+                    var info = '  ' + GREEN + directions[i] + ': ' + WHITE + name(nbt['def:' + i]);
+                    if (nbt['extra:' + i]['priority'] != undefined) {
+                        info += '\\n    ' + GREEN + translate('gui.appliedenergistics2.Priority') + ': ';
+                        info += WHITE + nbt['extra:' + i]['priority'];
                     }
                     part.push(info);
                 }
             }
-            return part.join("\\n");
+            return part.join('\\n');
         </line>
     </tileentity>
 </oo>

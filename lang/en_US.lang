@@ -12,6 +12,9 @@ hud.msg.appliedenergistics2.Parts=Parts
 
 hud.msg.ChromatiCraft.place=Placer
 hud.msg.ChromatiCraft.owner=Owner
+hud.msg.ChromatiCraft.struct=Structure
+hud.msg.ChromatiCraft.struct.formed=Formed
+hud.msg.ChromatiCraft.struct.unformed=Unformed
 
 hud.msg.RotaryCraft.place=Placer
 hud.msg.RotaryCraft.Requirements=Requirements
@@ -22,4 +25,7 @@ hud.msg.RotaryCraft.Fan.Range=Range
 hud.msg.RotaryCraft.Fan.Mode=Mode
 hud.msg.RotaryCraft.Fan.FireExtinguish=Fire Extinguish
 hud.msg.RotaryCraft.Fan.Harvesting=Harvesting
+
 hud.msg.RotaryCraft.Extractor.Stage=Stage
+
+hud.msg.RotaryCraft.Friction.MaxTemperature=Max Temp

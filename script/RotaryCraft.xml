@@ -2,44 +2,62 @@
 <!--Date: 2025/12/22-->
 <!--Version: V33a-->
 <oo>
+    <init>
+        function isRequirements(nbt, req) {
+            if (req.power && nbt.power < req.power) return false;
+            if (req.speed && nbt.omega < req.speed) return false;
+            if (req.torque && nbt.torque < req.torque) return false;
+            return true;
+        }
+        function log2(x) {
+            return Math.log(x) / Math.log(2);
+        }
+        function requirementsInfo(nbt, req) {
+            var parts = [];
+            if (req.power && nbt.power < req.power) parts.push(translate('hud.msg.RotaryCraft.Power') + ' ' + req.power + ' W');
+            if (req.speed && nbt.omega < req.speed) parts.push(translate('hud.msg.RotaryCraft.Speed') + ' ' + req.speed + ' rad/s');
+            if (req.torque && nbt.torque < req.torque) parts.push(translate('hud.msg.RotaryCraft.Torque') + ' ' + req.torque + ' Nm');
+            if (parts.length) return RED + parts.join(', ');
+        }
+    </init>
     <tileentity id="RC.*">
         <line displayname="hud.msg.RotaryCraft.place">
-            return nbt.place
+            return nbt.place;
         </line>
         <line displayname='hud.msg.RotaryCraft.Power'>
-            if(nbt.power) return nbt.power+" W"
+            if (nbt.power) return nbt.power + ' W';
         </line>
         <line displayname='hud.msg.RotaryCraft.Torque'>
-            if(nbt.torque) return nbt.torque+" Nm"
+            if (nbt.torque) return nbt.torque + ' Nm';
         </line>
         <line displayname='hud.msg.RotaryCraft.Speed'>
-            if(nbt.omega) return nbt.omega+" rad/s"
+            if (nbt.omega) return nbt.omega + ' rad/s';
         </line>
     </tileentity>
     <tileentity id="RCblastfurnace">
         <line displayname='melt'>
-            return nbt.melt
+            return nbt.melt;
         </line>
     </tileentity>
     <tileentity id="RCdynamo">
         <line displayname='hud.msg.RotaryCraft.Generation'>
-            if(nbt.power) return nbt.power / 512 + " RF/t"
+            if (nbt.power) return nbt.power / 512 + ' RF/t';
         </line>
     </tileentity>
     <tileentity id="RCfan">
         <line displayname="hud.msg.RotaryCraft.Fan.Range">
-            if(nbt.power) {
-                return (8 + (nbt.power - 2048) / 1024) + " m"
+            if (nbt.power) {
+                return 8 + (nbt.power - 2048) / 1024 + ' m';
             }
         </line>
         <line displayname="hud.msg.RotaryCraft.Fan.Mode">
             var mode = [];
-            if(nbt.omega >= 64) {
-                mode.push(translate("hud.msg.RotaryCraft.Fan.FireExtinguish"));
-                if(nbt.omega >= 512) {
-                    mode.push(translate("hud.msg.RotaryCraft.Fan.Harvesting"));
+            if (nbt.omega >= 64) {
+                mode.push(translate('hud.msg.RotaryCraft.Fan.FireExtinguish'));
+                if (nbt.omega >= 512) {
+                    mode.push(translate('hud.msg.RotaryCraft.Fan.Harvesting'));
                 }
-                return mode.join(", ")
+                return mode.join(', ');
             }
         </line>
     </tileentity>
@@ -63,86 +81,117 @@
     -->
     <tileentity id="RCextractor">
         <line displayname="hud.msg.RotaryCraft.Extractor.Stage">
-            var power  = nbt.power  || 0;
-            var speed  = nbt.omega || 0;
+            var power = nbt.power || 0;
+            var speed = nbt.omega || 0;
             var torque = nbt.torque || 0;
 
             var cooktimes = nbt.CookTime;
-            var ln2 = 0.693147180559945;
 
             var stages = [
                 {
-                    power: 65536, torque: 512,
-                    base: 900, factor: 60
+                    power: 65536,
+                    torque: 512,
+                    base: 900,
+                    factor: 60
                 },
                 {
-                    power: 16384, speed: 2048,
-                    base: 400, factor: 20
+                    power: 16384,
+                    speed: 2048,
+                    base: 400,
+                    factor: 20
                 },
                 {
-                    power: 32768, speed: 8192,
-                    base: 600, factor: 30
+                    power: 32768,
+                    speed: 8192,
+                    base: 600,
+                    factor: 30
                 },
                 {
-                    power: 65536, torque: 256,
-                    base: 1200, factor: 80
+                    power: 65536,
+                    torque: 256,
+                    base: 1200,
+                    factor: 80
                 }
             ];
 
             function hasRequirements(stage) {
-                if(stage.power  && power  < stage.power)  return false;
-                if(stage.speed  && speed  < stage.speed)  return false;
-                if(stage.torque && torque < stage.torque) return false;
+                if (stage.power && power < stage.power) return false;
+                if (stage.speed && speed < stage.speed) return false;
+                if (stage.torque && torque < stage.torque) return false;
                 return true;
             }
 
             function buildError(stage) {
-                var msg = translate("hud.msg.RotaryCraft.Requirements") + ": ";
+                var msg = translate('hud.msg.RotaryCraft.Requirements') + ': ';
                 var parts = [];
 
-                if(stage.power && power < stage.power)
-                    parts.push(translate("hud.msg.RotaryCraft.Power") + " " + stage.power + " W");
+                if (stage.power && power < stage.power) {
+                    parts.push(translate('hud.msg.RotaryCraft.Power') + ' ' + stage.power + ' W');
+                }
 
-                if(stage.speed && speed < stage.speed)
-                    parts.push(translate("hud.msg.RotaryCraft.Speed") + " " + stage.speed + " rad/s");
+                if (stage.speed && speed < stage.speed) {
+                    parts.push(translate('hud.msg.RotaryCraft.Speed') + ' ' + stage.speed + ' rad/s');
+                }
 
-                if(stage.torque && torque < stage.torque)
-                    parts.push(translate("hud.msg.RotaryCraft.Torque") + " " + stage.torque + " Nm");
+                if (stage.torque && torque < stage.torque) {
+                    parts.push(translate('hud.msg.RotaryCraft.Torque') + ' ' + stage.torque + ' Nm');
+                }
 
-                return msg + parts.join(", ");
+                return msg + parts.join(', ');
             }
 
             function calcTime(stage) {
-                return stage.base - stage.factor * Math.log(speed + 1) / ln2;
+                return stage.base - stage.factor * log2(speed + 1);
             }
 
-            var result = ["\\n"];
+            var result = ['\\n'];
 
-            for(var i = 0; i < 4; i++) {
-                if(cooktimes[i] < 0) continue;
+            for (var i = 0; i < 4; i++) {
+                if (cooktimes[i] < 0) continue;
 
-                if(hasRequirements(stages[i])) {
+                if (hasRequirements(stages[i])) {
                     var t = calcTime(stages[i]);
-                    if(t >= 0) {
-                        result.push(
-                            "  " + GREEN +
-                            translate("hud.msg.RotaryCraft.Extractor.Stage") + " " + (i + 1) +
-                            ": " + WHITE +
-                            " " + cooktimes[i] + " / " + Math.ceil(t) + " " +
-                            translate("hud.msg.common.Ticks")
-                        );
+                    if (t >= 0) {
+                        var tmp = '  ' + GREEN + translate('hud.msg.RotaryCraft.Extractor.Stage') + ' ' + (i + 1) + ': ';
+                        tmp += WHITE + ' ' + cooktimes[i] + ' / ' + Math.ceil(t) + ' ' + translate('hud.msg.common.Ticks');
+                        result.push(tmp);
                     }
                 } else {
                     result.push(
-                        "  " + RED +
-                        translate("hud.msg.RotaryCraft.Extractor.Stage") + " " + (i + 1) +
-                        ": " + buildError(stages[i])
+                        '  ' + RED + translate('hud.msg.RotaryCraft.Extractor.Stage') + ' ' + (i + 1) + ': ' + buildError(stages[i])
                     );
                 }
             }
 
-            if(result.length > 1)
-                return result.join("\\n ");
+            if (result.length > 1) return result.join('\\n ');
+        </line>
+    </tileentity>
+    <tileentity id="RCfriction">
+        <line displayname='hud.msg.RotaryCraft.Requirements'>
+            return requirementsInfo(nbt, { power: 8192, torque: 32 });
+        </line>
+        <!--
+        温度公式为 ：T=12*log2(speed 速度)*log2(torque 扭矩) + 30 (在满足机器最低运行要求的情况下)
+        -->
+        <line displayname='hud.msg.RotaryCraft.Friction.MaxTemperature'>
+            var speed = nbt.omega || 0;
+            var torque = nbt.torque || 0;
+            if (isRequirements(nbt, { power: 8192, torque: 32 })) {
+                var temp = 12 * log2(speed) * log2(torque) + 30;
+                var avg = Math.sqrt(speed * torque);
+                var maxTemp = 12 * log2(avg) * log2(avg) + 30;
+                return Math.floor(temp) + ' / ' + Math.floor(maxTemp) + ' °C';
+            }
+        </line>
+    </tileentity>
+    <tileentity id="RCac">
+        <line displayname='hud.msg.RotaryCraft.magnet'>
+            return nbt.Items[0].tag.magnet;
+        </line>
+    </tileentity>
+    <tileentity id="RCmangnetizer">
+        <line displayname='hud.msg.RotaryCraft.magnet'>
+            return nbt.Items[0].tag.magnet;
         </line>
     </tileentity>
 </oo>

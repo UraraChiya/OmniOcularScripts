@@ -4,16 +4,21 @@
 <oo>
     <tileentity id="CC.*">
         <line displayname="hud.msg.ChromatiCraft.place">
-            if(nbt['place']) {
-                if(nbt['placeUUID']) {
-                    return nbt['place'] + ' ' + nbt['placeUUID'].split('-')[0];
+            if (nbt.place) {
+                if (nbt.placeUUID) {
+                    return nbt.place + ' ' + nbt.placeUUID.split('-')[0];
                 }
-                return nbt['place'];
+                return nbt.place;
             }
         </line>
         <line displayname="hud.msg.ChromatiCraft.owner">
-            if(nbt['owners'] && nbt['owners']['0']) {
-                return nbt['owners']['0'].split('-')[0];
+            if (nbt.owners[0]) return nbt.owners[0].split('-')[0];
+        </line>
+        <line displayname="hud.msg.ChromatiCraft.struct">
+            if (nbt.struct == 1) {
+                return translate('hud.msg.ChromatiCraft.struct.formed');
+            } else if (nbt.struct == 0) {
+                return translate('hud.msg.ChromatiCraft.struct.unformed');
             }
         </line>
     </tileentity>

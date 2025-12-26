@@ -1,0 +1,16 @@
+<!--Author: Leong123-->
+<!--Date: 2025/12/26-->
+<!--Version: 1.5.0-->
+<oo>
+    <tileentity id="AgriCraft.TileEntity_crop">
+        <line displayname="agricraft_tooltip.growth">
+            if (nbt.growth && !nbt.analyzed && nbt.seed) return nbt.growth;
+        </line>
+        <line displayname="agricraft_tooltip.gain">
+            if (nbt.gain && !nbt.analyzed && nbt.seed) return nbt.gain;
+        </line>
+        <line displayname="agricraft_tooltip.strength">
+            if (nbt.strength && !nbt.analyzed && nbt.seed) return nbt.strength;
+        </line>
+    </tileentity>
+</oo>

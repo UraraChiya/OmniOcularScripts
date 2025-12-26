@@ -18,29 +18,24 @@
         ("+WHITE+n['fluidTank']['Amount']+GRAY+" / "+WHITE+cap+GRAY+" mB"+")"}
         }
     </init>
-    <tileentity id=".*">
-        <line displayname="hud.msg.IC2.Progress">
-            nbt['progress'];
-        </line>
-    </tileentity>
     <tileentity id="Geothermal Generator">
         <line displayname="hudmsg.IC2.LavaAmount">
-            if(nbt['fluidTank']['Empty']==undefined) {
-            return nbt['fluidTank']['Amount']+GRAY+" / "+WHITE+"8000"+GRAY+" mB"
+            if (nbt['fluidTank']['Empty'] == undefined) {
+                return nbt['fluidTank']['Amount'] + GRAY + ' / ' + WHITE + '8000' + GRAY + ' mB';
             }
         </line>
     </tileentity>
     <tileentity id="Nuclear Reactor">
         <line displayname="Output">
-            return nbt['output']*5+GRAY+" EU/t"
+            return nbt['output'] * 5 + GRAY + ' EU/t';
         </line>
     </tileentity>
     <tileentity id="BatBox">
         <line displayname="Stored">
-            return Math.floor(nbt['energy'])+GRAY+" / "+WHITE+"40000"+GRAY+" EU"
+            return Math.floor(nbt['energy']) + GRAY + ' / ' + WHITE + '40000' + GRAY + ' EU';
         </line>
         <line displayname="Output">
-            return "32"+GRAY+" EU/t"
+            return '32' + GRAY + ' EU/t';
         </line>
         <line displayname="hudmsg.IC2.Charging">
             if(nbt['InvSlots']['charge']['Contents'][0]['Damage']!=1) {
@@ -49,8 +44,9 @@
             EU)"}
         </line>
         <line>
-            if(nbt['InvSlots']['charge']['Contents'][0]['Damage']==1) {
-            return RED+name(nbt['InvSlots']['charge']['Contents'][0])+" Charge Completed"}
+            if (nbt['InvSlots']['charge']['Contents'][0]['Damage'] == 1) {
+                return RED + name(nbt['InvSlots']['charge']['Contents'][0]) + ' Charge Completed';
+            }
         </line>
         <line displayname="hudmsg.IC2.Discharging">
             return name(nbt['InvSlots']['discharge']['Contents'][0])+GRAY+"
@@ -58,16 +54,17 @@
             EU)"
         </line>
         <line>
-            if(nbt['InvSlots']['discharge']['Contents'][0]['tag']==undefined) {
-            return RED+name(nbt['InvSlots']['discharge']['Contents'][0])+" was out of power"}
+            if (nbt['InvSlots']['discharge']['Contents'][0]['tag'] == undefined) {
+                return RED + name(nbt['InvSlots']['discharge']['Contents'][0]) + ' was out of power';
+            }
         </line>
     </tileentity>
     <tileentity id="CESU">
         <line displayname="Stored">
-            return Math.floor(nbt['energy'])+GRAY+" / "+WHITE+"300000"+GRAY+" EU"
+            return Math.floor(nbt['energy']) + GRAY + ' / ' + WHITE + '300000' + GRAY + ' EU';
         </line>
         <line displayname="Output">
-            return "128"+GRAY+" EU/t"
+            return '128' + GRAY + ' EU/t';
         </line>
         <line displayname="hudmsg.IC2.Charging">
             if(nbt['InvSlots']['charge']['Contents'][0]['Damage']!=1) {
@@ -76,8 +73,9 @@
             EU)"}
         </line>
         <line>
-            if(nbt['InvSlots']['charge']['Contents'][0]['Damage']==1) {
-            return RED+name(nbt['InvSlots']['charge']['Contents'][0])+" Charge Completed"}
+            if (nbt['InvSlots']['charge']['Contents'][0]['Damage'] == 1) {
+                return RED + name(nbt['InvSlots']['charge']['Contents'][0]) + ' Charge Completed';
+            }
         </line>
         <line displayname="hudmsg.IC2.Discharging">
             return name(nbt['InvSlots']['discharge']['Contents'][0])+GRAY+"
@@ -85,16 +83,17 @@
             EU)"
         </line>
         <line>
-            if(nbt['InvSlots']['discharge']['Contents'][0]['tag']==undefined) {
-            return RED+name(nbt['InvSlots']['discharge']['Contents'][0])+" was out of power"}
+            if (nbt['InvSlots']['discharge']['Contents'][0]['tag'] == undefined) {
+                return RED + name(nbt['InvSlots']['discharge']['Contents'][0]) + ' was out of power';
+            }
         </line>
     </tileentity>
     <tileentity id="MFE">
         <line displayname="Stored">
-            return Math.floor(nbt['energy'])+GRAY+" / "+WHITE+"4000000"+GRAY+" EU"
+            return Math.floor(nbt['energy']) + GRAY + ' / ' + WHITE + '4000000' + GRAY + ' EU';
         </line>
         <line displayname="Output">
-            return "512"+GRAY+" EU/t"
+            return '512' + GRAY + ' EU/t';
         </line>
         <line displayname="hudmsg.IC2.Charging">
             if(nbt['InvSlots']['charge']['Contents'][0]['Damage']!=1) {
@@ -103,8 +102,9 @@
             EU)"}
         </line>
         <line>
-            if(nbt['InvSlots']['charge']['Contents'][0]['Damage']==1) {
-            return RED+name(nbt['InvSlots']['charge']['Contents'][0])+" Charge Completed"}
+            if (nbt['InvSlots']['charge']['Contents'][0]['Damage'] == 1) {
+                return RED + name(nbt['InvSlots']['charge']['Contents'][0]) + ' Charge Completed';
+            }
         </line>
         <line displayname="hudmsg.IC2.Discharging">
             return name(nbt['InvSlots']['discharge']['Contents'][0])+GRAY+"
@@ -112,16 +112,17 @@
             EU)"
         </line>
         <line>
-            if(nbt['InvSlots']['discharge']['Contents'][0]['tag']==undefined) {
-            return RED+name(nbt['InvSlots']['discharge']['Contents'][0])+" was out of power"}
+            if (nbt['InvSlots']['discharge']['Contents'][0]['tag'] == undefined) {
+                return RED + name(nbt['InvSlots']['discharge']['Contents'][0]) + ' was out of power';
+            }
         </line>
     </tileentity>
     <tileentity id="MFSU">
         <line displayname="Stored">
-            return Math.floor(nbt['energy'])+GRAY+" / "+WHITE+"40000000"+GRAY+" EU"
+            return Math.floor(nbt['energy']) + GRAY + ' / ' + WHITE + '40000000' + GRAY + ' EU';
         </line>
         <line displayname="Output">
-            return "2048"+GRAY+" EU/t"
+            return '2048' + GRAY + ' EU/t';
         </line>
         <line displayname="hudmsg.IC2.Charging">
             if(nbt['InvSlots']['charge']['Contents'][0]['Damage']!=1) {
@@ -130,8 +131,9 @@
             EU)"}
         </line>
         <line>
-            if(nbt['InvSlots']['charge']['Contents'][0]['Damage']==1) {
-            return RED+name(nbt['InvSlots']['charge']['Contents'][0])+" Charge Completed"}
+            if (nbt['InvSlots']['charge']['Contents'][0]['Damage'] == 1) {
+                return RED + name(nbt['InvSlots']['charge']['Contents'][0]) + ' Charge Completed';
+            }
         </line>
         <line displayname="hudmsg.IC2.Discharging">
             return name(nbt['InvSlots']['discharge']['Contents'][0])+GRAY+"
@@ -139,40 +141,41 @@
             EU)"
         </line>
         <line>
-            if(nbt['InvSlots']['discharge']['Contents'][0]['tag']==undefined) {
-            return RED+name(nbt['InvSlots']['discharge']['Contents'][0])+" was out of power"}
+            if (nbt['InvSlots']['discharge']['Contents'][0]['tag'] == undefined) {
+                return RED + name(nbt['InvSlots']['discharge']['Contents'][0]) + ' was out of power';
+            }
         </line>
     </tileentity>
     <tileentity id="Chargepad BatBox">
         <line displayname="Stored">
-            return nbt['energy']+GRAY+" / "+WHITE+"40000"+GRAY+" EU"
+            return nbt['energy'] + GRAY + ' / ' + WHITE + '40000' + GRAY + ' EU';
         </line>
         <line displayname="Output">
-            return "32"+GRAY+" EU/t"
+            return '32' + GRAY + ' EU/t';
         </line>
     </tileentity>
     <tileentity id="Chargepad CESU">
         <line displayname="Stored">
-            return Math.floor(nbt['energy'])+GRAY+" / "+WHITE+"300000"+GRAY+" EU"
+            return Math.floor(nbt['energy']) + GRAY + ' / ' + WHITE + '300000' + GRAY + ' EU';
         </line>
         <line displayname="Output">
-            return "128"+GRAY+" EU/t"
+            return '128' + GRAY + ' EU/t';
         </line>
     </tileentity>
     <tileentity id="Chargepad MFE">
         <line displayname="Stored">
-            return Math.floor(nbt['energy'])+GRAY+" / "+WHITE+"4000000"+GRAY+" EU"
+            return Math.floor(nbt['energy']) + GRAY + ' / ' + WHITE + '4000000' + GRAY + ' EU';
         </line>
         <line displayname="Output">
-            return "512"+GRAY+" EU/t"
+            return '512' + GRAY + ' EU/t';
         </line>
     </tileentity>
     <tileentity id="Chargepad MFSU">
         <line displayname="Stored">
-            return Math.floor(nbt['energy'])+GRAY+" / "+WHITE+"40000000"+GRAY+" EU"
+            return Math.floor(nbt['energy']) + GRAY + ' / ' + WHITE + '40000000' + GRAY + ' EU';
         </line>
         <line displayname="Output">
-            return "2048"+GRAY+" EU/t"
+            return '2048' + GRAY + ' EU/t';
         </line>
     </tileentity>
     <tileentity id="Chargepad.*">
@@ -183,8 +186,9 @@
             EU)"}
         </line>
         <line>
-            if(nbt['InvSlots']['charge']['Contents'][0]['Damage']==1) {
-            return RED+name(nbt['InvSlots']['charge']['Contents'][0])+" Charge Completed"}
+            if (nbt['InvSlots']['charge']['Contents'][0]['Damage'] == 1) {
+                return RED + name(nbt['InvSlots']['charge']['Contents'][0]) + ' Charge Completed';
+            }
         </line>
         <line displayname="hudmsg.IC2.Discharging">
             return name(nbt['InvSlots']['discharge']['Contents'][0])+GRAY+"
@@ -192,8 +196,9 @@
             EU)"
         </line>
         <line>
-            if(nbt['InvSlots']['discharge']['Contents'][0]['tag']==undefined) {
-            return RED+name(nbt['InvSlots']['discharge']['Contents'][0])+" was out of power"}
+            if (nbt['InvSlots']['discharge']['Contents'][0]['tag'] == undefined) {
+                return RED + name(nbt['InvSlots']['discharge']['Contents'][0]) + ' was out of power';
+            }
         </line>
     </tileentity>
     <tileentity id="Electric Furnace">
@@ -203,8 +208,9 @@
             EU)"
         </line>
         <line>
-            if(nbt['InvSlots']['discharge']['Contents'][0]['tag']==undefined) {
-            return RED+name(nbt['InvSlots']['discharge']['Contents'][0])+" was out of power"}
+            if (nbt['InvSlots']['discharge']['Contents'][0]['tag'] == undefined) {
+                return RED + name(nbt['InvSlots']['discharge']['Contents'][0]) + ' was out of power';
+            }
         </line>
     </tileentity>
     <tileentity id="Macerator">
@@ -214,8 +220,9 @@
             EU)"
         </line>
         <line>
-            if(nbt['InvSlots']['discharge']['Contents'][0]['tag']==undefined) {
-            return RED+name(nbt['InvSlots']['discharge']['Contents'][0])+" was out of power"}
+            if (nbt['InvSlots']['discharge']['Contents'][0]['tag'] == undefined) {
+                return RED + name(nbt['InvSlots']['discharge']['Contents'][0]) + ' was out of power';
+            }
         </line>
     </tileentity>
     <tileentity id="Extractor">
@@ -225,8 +232,9 @@
             EU)"
         </line>
         <line>
-            if(nbt['InvSlots']['discharge']['Contents'][0]['tag']==undefined) {
-            return RED+name(nbt['InvSlots']['discharge']['Contents'][0])+" was out of power"}
+            if (nbt['InvSlots']['discharge']['Contents'][0]['tag'] == undefined) {
+                return RED + name(nbt['InvSlots']['discharge']['Contents'][0]) + ' was out of power';
+            }
         </line>
     </tileentity>
     <tileentity id="Compressor">
@@ -236,24 +244,30 @@
             EU)"
         </line>
         <line>
-            if(nbt['InvSlots']['discharge']['Contents'][0]['tag']==undefined) {
-            return RED+name(nbt['InvSlots']['discharge']['Contents'][0])+" was out of power"}
+            if (nbt['InvSlots']['discharge']['Contents'][0]['tag'] == undefined) {
+                return RED + name(nbt['InvSlots']['discharge']['Contents'][0]) + ' was out of power';
+            }
         </line>
     </tileentity>
     <tileentity id="Canning Machine">
         <line displayname="Mode">
-            switch(nbt['mode']) {
-            case 0:return "Canning";
-            break;
-            case 1:return "Drain Cell into Tank";
-            break;
-            case 2:return "Drain Tank into Cell";
-            break;
-            case 3:return "Fluid Enrichment";
-            break;}
+            switch (nbt['mode']) {
+                case 0:
+                    return 'Canning';
+                    break;
+                case 1:
+                    return 'Drain Cell into Tank';
+                    break;
+                case 2:
+                    return 'Drain Tank into Cell';
+                    break;
+                case 3:
+                    return 'Fluid Enrichment';
+                    break;
+            }
         </line>
         <line displayname="Output Tank">
-            gticot(nbt,8000)
+            gticot(nbt, 8000);
         </line>
         <line displayname="hudmsg.IC2.Discharging">
             return name(nbt['InvSlots']['discharge']['Contents'][0])+GRAY+"
@@ -261,8 +275,9 @@
             EU)"
         </line>
         <line>
-            if(nbt['InvSlots']['discharge']['Contents'][0]['tag']==undefined) {
-            return RED+name(nbt['InvSlots']['discharge']['Contents'][0])+" was out of power"}
+            if (nbt['InvSlots']['discharge']['Contents'][0]['tag'] == undefined) {
+                return RED + name(nbt['InvSlots']['discharge']['Contents'][0]) + ' was out of power';
+            }
         </line>
     </tileentity>
     <tileentity id="Miner">
@@ -271,8 +286,9 @@
             ("+WHITE+nbt['InvSlots']['drill']['Contents'][0]['tag']['charge'].toFixed(0)+GRAY+" EU)"
         </line>
         <line>
-            if(nbt['InvSlots']['drill']['Contents'][0]['tag']==undefined) {
-            return RED+name(nbt['InvSlots']['drill']['Contents'][0])+" was out of power"}
+            if (nbt['InvSlots']['drill']['Contents'][0]['tag'] == undefined) {
+                return RED + name(nbt['InvSlots']['drill']['Contents'][0]) + ' was out of power';
+            }
         </line>
         <line>
             return name(nbt['InvSlots']['scanner']['Contents'][0])+GRAY+"
@@ -280,16 +296,18 @@
             EU)"
         </line>
         <line>
-            if(nbt['InvSlots']['scanner']['Contents'][0]['tag']==undefined) {
-            return RED+name(nbt['InvSlots']['scanner']['Contents'][0])+" was out of power"}
+            if (nbt['InvSlots']['scanner']['Contents'][0]['tag'] == undefined) {
+                return RED + name(nbt['InvSlots']['scanner']['Contents'][0]) + ' was out of power';
+            }
         </line>
         <line>
             return name(nbt['InvSlots']['pipe']['Contents'][0])+GRAY+"
             ("+WHITE+nbt['InvSlots']['pipe']['Contents'][0]['Count']+GRAY+")"
         </line>
         <line>
-            if(nbt['InvSlots']['pipe']['Contents'][0]==undefined) {
-            return RED+"Need Mining Pipe"}
+            if (nbt['InvSlots']['pipe']['Contents'][0] == undefined) {
+                return RED + 'Need Mining Pipe';
+            }
         </line>
         <line displayname="hudmsg.IC2.Discharging">
             return name(nbt['InvSlots']['discharge']['Contents'][0])+GRAY+"
@@ -297,13 +315,14 @@
             EU)"
         </line>
         <line>
-            if(nbt['InvSlots']['discharge']['Contents'][0]['tag']==undefined) {
-            return RED+name(nbt['InvSlots']['discharge']['Contents'][0])+" was out of power"}
+            if (nbt['InvSlots']['discharge']['Contents'][0]['tag'] == undefined) {
+                return RED + name(nbt['InvSlots']['discharge']['Contents'][0]) + ' was out of power';
+            }
         </line>
     </tileentity>
     <tileentity id="Pump">
         <line>
-            gticft(nbt,8000)
+            gticft(nbt, 8000);
         </line>
         <line displayname="hudmsg.IC2.Discharging">
             return name(nbt['InvSlots']['discharge']['Contents'][0])+GRAY+"
@@ -311,8 +330,9 @@
             EU)"
         </line>
         <line>
-            if(nbt['InvSlots']['discharge']['Contents'][0]['tag']==undefined) {
-            return RED+name(nbt['InvSlots']['discharge']['Contents'][0])+" was out of power"}
+            if (nbt['InvSlots']['discharge']['Contents'][0]['tag'] == undefined) {
+                return RED + name(nbt['InvSlots']['discharge']['Contents'][0]) + ' was out of power';
+            }
         </line>
     </tileentity>
     <tileentity id="Magnetizer">
@@ -324,8 +344,9 @@
             EU)"
         </line>
         <line>
-            if(nbt['InvSlots']['discharge']['Contents'][0]['tag']==undefined) {
-            return RED+name(nbt['InvSlots']['discharge']['Contents'][0])+" was out of power"}
+            if (nbt['InvSlots']['discharge']['Contents'][0]['tag'] == undefined) {
+                return RED + name(nbt['InvSlots']['discharge']['Contents'][0]) + ' was out of power';
+            }
         </line>
     </tileentity>
     <tileentity id="Induction Furnace">
@@ -335,16 +356,17 @@
             EU)"
         </line>
         <line>
-            if(nbt['InvSlots']['discharge']['Contents'][0]['tag']==undefined) {
-            return RED+name(nbt['InvSlots']['discharge']['Contents'][0])+" was out of power"}
+            if (nbt['InvSlots']['discharge']['Contents'][0]['tag'] == undefined) {
+                return RED + name(nbt['InvSlots']['discharge']['Contents'][0]) + ' was out of power';
+            }
         </line>
     </tileentity>
     <tileentity id="Mass Fabricator">
         <line displayname="Amplifier">
-            return (nbt['scrap']).toFixed(0)
+            return nbt['scrap'].toFixed(0);
         </line>
         <line>
-            gticft(nbt,8000)
+            gticft(nbt, 8000);
         </line>
         <line displayname="hudmsg.IC2.Discharging">
             return name(nbt['InvSlots']['discharge']['Contents'][0])+GRAY+"
@@ -352,36 +374,40 @@
             EU)"
         </line>
         <line>
-            if(nbt['InvSlots']['discharge']['Contents'][0]['tag']==undefined) {
-            return RED+name(nbt['InvSlots']['discharge']['Contents'][0])+" was out of power"}
+            if (nbt['InvSlots']['discharge']['Contents'][0]['tag'] == undefined) {
+                return RED + name(nbt['InvSlots']['discharge']['Contents'][0]) + ' was out of power';
+            }
         </line>
     </tileentity>
     <tileentity id="Terraformer">
         <line>
-            return name(nbt['InvSlots']['tfbp']['Contents'][0])
+            return name(nbt['InvSlots']['tfbp']['Contents'][0]);
         </line>
     </tileentity>
     <tileentity id="Teleporter">
         <line>
-            if(nbt['targetSet']==1) {
-            return""}
-            else{
-            return"No Target"}
+            if (nbt['targetSet'] == 1) {
+                return '';
+            } else {
+                return 'No Target';
+            }
         </line>
     </tileentity>
     <tileentity id="Tesla Coil">
     </tileentity>
     <tileentity id="Crop-Matron">
         <line>
-            gticft(nbt,2000)
+            gticft(nbt, 2000);
         </line>
         <line>
-            if(nbt['InvSlots']['weedEx']['Contents'][0]==undefined) {
-            return RED+"Need Weed-EX"}
+            if (nbt['InvSlots']['weedEx']['Contents'][0] == undefined) {
+                return RED + 'Need Weed-EX';
+            }
         </line>
         <line>
-            if(nbt['InvSlots']['fertilizer']['Contents'][0]==undefined) {
-            return RED+"Need Fertiliser"}
+            if (nbt['InvSlots']['fertilizer']['Contents'][0] == undefined) {
+                return RED + 'Need Fertiliser';
+            }
         </line>
         <line displayname="hudmsg.IC2.Discharging">
             return name(nbt['InvSlots']['discharge']['Contents'][0])+GRAY+"
@@ -389,8 +415,9 @@
             EU)"
         </line>
         <line>
-            if(nbt['InvSlots']['discharge']['Contents'][0]['tag']==undefined) {
-            return RED+name(nbt['InvSlots']['discharge']['Contents'][0])+" was out of power"}
+            if (nbt['InvSlots']['discharge']['Contents'][0]['tag'] == undefined) {
+                return RED + name(nbt['InvSlots']['discharge']['Contents'][0]) + ' was out of power';
+            }
         </line>
     </tileentity>
     <tileentity id="Thermal Centrifuge">
@@ -400,19 +427,24 @@
             EU)"
         </line>
         <line>
-            if(nbt['InvSlots']['discharge']['Contents'][0]['tag']==undefined) {
-            return RED+name(nbt['InvSlots']['discharge']['Contents'][0])+" was out of power"}
+            if (nbt['InvSlots']['discharge']['Contents'][0]['tag'] == undefined) {
+                return RED + name(nbt['InvSlots']['discharge']['Contents'][0]) + ' was out of power';
+            }
         </line>
     </tileentity>
     <tileentity id="Metal Former">
         <line displayname="Mode">
-            switch(nbt['mode']) {
-            case 0:return "Extruding";
-            break;
-            case 1:return "Rolling";
-            break;
-            case 2:return "Cutting";
-            break;}
+            switch (nbt['mode']) {
+                case 0:
+                    return 'Extruding';
+                    break;
+                case 1:
+                    return 'Rolling';
+                    break;
+                case 2:
+                    return 'Cutting';
+                    break;
+            }
         </line>
         <line displayname="hudmsg.IC2.Discharging">
             return name(nbt['InvSlots']['discharge']['Contents'][0])+GRAY+"
@@ -420,13 +452,14 @@
             EU)"
         </line>
         <line>
-            if(nbt['InvSlots']['discharge']['Contents'][0]['tag']==undefined) {
-            return RED+name(nbt['InvSlots']['discharge']['Contents'][0])+" was out of power"}
+            if (nbt['InvSlots']['discharge']['Contents'][0]['tag'] == undefined) {
+                return RED + name(nbt['InvSlots']['discharge']['Contents'][0]) + ' was out of power';
+            }
         </line>
     </tileentity>
     <tileentity id="Ore Washing Plant">
         <line>
-            gticft(nbt,8000)
+            gticft(nbt, 8000);
         </line>
         <line displayname="hudmsg.IC2.Discharging">
             return name(nbt['InvSlots']['discharge']['Contents'][0])+GRAY+"
@@ -434,8 +467,9 @@
             EU)"
         </line>
         <line>
-            if(nbt['InvSlots']['discharge']['Contents'][0]['tag']==undefined) {
-            return RED+name(nbt['InvSlots']['discharge']['Contents'][0])+" was out of power"}
+            if (nbt['InvSlots']['discharge']['Contents'][0]['tag'] == undefined) {
+                return RED + name(nbt['InvSlots']['discharge']['Contents'][0]) + ' was out of power';
+            }
         </line>
     </tileentity>
     <tileentity id="Scanner">
@@ -459,22 +493,27 @@
             EU)"
         </line>
         <line>
-            if(nbt['InvSlots']['discharge']['Contents'][0]['tag']==undefined) {
-            return RED+name(nbt['InvSlots']['discharge']['Contents'][0])+" was out of power"}
+            if (nbt['InvSlots']['discharge']['Contents'][0]['tag'] == undefined) {
+                return RED + name(nbt['InvSlots']['discharge']['Contents'][0]) + ' was out of power';
+            }
         </line>
     </tileentity>
     <tileentity id="Replicator">
         <line>
-            switch(nbt['mode']) {
-            case 0:return YELLOW+"Waiting...";
-            break;
-            case 1:return GREEN+"Single Run"+GRAY+" ("+WHITE+name(nbt['pattern'])+GRAY+")";
-            break;
-            case 2:return GREEN+"Repeat Run"+GRAY+" ("+WHITE+name(nbt['pattern'])+GRAY+")";
-            break;}
+            switch (nbt['mode']) {
+                case 0:
+                    return YELLOW + 'Waiting...';
+                    break;
+                case 1:
+                    return GREEN + 'Single Run' + GRAY + ' (' + WHITE + name(nbt['pattern']) + GRAY + ')';
+                    break;
+                case 2:
+                    return GREEN + 'Repeat Run' + GRAY + ' (' + WHITE + name(nbt['pattern']) + GRAY + ')';
+                    break;
+            }
         </line>
         <line>
-            gticft(nbt,16000)
+            gticft(nbt, 16000);
         </line>
         <line displayname="hudmsg.IC2.Discharging">
             return name(nbt['InvSlots']['discharge']['Contents'][0])+GRAY+"
@@ -482,8 +521,9 @@
             EU)"
         </line>
         <line>
-            if(nbt['InvSlots']['discharge']['Contents'][0]['tag']==undefined) {
-            return RED+name(nbt['InvSlots']['discharge']['Contents'][0])+" was out of power"}
+            if (nbt['InvSlots']['discharge']['Contents'][0]['tag'] == undefined) {
+                return RED + name(nbt['InvSlots']['discharge']['Contents'][0]) + ' was out of power';
+            }
         </line>
     </tileentity>
     <tileentity id="Solid Canner Maschine">
@@ -493,13 +533,14 @@
             EU)"
         </line>
         <line>
-            if(nbt['InvSlots']['discharge']['Contents'][0]['tag']==undefined) {
-            return RED+name(nbt['InvSlots']['discharge']['Contents'][0])+" was out of power"}
+            if (nbt['InvSlots']['discharge']['Contents'][0]['tag'] == undefined) {
+                return RED + name(nbt['InvSlots']['discharge']['Contents'][0]) + ' was out of power';
+            }
         </line>
     </tileentity>
     <tileentity id="Fluid Bottler Maschine">
         <line>
-            gticft(nbt,8000)
+            gticft(nbt, 8000);
         </line>
         <line displayname="hudmsg.IC2.Discharging">
             return name(nbt['InvSlots']['discharge']['Contents'][0])+GRAY+"
@@ -507,25 +548,28 @@
             EU)"
         </line>
         <line>
-            if(nbt['InvSlots']['discharge']['Contents'][0]['tag']==undefined) {
-            return RED+name(nbt['InvSlots']['discharge']['Contents'][0])+" was out of power"}
+            if (nbt['InvSlots']['discharge']['Contents'][0]['tag'] == undefined) {
+                return RED + name(nbt['InvSlots']['discharge']['Contents'][0]) + ' was out of power';
+            }
         </line>
     </tileentity>
     <tileentity id="Advanced Miner">
         <line>
-            if(nbt['blacklist']==1) {
-            return GREEN+"Mode: Blacklist"}
-            else{
-            return GREEN+"Mode: Whitelist"}
+            if (nbt['blacklist'] == 1) {
+                return GREEN + 'Mode: Blacklist';
+            } else {
+                return GREEN + 'Mode: Whitelist';
+            }
         </line>
         <line>
-            if(nbt['silktouch']==0) {
-            return GREEN+"Silktouch: Off"}
-            else{
-            return GREEN+"Silktouch: On"}
+            if (nbt['silktouch'] == 0) {
+                return GREEN + 'Silktouch: Off';
+            } else {
+                return GREEN + 'Silktouch: On';
+            }
         </line>
         <line>
-            return GREEN+"X: "+nbt['xcounter']+" Z: "+nbt['zcounter']+" Y: "+nbt['minelayer']
+            return GREEN + 'X: ' + nbt['xcounter'] + ' Z: ' + nbt['zcounter'] + ' Y: ' + nbt['minelayer'];
         </line>
         <line>
             return name(nbt['InvSlots']['scanner']['Contents'][0])+GRAY+"
@@ -533,8 +577,9 @@
             EU)"
         </line>
         <line>
-            if(nbt['InvSlots']['scanner']['Contents'][0]['tag']==undefined) {
-            return RED+name(nbt['InvSlots']['scanner']['Contents'][0])+" was out of power"}
+            if (nbt['InvSlots']['scanner']['Contents'][0]['tag'] == undefined) {
+                return RED + name(nbt['InvSlots']['scanner']['Contents'][0]) + ' was out of power';
+            }
         </line>
         <line displayname="hudmsg.IC2.Discharging">
             return name(nbt['InvSlots']['discharge']['Contents'][0])+GRAY+"
@@ -542,16 +587,18 @@
             EU)"
         </line>
         <line>
-            if(nbt['InvSlots']['discharge']['Contents'][0]['tag']==undefined) {
-            return RED+name(nbt['InvSlots']['discharge']['Contents'][0])+" was out of power"}
+            if (nbt['InvSlots']['discharge']['Contents'][0]['tag'] == undefined) {
+                return RED + name(nbt['InvSlots']['discharge']['Contents'][0]) + ' was out of power';
+            }
         </line>
     </tileentity>
     <tileentity id="Fluid Regulator">
         <line>
-            if(nbt['mode']==0) {
-            return GREEN+nbt['outputmb']+"mB /sec"}
-            else{
-            return GREEN+nbt['outputmb']+"mB /tick"}
+            if (nbt['mode'] == 0) {
+                return GREEN + nbt['outputmb'] + 'mB /sec';
+            } else {
+                return GREEN + nbt['outputmb'] + 'mB /tick';
+            }
         </line>
         <line displayname="hudmsg.IC2.Discharging">
             return name(nbt['InvSlots']['discharge']['Contents'][0])+GRAY+"
@@ -559,8 +606,9 @@
             EU)"
         </line>
         <line>
-            if(nbt['InvSlots']['discharge']['Contents'][0]['tag']==undefined) {
-            return RED+name(nbt['InvSlots']['discharge']['Contents'][0])+" was out of power"}
+            if (nbt['InvSlots']['discharge']['Contents'][0]['tag'] == undefined) {
+                return RED + name(nbt['InvSlots']['discharge']['Contents'][0]) + ' was out of power';
+            }
         </line>
     </tileentity>
     <tileentity id="Crop Havester">
@@ -570,23 +618,23 @@
             EU)"
         </line>
         <line>
-            if(nbt['InvSlots']['discharge']['Contents'][0]['tag']==undefined) {
-            return RED+name(nbt['InvSlots']['discharge']['Contents'][0])+" was out of power"}
+            if (nbt['InvSlots']['discharge']['Contents'][0]['tag'] == undefined) {
+                return RED + name(nbt['InvSlots']['discharge']['Contents'][0]) + ' was out of power';
+            }
         </line>
     </tileentity>
     <tileentity id="Block Cutter">
         <line>
-            if(nbt['InvSlots']['cutterSlot']['Contents'][0]==undefined) {
-            return WHITE+"Block Cutting Blade is too weak or missing"}
-            else{
-            return name(nbt['InvSlots']['cutterSlot']['Contents'][0])}
+            if (nbt['InvSlots']['cutterSlot']['Contents'][0] == undefined) {
+                return WHITE + 'Block Cutting Blade is too weak or missing';
+            } else {
+                return name(nbt['InvSlots']['cutterSlot']['Contents'][0]);
+            }
         </line>
         <line>
-            if(nbt['InvSlots']['cutterSlot']['Contents'][0]!=undefined)
-            if(nbt['InvSlots']['input']['Contents'][0]!=undefined)
-            if(nbt['energy']!=0)
-            if(nbt['active']==0)
-            return WHITE+"Block Cutting Blade is too weak or missing"
+            if (nbt['InvSlots']['cutterSlot']['Contents'][0] != undefined)
+                if (nbt['InvSlots']['input']['Contents'][0] != undefined)
+                    if (nbt['energy'] != 0) if (nbt['active'] == 0) return WHITE + 'Block Cutting Blade is too weak or missing';
         </line>
         <line displayname="hudmsg.IC2.Discharging">
             return name(nbt['InvSlots']['discharge']['Contents'][0])+GRAY+"
@@ -594,40 +642,44 @@
             EU)"
         </line>
         <line>
-            if(nbt['InvSlots']['discharge']['Contents'][0]['tag']==undefined) {
-            return RED+name(nbt['InvSlots']['discharge']['Contents'][0])+" was out of power"}
+            if (nbt['InvSlots']['discharge']['Contents'][0]['tag'] == undefined) {
+                return RED + name(nbt['InvSlots']['discharge']['Contents'][0]) + ' was out of power';
+            }
         </line>
     </tileentity>
     <tileentity id="Iron Furnace">
         <line displayname="hud.msg.progress">
-            return nbt['progress'] / 20+GRAY+"/"+GRAY+"8 s"
+            return nbt['progress'] / 20 + GRAY + '/' + GRAY + '8 s';
         </line>
         <line displayname="hud.msg.common.BurnTime">
-            return nbt['fuel'] / 20+GRAY+"/"+nbt['maxFuel']/20+GRAY+" s"
+            return nbt['fuel'] / 20 + GRAY + '/' + nbt['maxFuel'] / 20 + GRAY + ' s';
         </line>
     </tileentity>
     <tileentity id="Electric Furnace">
         <line displayname="hud.msg.progress">
-            return nbt['progress'] / 20+GRAY+"/"+GRAY+"5 s"
+            return nbt['progress'] / 20 + GRAY + '/' + GRAY + '5 s';
         </line>
         <line displayname="hud.msg.energy">
-            return nbt['energy']+GRAY+" EU"
+            return nbt['energy'] + GRAY + ' EU';
         </line>
     </tileentity>
     <tileentity id="TECrop">
         <line displayname="作物:">
-            return name(nbt['cropName'])
+            return name(nbt['cropName']);
         </line>
         <line displayname="所属mod:">
-            return nbt['cropOwner']
+            return nbt['cropOwner'];
         </line>
         <line displayname="长速G/种子G/抵抗R:">
-            if(nbt['cropName']!=undefined){return
-            nbt['statGrowth']+"/"+nbt['statGain']+"/"+nbt['statResistance']}
+            if (nbt['cropName'] != undefined) {
+                return;
+                nbt['statGrowth'] + '/' + nbt['statGain'] + '/' + nbt['statResistance'];
+            }
         </line>
         <line displayname="营养/农药/含水量:">
-            if(nbt['exStorage']!=0||nbt['nutrientStorage']!=0||nbt['waterStorage']!=0)
-            {return nbt['nutrientStorage']+"/"+nbt['exStorage']+"/"+nbt['waterStorage']}
+            if (nbt['exStorage'] != 0 || nbt['nutrientStorage'] != 0 || nbt['waterStorage'] != 0) {
+                return nbt['nutrientStorage'] + '/' + nbt['exStorage'] + '/' + nbt['waterStorage'];
+            }
         </line>
     </tileentity>
 </oo>
