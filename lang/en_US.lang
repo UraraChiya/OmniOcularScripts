@@ -14,7 +14,9 @@ hud.msg.ChromatiCraft.place=Placer
 hud.msg.ChromatiCraft.owner=Owner
 
 hud.msg.RotaryCraft.place=Placer
-hud.msg.RotaryCraft.RFGeneration=Generated
+hud.msg.RotaryCraft.Requirements=Requirements
+
+hud.msg.RotaryCraft.Dynamo.Generated=Generated
 
 hud.msg.RotaryCraft.Fan.Range=Range
 hud.msg.RotaryCraft.Fan.Mode=Mode

@@ -14,7 +14,9 @@ hud.msg.ChromatiCraft.place=放置者
 hud.msg.ChromatiCraft.owner=所有者
 
 hud.msg.RotaryCraft.place=放置者
-hud.msg.RotaryCraft.RFGeneration=生成
+hud.msg.RotaryCraft.Requirements=需求
+
+hud.msg.RotaryCraft.Dynamo.Generated=生成
 
 hud.msg.RotaryCraft.Fan.Range=范围
 hud.msg.RotaryCraft.Fan.Mode=模式

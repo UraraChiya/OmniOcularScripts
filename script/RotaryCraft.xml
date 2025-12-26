@@ -4,37 +4,39 @@
 <oo>
     <tileentity id="RC.*">
         <line displayname="hud.msg.RotaryCraft.place">
-            return nbt['place']
+            return nbt.place
         </line>
         <line displayname='hud.msg.RotaryCraft.Power'>
-            if(nbt['power']) return nbt['power']+" W"
+            if(nbt.power) return nbt.power+" W"
         </line>
         <line displayname='hud.msg.RotaryCraft.Torque'>
-            if(nbt['torque']) return nbt['torque']+" Nm"
+            if(nbt.torque) return nbt.torque+" Nm"
         </line>
         <line displayname='hud.msg.RotaryCraft.Speed'>
-            if(nbt['omega']) return nbt['omega']+" rad/s"
+            if(nbt.omega) return nbt.omega+" rad/s"
         </line>
+    </tileentity>
+    <tileentity id="RCblastfurnace">
         <line displayname='melt'>
-            return nbt["melt"]
+            return nbt.melt
         </line>
     </tileentity>
     <tileentity id="RCdynamo">
-        <line displayname='hud.msg.RotaryCraft.RFGeneration'>
-            if(nbt['power']) return nbt['power'] / 512 + " RF/t"
+        <line displayname='hud.msg.RotaryCraft.Generation'>
+            if(nbt.power) return nbt.power / 512 + " RF/t"
         </line>
     </tileentity>
     <tileentity id="RCfan">
         <line displayname="hud.msg.RotaryCraft.Fan.Range">
-            if(nbt['power']) {
-                return (8 + (nbt['power'] - 2048) / 1024) + " m"
+            if(nbt.power) {
+                return (8 + (nbt.power - 2048) / 1024) + " m"
             }
         </line>
         <line displayname="hud.msg.RotaryCraft.Fan.Mode">
             var mode = [];
-            if(nbt['omega'] >= 64) {
+            if(nbt.omega >= 64) {
                 mode.push(translate("hud.msg.RotaryCraft.Fan.FireExtinguish"));
-                if(nbt['omega'] >= 512) {
+                if(nbt.omega >= 512) {
                     mode.push(translate("hud.msg.RotaryCraft.Fan.Harvesting"));
                 }
                 return mode.join(", ")
@@ -61,49 +63,86 @@
     -->
     <tileentity id="RCextractor">
         <line displayname="hud.msg.RotaryCraft.Extractor.Stage">
-            var power = nbt['power'] ? nbt['power'] : 0;
-            var speed = nbt['omega'] ? nbt['omega'] : 0;
-            var torque = nbt['torque'] ? nbt['torque'] : 0;
-            var times = [Infinity, Infinity, Infinity, Infinity];
-            var cooktimes = [
-                nbt['CookTime'][0],
-                nbt['CookTime'][1],
-                nbt['CookTime'][2],
-                nbt['CookTime'][3]
-            ];
-            var enableds = [
-                power >= 65536 && torque >= 512,
-                power >= 16384 && speed >= 2048,
-                power >= 32768 && speed >= 8192,
-                power >= 65536 && torque >= 256
-            ];
+            var power  = nbt.power  || 0;
+            var speed  = nbt.omega || 0;
+            var torque = nbt.torque || 0;
+
+            var cooktimes = nbt.CookTime;
             var ln2 = 0.693147180559945;
-            if(enableds[0]) {
-                times[0] = 900.0 - 60.0 * Math.log(speed + 1) / ln2;
+
+            var stages = [
+                {
+                    power: 65536, torque: 512,
+                    base: 900, factor: 60
+                },
+                {
+                    power: 16384, speed: 2048,
+                    base: 400, factor: 20
+                },
+                {
+                    power: 32768, speed: 8192,
+                    base: 600, factor: 30
+                },
+                {
+                    power: 65536, torque: 256,
+                    base: 1200, factor: 80
+                }
+            ];
+
+            function hasRequirements(stage) {
+                if(stage.power  && power  < stage.power)  return false;
+                if(stage.speed  && speed  < stage.speed)  return false;
+                if(stage.torque && torque < stage.torque) return false;
+                return true;
             }
-            if(enableds[1]) {
-                times[1] = 400.0 - 20.0 * Math.log(speed + 1) / ln2;
+
+            function buildError(stage) {
+                var msg = translate("hud.msg.RotaryCraft.Requirements") + ": ";
+                var parts = [];
+
+                if(stage.power && power < stage.power)
+                    parts.push(translate("hud.msg.RotaryCraft.Power") + " " + stage.power + " W");
+
+                if(stage.speed && speed < stage.speed)
+                    parts.push(translate("hud.msg.RotaryCraft.Speed") + " " + stage.speed + " rad/s");
+
+                if(stage.torque && torque < stage.torque)
+                    parts.push(translate("hud.msg.RotaryCraft.Torque") + " " + stage.torque + " Nm");
+
+                return msg + parts.join(", ");
             }
-            if(enableds[2]) {
-                times[2] = 600.0 - 30.0 * Math.log(speed + 1) / ln2;
+
+            function calcTime(stage) {
+                return stage.base - stage.factor * Math.log(speed + 1) / ln2;
             }
-            if(enableds[3]) {
-                times[3] = 1200.0 - 80.0 * Math.log(speed + 1) / ln2;
-            }
+
             var result = ["\\n"];
-            for(var i=0; i<4; i++) {
-                if(times[i] >= 0 && cooktimes[i] >= 0) {
-                    if(enableds[i]) {
-                        result.push("  " + GREEN + translate("hud.msg.RotaryCraft.Extractor.Stage") + " " + (i+1) +
-                        ": " + WHITE +
-                        " " + cooktimes[i] + " / " + Math.ceil(times[i]) + " " + translate("hud.msg.common.Ticks"));
-                    } else {
-                        result.push("  " + RED + translate("hud.msg.RotaryCraft.Extractor.Stage") + " " + (i+1) +
-                        ": " + translate("hud.msg.common.Disabled"));
+
+            for(var i = 0; i < 4; i++) {
+                if(cooktimes[i] < 0) continue;
+
+                if(hasRequirements(stages[i])) {
+                    var t = calcTime(stages[i]);
+                    if(t >= 0) {
+                        result.push(
+                            "  " + GREEN +
+                            translate("hud.msg.RotaryCraft.Extractor.Stage") + " " + (i + 1) +
+                            ": " + WHITE +
+                            " " + cooktimes[i] + " / " + Math.ceil(t) + " " +
+                            translate("hud.msg.common.Ticks")
+                        );
                     }
+                } else {
+                    result.push(
+                        "  " + RED +
+                        translate("hud.msg.RotaryCraft.Extractor.Stage") + " " + (i + 1) +
+                        ": " + buildError(stages[i])
+                    );
                 }
             }
-            if(result.length > 1) return result.join("\\n ");
+
+            if(result.length > 1)
+                return result.join("\\n ");
         </line>
     </tileentity>
 </oo>

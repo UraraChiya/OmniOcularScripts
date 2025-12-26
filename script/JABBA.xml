@@ -4,7 +4,7 @@
 <oo>
     <tileentity id="TileEntityBarrel">
         <line displayname="item.upgrade.core.void.name">
-            return nbt['void'] ? "On" : "Off";
+            return nbt.void ? "On" : "Off";
         </line>
     </tileentity>
 </oo>
