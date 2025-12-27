@@ -20,128 +20,131 @@
     <tileentity id="TileArcaneWorkbench">
         <line>
             var Wand = getSlot(nbt['Inventory'], 10, 'Slot');
-                return name(Wand)
+            return name(Wand);
         </line>
         <line>
             var WandFocus = getSlot(nbt['Inventory'], 10, 'Slot');
-                return name(WandFocus['tag']['focus'])
+            return name(WandFocus['tag']['focus']);
         </line>
         <line>
             var TagVis = getSlot(nbt['Inventory'], 10, 'Slot');
-                return
-                YELLOW+(TagVis['tag']['aer'] / 100).toFixed(1)+WHITE+" | "+
-                DGREEN+(TagVis['tag']['terra'] / 100).toFixed(1)+WHITE+" | "+
-                RED+(TagVis['tag']['ignis'] / 100).toFixed(1)+WHITE+" | "+
-                DAQUA+(TagVis['tag']['aqua'] / 100).toFixed(1)+WHITE+" | "+
-                GRAY+(TagVis['tag']['ordo'] / 100).toFixed(1)+WHITE+" | "+
-                DGRAY+(TagVis['tag']['perditio'] / 100).toFixed(1)
+            var rt = [];
+            rt.push(YELLOW + (TagVis['tag']['aer'] / 100).toFixed(1));
+            rt.push(DLIGHTBLUE + (TagVis['tag']['ignis'] / 100).toFixed(1));
+            rt.push(BLUE + (TagVis['tag']['aqua'] / 100).toFixed(1));
+            rt.push(LIGHTGRAY + (TagVis['tag']['ordo'] / 100).toFixed(1));
+            rt.push(DARKGRAY + (TagVis['tag']['perditio'] / 100).toFixed(1));
+            return rt.join(WHITE + ' | ' + RESET);
         </line>
     </tileentity>
     <tileentity id="TileInfusionStone">
         <line displayname="hud.msg.Thaumcraft.Instability">
-            if(nbt['crafting']!=0)
-                return nbt['instability'].toFixed(0)
+            if (nbt['crafting'] != 0) return nbt['instability'].toFixed(0);
         </line>
     </tileentity>
     <tileentity id="TileAlchemyFurnace">
         <line displayname="hud.msg.Thaumcraft.VisAmount">
-                return nbt['Vis']+GRAY+" / "+WHITE+"50"
+            return nbt['Vis'] + GRAY + ' / ' + WHITE + '50';
         </line>
     </tileentity>
     <tileentity id="TileCrucible">
         <line>
-                return WHITE+nbt['Amount']+GRAY+" / "+WHITE+"1000 mB"
+            return WHITE + nbt['Amount'] + GRAY + ' / ' + WHITE + '1000 mB';
         </line>
     </tileentity>
     <tileentity id="TileArcaneBore">
         <line>
-            if(nbt['Inventory'][0]['Slot']!=0){
-            return translate('hud.msg.Thaumcraft.BorePick')+": "+name(nbt['Inventory'][0])}
-            else{
-            return translate('hud.msg.Thaumcraft.BorePick')+": "+name(nbt['Inventory'][1])}
+            if (nbt['Inventory'][0]['Slot'] != 0) {
+                return translate('hud.msg.Thaumcraft.BorePick') + ': ' + name(nbt['Inventory'][0]);
+            } else {
+                return translate('hud.msg.Thaumcraft.BorePick') + ': ' + name(nbt['Inventory'][1]);
+            }
         </line>
     </tileentity>
     <tileentity id="TileSpa">
         <line displayname="item.ItemBathSalts.name">
-                return nbt['Items']['0']['Count']
+            return nbt['Items']['0']['Count'];
         </line>
         <line>
-            if(nbt['FluidName']!=undefined)
-                return WHITE+nbt['Amount']+GRAY+" / "+WHITE+"5000 mB"
+            if (nbt['FluidName'] != undefined) return WHITE + nbt['Amount'] + GRAY + ' / ' + WHITE + '5000 mB';
         </line>
     </tileentity>
     <tileentity id="TileFocalManipulator">
         <line>
-                name(nbt['ItemsSynced'][0])
+            name(nbt['ItemsSynced'][0]);
         </line>
     </tileentity>
     <tileentity id="TileNodeConverter">
         <line>
-            if(nbt['status']!=0)
-                return GREEN+"Activated"
+            if (nbt['status'] != 0) return GREEN + 'Activated';
         </line>
     </tileentity>
     <tileentity id="TileFluxScrubber">
         <line>
-            if(nbt['power']!=0)
-                return GREEN+"Activated"
+            if (nbt['power'] != 0) return GREEN + 'Activated';
         </line>
     </tileentity>
     <tileentity id="TileNode">
         <line displayname="hud.msg.Thaumcraft.NodeType">
-            var result="";
-            switch(nbt['type']){
-                case 0:result= translate('nodetype.NORMAL.name');
+            var result = '';
+            switch (nbt['type']) {
+                case 0:
+                    result = translate('nodetype.NORMAL.name');
                     break;
-                case 1:result= translate('nodetype.UNSTABLE.name');
+                case 1:
+                    result = translate('nodetype.UNSTABLE.name');
                     break;
-                case 2:result= translate('nodetype.DARK.name');
+                case 2:
+                    result = translate('nodetype.DARK.name');
                     break;
-                case 3:result= translate('nodetype.TAINTED.name');
+                case 3:
+                    result = translate('nodetype.TAINTED.name');
                     break;
-                case 4:result= translate('nodetype.HUNGRY.name');
+                case 4:
+                    result = translate('nodetype.HUNGRY.name');
                     break;
-                case 5:result= translate('nodetype.PURE.name');
-                    break;}
-            result+="";
-            switch(nbt['modifier']){
-                case 0:result+=", "+translate('nodemod.BRIGHT.name');
+                case 5:
+                    result = translate('nodetype.PURE.name');
                     break;
-                case 1:result+=", "+translate('nodemod.PALE.name');
+            }
+            result += '';
+            switch (nbt['modifier']) {
+                case 0:
+                    result += ', ' + translate('nodemod.BRIGHT.name');
                     break;
-                case 2:result+=", "+translate('nodemod.FADING.name');
-                    break;}
+                case 1:
+                    result += ', ' + translate('nodemod.PALE.name');
+                    break;
+                case 2:
+                    result += ', ' + translate('nodemod.FADING.name');
+                    break;
+            }
             return result;
         </line>
         <line displayname="tc.research_name.ASPECTS">
-            var aspectsInfo = ["\\n"];
-            for(var i in nbt["AspectsBase"]) {
-                var aspectBase = nbt["AspectsBase"][i];
-                var aspectName = aspectBase["key"];
-                var amountBase = aspectBase["amount"];
+            var aspectsInfo = ['\\n'];
+            for (var i in nbt['AspectsBase']) {
+                var aspectBase = nbt['AspectsBase'][i];
+                var aspectName = aspectBase['key'];
+                var amountBase = aspectBase['amount'];
                 var amount = -1;
-                for(var j in nbt["Aspects"]) {
-                    var aspect = nbt["Aspects"][j];
-                    if (aspect["key"] == aspectName) {
-                        amount = aspect["amount"];
+                for (var j in nbt['Aspects']) {
+                    var aspect = nbt['Aspects'][j];
+                    if (aspect['key'] == aspectName) {
+                        amount = aspect['amount'];
                         break;
                     }
                 }
-                aspectsInfo.push("    " + GREEN + translate("tc.aspect." + aspectName) +
-                     ": " + WHITE + amount + " / " + amountBase );
+                aspectsInfo.push(
+                    '    ' + GREEN + translate('tc.aspect.' + aspectName) + ': ' + WHITE + amount + ' / ' + amountBase
+                );
             }
-            return aspectsInfo.join("\\n");
-        </line>
-        <line displayname="tc.research_name.ASPECTS">
-            "test1: " + nbt["Aspects"][0]["key"] + ": " + nbt["Aspects"][0]["amount"];
-        </line>
-        <line displayname="tc.research_name.ASPECTS">
-            "test2: " + nbt["AspectsBase"][0]["key"] + ": " + nbt["AspectsBase"][0]["amount"];
+            return aspectsInfo.join('\\n');
         </line>
     </tileentity>
     <entity id="Thaumcraft.Golem">
         <line displayname="hud.msg.Thaumcraft.GolemCore">
-            return translate("item.ItemGolemCore." + nbt['Core'] + ".name")
+            return translate('item.ItemGolemCore.' + nbt['Core'] + '.name');
         </line>
     </entity>
 </oo>

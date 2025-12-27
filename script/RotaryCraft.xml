@@ -121,25 +121,6 @@
                 return true;
             }
 
-            function buildError(stage) {
-                var msg = translate('hud.msg.RotaryCraft.Requirements') + ': ';
-                var parts = [];
-
-                if (stage.power && power < stage.power) {
-                    parts.push(translate('hud.msg.RotaryCraft.Power') + ' ' + stage.power + ' W');
-                }
-
-                if (stage.speed && speed < stage.speed) {
-                    parts.push(translate('hud.msg.RotaryCraft.Speed') + ' ' + stage.speed + ' rad/s');
-                }
-
-                if (stage.torque && torque < stage.torque) {
-                    parts.push(translate('hud.msg.RotaryCraft.Torque') + ' ' + stage.torque + ' Nm');
-                }
-
-                return msg + parts.join(', ');
-            }
-
             function calcTime(stage) {
                 return stage.base - stage.factor * log2(speed + 1);
             }
@@ -157,9 +138,9 @@
                         result.push(tmp);
                     }
                 } else {
-                    result.push(
-                        '  ' + RED + translate('hud.msg.RotaryCraft.Extractor.Stage') + ' ' + (i + 1) + ': ' + buildError(stages[i])
-                    );
+                    var tmp = '  ' + RED + translate('hud.msg.RotaryCraft.Extractor.Stage') + ' ' + (i + 1) + ': ';
+                    tmp += translate('hud.msg.RotaryCraft.Requirements') + ": "+ requirementsInfo(nbt, stages[i]);
+                    result.push(tmp);
                 }
             }
 
@@ -186,12 +167,12 @@
     </tileentity>
     <tileentity id="RCac">
         <line displayname='hud.msg.RotaryCraft.magnet'>
-            return nbt.Items[0].tag.magnet;
+            return nbt.Items[0].tag.magnet + ' ' + translate('hud.msg.RotaryCraft.microtesla');
         </line>
     </tileentity>
-    <tileentity id="RCmangnetizer">
+    <tileentity id="RCmagnetizer">
         <line displayname='hud.msg.RotaryCraft.magnet'>
-            return nbt.Items[0].tag.magnet;
+            return nbt.Items[0].tag.magnet + ' ' + translate('hud.msg.RotaryCraft.microtesla');
         </line>
     </tileentity>
 </oo>

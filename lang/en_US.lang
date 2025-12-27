@@ -18,6 +18,8 @@ hud.msg.ChromatiCraft.struct.unformed=Unformed
 
 hud.msg.RotaryCraft.place=Placer
 hud.msg.RotaryCraft.Requirements=Requirements
+hud.msg.RotaryCraft.magnet=Magnetic Flux Density
+hud.msg.RotaryCraft.microtesla=µT
 
 hud.msg.RotaryCraft.Dynamo.Generated=Generated
 

@@ -18,6 +18,8 @@ hud.msg.ChromatiCraft.struct.unformed=未成型
 
 hud.msg.RotaryCraft.place=放置者
 hud.msg.RotaryCraft.Requirements=需求
+hud.msg.RotaryCraft.magnet=磁通量密度
+hud.msg.RotaryCraft.microtesla= μT
 
 hud.msg.RotaryCraft.Dynamo.Generated=生成
 
