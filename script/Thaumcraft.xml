@@ -1,4 +1,4 @@
-<!--Author: ViKaleidoscope, Leong123-->
+<!--Author: ViKaleidoscope, UraraChiya-->
 <!--Date: 2025/12/23-->
 <!--Version: 1.7.10-4.2.3.5-->
 <oo>
@@ -8,11 +8,11 @@
         }
     </init>
     <init>
-        function getSlot(i, slot, slotName){
+        function getSlot(inventory, slot, slotName){
             slotName=slotName||"Slot";
-            for (var index in i){
-                if (i[index][slotName]==slot){
-                    return i[index];
+            for (var index in inventory){
+                if (inventory[index][slotName]==slot){
+                    return inventory[index];
                     }
                 }
         }
@@ -86,40 +86,19 @@
     </tileentity>
     <tileentity id="TileNode">
         <line displayname="hud.msg.Thaumcraft.NodeType">
-            var result = '';
-            switch (nbt['type']) {
-                case 0:
-                    result = translate('nodetype.NORMAL.name');
-                    break;
-                case 1:
-                    result = translate('nodetype.UNSTABLE.name');
-                    break;
-                case 2:
-                    result = translate('nodetype.DARK.name');
-                    break;
-                case 3:
-                    result = translate('nodetype.TAINTED.name');
-                    break;
-                case 4:
-                    result = translate('nodetype.HUNGRY.name');
-                    break;
-                case 5:
-                    result = translate('nodetype.PURE.name');
-                    break;
-            }
-            result += '';
-            switch (nbt['modifier']) {
-                case 0:
-                    result += ', ' + translate('nodemod.BRIGHT.name');
-                    break;
-                case 1:
-                    result += ', ' + translate('nodemod.PALE.name');
-                    break;
-                case 2:
-                    result += ', ' + translate('nodemod.FADING.name');
-                    break;
-            }
-            return result;
+            var result = [];
+            var types = [
+                translate('nodetype.NORMAL.name'),
+                translate('nodetype.UNSTABLE.name'),
+                translate('nodetype.DARK.name'),
+                translate('nodetype.TAINTED.name'),
+                translate('nodetype.HUNGRY.name'),
+                translate('nodetype.PURE.name')
+            ];
+            var modifiers = [translate('nodemod.BRIGHT.name'), translate('nodemod.PALE.name'), translate('nodemod.FADING.name')];
+            if (nbt.type) result.push(types[nbt.type]);
+            if (nbt.modifier) result.push(modifiers[nbt['modifier']]);
+            return result.join(', ');
         </line>
         <line displayname="tc.research_name.ASPECTS">
             var aspectsInfo = ['\\n'];

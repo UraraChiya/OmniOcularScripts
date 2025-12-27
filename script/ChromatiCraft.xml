@@ -1,4 +1,4 @@
-<!--Author: Leong123-->
+<!--Author: UraraChiya-->
 <!--Date: 2025/12/24-->
 <!--Version: V33a-->
 <oo>
@@ -24,7 +24,7 @@
     </tileentity>
     <tileentity id="CCchroma.table">
         <line displayname="XP">
-            return nbt['xp'];
+            return nbt.xp;
         </line>
     </tileentity>
 </oo>

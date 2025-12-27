@@ -1,4 +1,4 @@
-<!--Author: Leong123-->
+<!--Author: UraraChiya-->
 <!--Date: 2025/12/22-->
 <!--Version: V33a-->
 <oo>
@@ -77,7 +77,7 @@
             Stage 3 Time = 600.0-30.0*log_2.0(x+1)
             Stage 4 Time = 1200.0-80.0*log_2.0(x+1)
 
-            {torque:2048,extractor:{FluidName:"water",Amount:16000},emp:0b,no_drops:0b,placeUUID:"34b7ce33-953f-4b7d-871b-6574e8c0c2c0",bedrock:0b,no_mine:0b,pox:0,poz:0,Items:[0:{Slot:2b,id:5861s,Count:16b,Damage:9s},1:{Slot:3b,id:5861s,Count:34b,Damage:17s},2:{Slot:7b,id:5861s,Count:20b,Damage:25s},3:{Slot:8b,id:5861s,Count:1b,Damage:33s}],power:65536L,poy:0,place:"Leong123",thisredstone:0b,_:[0:"Class: Reika.RotaryCraft.TileEntities.Processing.TileEntityExtractor",1:"ID: RCextractor",2:"Block: tile..name",3:"Block Class: Reika.RotaryCraft.Blocks.BlockMIMachine",4:"Position: [330, 64, 337]",5:"Mod: RotaryCraft",6:"Ticking: true"],CookTime:[0,0,0,641,],address:"31596210-f7f3-4627-9994-4e7bc2083b2a",io:0,read3:-1,read2:-1,read4:-1,tick:0,omni:0b,drill:4096,lastredstone:0b,omega:32,read1:0,meta:0,write1:-1,age_ticks:25711L,write2:-1}
+            {torque:2048,extractor:{FluidName:"water",Amount:16000},emp:0b,no_drops:0b,placeUUID:"34b7ce33-953f-4b7d-871b-6574e8c0c2c0",bedrock:0b,no_mine:0b,pox:0,poz:0,Items:[0:{Slot:2b,id:5861s,Count:16b,Damage:9s},1:{Slot:3b,id:5861s,Count:34b,Damage:17s},2:{Slot:7b,id:5861s,Count:20b,Damage:25s},3:{Slot:8b,id:5861s,Count:1b,Damage:33s}],power:65536L,poy:0,place:"UraraChiya",thisredstone:0b,_:[0:"Class: Reika.RotaryCraft.TileEntities.Processing.TileEntityExtractor",1:"ID: RCextractor",2:"Block: tile..name",3:"Block Class: Reika.RotaryCraft.Blocks.BlockMIMachine",4:"Position: [330, 64, 337]",5:"Mod: RotaryCraft",6:"Ticking: true"],CookTime:[0,0,0,641,],address:"31596210-f7f3-4627-9994-4e7bc2083b2a",io:0,read3:-1,read2:-1,read4:-1,tick:0,omni:0b,drill:4096,lastredstone:0b,omega:32,read1:0,meta:0,write1:-1,age_ticks:25711L,write2:-1}
     -->
     <tileentity id="RCextractor">
         <line displayname="hud.msg.RotaryCraft.Extractor.Stage">
