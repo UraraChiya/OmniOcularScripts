@@ -1,15 +1,25 @@
-<!--Author: EpixZhang-->
-<!--Date: 2015/2/8-->
+<!--Author: EpixZhang, UraraChiya-->
+<!--Date: 2025/12/28-->
 <!--Version: 1.7.10-->
 <oo>
+    <init>
+        function uuid2name(uuid) {
+            var names = {
+                "80b99335-ad79-42ed-ab38-1d15bf2bac3e": "shen_FNX",
+                "669b5531-6e6c-4841-9a6d-76496e851739": "Xudongwan",
+                "34b7ce33-953f-4b7d-871b-6574e8c0c2c0": "Leong123"
+            };
+            return names[uuid.toLowerCase()] || uuid.split('-')[0];
+        }
+    </init>
     <tileentity id="Furnace">
         <line displayname="Burn Time">
-            return nbt.BurnTime + ' ' + translate('hud.msg.common.ticks');
+            return nbt.BurnTime + ' ' + translate('hud.msg.common.Ticks');
         </line>
     </tileentity>
     <entity id="Sheep">
         <line displayname="Until next love">
-            return nbt.InLove + ' ' + translate('hud.msg.common.ticks');
+            return nbt.InLove + ' ' + translate('hud.msg.common.Ticks');
         </line>
     </entity>
     <tooltip id="minecraft:skull">

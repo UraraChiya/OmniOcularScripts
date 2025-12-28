@@ -21,7 +21,7 @@
         }
     </init>
     <tileentity id="RC.*">
-        <line displayname="hud.msg.RotaryCraft.place">
+        <line displayname="hud.msg.RotaryCraft.Place">
             return nbt.place;
         </line>
         <line displayname='hud.msg.RotaryCraft.Power'>
@@ -39,9 +39,24 @@
             return nbt.melt;
         </line>
     </tileentity>
+    <!--
+    旋转能源炉将RotaryCraft的轴功率转化为热力膨胀红石通量·由于内部磁场施加的限制，
+    它可以在最大1024弧度／秒的情况下承受最大2048Nm的扭矩（如果升级则为8192Nm）。任何多余的能量都会被浪费掉。
+    -->
     <tileentity id="RCdynamo">
         <line displayname='hud.msg.RotaryCraft.Generation'>
-            if (nbt.power) return nbt.power / 512 + ' RF/t';
+            var speed = nbt.omega || 0;
+            var torque = nbt.torque || 0;
+            var power = nbt.power || 0;
+            if (isRequirements(nbt, { speed: 1024, torque: 2048 })) {
+                if (speed > 1024) speed = 1024;
+                if (nbt.upgrade) {
+                    if (torque > 8192) torque = 8192;
+                } else {
+                    if (torque > 2048) torque = 2048;
+                }
+                return WHITE + (speed * torque) / 512 + ' RF/t';
+            }
         </line>
     </tileentity>
     <tileentity id="RCfan">
@@ -139,7 +154,7 @@
                     }
                 } else {
                     var tmp = '  ' + RED + translate('hud.msg.RotaryCraft.Extractor.Stage') + ' ' + (i + 1) + ': ';
-                    tmp += translate('hud.msg.RotaryCraft.Requirements') + ": "+ requirementsInfo(nbt, stages[i]);
+                    tmp += translate('hud.msg.RotaryCraft.Requirements') + ': ' + requirementsInfo(nbt, stages[i]);
                     result.push(tmp);
                 }
             }
@@ -166,13 +181,13 @@
         </line>
     </tileentity>
     <tileentity id="RCac">
-        <line displayname='hud.msg.RotaryCraft.magnet'>
-            return nbt.Items[0].tag.magnet + ' ' + translate('hud.msg.RotaryCraft.microtesla');
+        <line displayname='hud.msg.RotaryCraft.Magnet'>
+            return nbt.Items[0].tag.magnet + ' ' + translate('hud.msg.RotaryCraft.MicroTesla');
         </line>
     </tileentity>
     <tileentity id="RCmagnetizer">
-        <line displayname='hud.msg.RotaryCraft.magnet'>
-            return nbt.Items[0].tag.magnet + ' ' + translate('hud.msg.RotaryCraft.microtesla');
+        <line displayname='hud.msg.RotaryCraft.Magnet'>
+            return nbt.Items[0].tag.magnet + ' ' + translate('hud.msg.RotaryCraft.MicroTesla');
         </line>
     </tileentity>
 </oo>

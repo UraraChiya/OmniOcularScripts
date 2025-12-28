@@ -3,28 +3,55 @@
 <!--Version: V33a-->
 <oo>
     <tileentity id="CC.*">
-        <line displayname="hud.msg.ChromatiCraft.place">
+        <line displayname="hud.msg.ChromatiCraft.Place">
             if (nbt.place) {
                 if (nbt.placeUUID) {
-                    return nbt.place + ' ' + nbt.placeUUID.split('-')[0];
+                    return nbt.place;
                 }
                 return nbt.place;
             }
         </line>
-        <line displayname="hud.msg.ChromatiCraft.owner">
-            if (nbt.owners[0]) return nbt.owners[0].split('-')[0];
+        <line displayname="hud.msg.ChromatiCraft.Owner">
+            if (nbt.owners[0]) return uuid2name(nbt.owners[0]);
         </line>
-        <line displayname="hud.msg.ChromatiCraft.struct">
+        <line displayname="hud.msg.ChromatiCraft.Struct">
             if (nbt.struct == 1) {
-                return GREEN + translate('hud.msg.ChromatiCraft.struct.formed');
+                return GREEN + translate('hud.msg.ChromatiCraft.Struct.Formed');
             } else if (nbt.struct == 0) {
-                return RED + translate('hud.msg.ChromatiCraft.struct.unformed');
+                return RED + translate('hud.msg.ChromatiCraft.Struct.Unformed');
             }
         </line>
+                <line displayname="hud.msg.ChromatiCraft.CraftRemain">
+                    if (nbt.craft) {
+                        return nbt.craft + ' ' + translate('hud.msg.common.Ticks');
+                    }
+                </line>
     </tileentity>
     <tileentity id="CCchroma.table">
         <line displayname="XP">
             return nbt.xp;
+        </line>
+    </tileentity>
+    <tileentity id="CCchroma.pylon">
+        <line displayname="hud.msg.ChromatiCraft.Energy">
+            return nbt.energy;
+        </line>
+        <line displayname="hud.msg.ChromatiCraft.Struct">
+            if (nbt.multi) {
+                return GREEN + translate('hud.msg.ChromatiCraft.Struct.Formed');
+            } else {
+                return RED + translate('hud.msg.ChromatiCraft.Struct.Unformed');
+            }
+        </line>
+    </tileentity>
+    <tileentity id="CCchroma.repeater">
+        <line displayname="hud.msg.ChromatiCraft.Repeater.Depth">
+            return nbt.depth;
+        </line>
+    </tileentity>
+    <tileentity id="CCchroma.ritual">
+        <line displayname="hud.msg.ChromatiCraft.Ritual.Ability">
+            return nbt.ability;
         </line>
     </tileentity>
 </oo>

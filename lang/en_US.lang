@@ -10,16 +10,21 @@ hud.msg.common.Disabled=Disabled
 
 hud.msg.appliedenergistics2.Parts=Parts
 
-hud.msg.ChromatiCraft.place=Placer
-hud.msg.ChromatiCraft.owner=Owner
-hud.msg.ChromatiCraft.struct=Structure
-hud.msg.ChromatiCraft.struct.formed=Formed
-hud.msg.ChromatiCraft.struct.unformed=Unformed
+hud.msg.ChromatiCraft.Place=Placer
+hud.msg.ChromatiCraft.Owner=Owner
+hud.msg.ChromatiCraft.CraftRemain=Craft Remaining
+hud.msg.ChromatiCraft.Struct=Structure
+hud.msg.ChromatiCraft.Struct.Formed=Formed
+hud.msg.ChromatiCraft.Struct.Unformed=Unformed
+hud.msg.ChromatiCraft.Energy=Energy
 
-hud.msg.RotaryCraft.place=Placer
+hud.msg.ChromatiCraft.Repeater.Depth=Depth
+hud.msg.ChromatiCraft.Ritual.Ability=Ability    
+
+hud.msg.RotaryCraft.Place=Placer
 hud.msg.RotaryCraft.Requirements=Requirements
-hud.msg.RotaryCraft.magnet=Magnetic Flux Density
-hud.msg.RotaryCraft.microtesla=µT
+hud.msg.RotaryCraft.Magnet=Magnetic Flux Density
+hud.msg.RotaryCraft.MicroTesla=µT
 
 hud.msg.RotaryCraft.Dynamo.Generated=Generated
 

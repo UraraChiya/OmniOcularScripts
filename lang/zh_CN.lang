@@ -10,16 +10,21 @@ hud.msg.common.Disabled=已禁用
 
 hud.msg.appliedenergistics2.Parts=部件
 
-hud.msg.ChromatiCraft.place=放置者
-hud.msg.ChromatiCraft.owner=所有者
-hud.msg.ChromatiCraft.struct=结构
-hud.msg.ChromatiCraft.struct.formed=已成型
-hud.msg.ChromatiCraft.struct.unformed=未成型
+hud.msg.ChromatiCraft.Place=放置者
+hud.msg.ChromatiCraft.Owner=所有者
+hud.msg.ChromatiCraft.CraftRemain=剩余制作时间
+hud.msg.ChromatiCraft.Struct=结构
+hud.msg.ChromatiCraft.Struct.Formed=已成型
+hud.msg.ChromatiCraft.Struct.Unformed=未成型
+hud.msg.ChromatiCraft.Energy=能量
 
-hud.msg.RotaryCraft.place=放置者
+hud.msg.ChromatiCraft.Repeater.Depth=深度
+hud.msg.ChromatiCraft.Ritual.Ability=能力
+
+hud.msg.RotaryCraft.Place=放置者
 hud.msg.RotaryCraft.Requirements=需求
-hud.msg.RotaryCraft.magnet=磁通量密度
-hud.msg.RotaryCraft.microtesla= μT
+hud.msg.RotaryCraft.Magnet=磁通量密度
+hud.msg.RotaryCraft.MicroTesla= μT
 
 hud.msg.RotaryCraft.Dynamo.Generated=生成
 
