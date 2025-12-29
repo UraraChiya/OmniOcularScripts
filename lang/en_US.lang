@@ -26,7 +26,7 @@ hud.msg.RotaryCraft.Requirements=Requirements
 hud.msg.RotaryCraft.Magnet=Magnetic Flux Density
 hud.msg.RotaryCraft.MicroTesla=µT
 
-hud.msg.RotaryCraft.Dynamo.Generated=Generated
+hud.msg.RotaryCraft.Dynamo.Generated=Theoretical Generated
 
 hud.msg.RotaryCraft.Fan.Range=Range
 hud.msg.RotaryCraft.Fan.Mode=Mode

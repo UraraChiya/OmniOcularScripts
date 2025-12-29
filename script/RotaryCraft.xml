@@ -14,9 +14,18 @@
         }
         function requirementsInfo(nbt, req) {
             var parts = [];
-            if (req.power && nbt.power < req.power) parts.push(translate('hud.msg.RotaryCraft.Power') + ' ' + req.power + ' W');
-            if (req.speed && nbt.omega < req.speed) parts.push(translate('hud.msg.RotaryCraft.Speed') + ' ' + req.speed + ' rad/s');
-            if (req.torque && nbt.torque < req.torque) parts.push(translate('hud.msg.RotaryCraft.Torque') + ' ' + req.torque + ' Nm');
+            if (req.power && nbt.power < req.power)
+                parts.push(
+                    translate('hud.msg.RotaryCraft.Power') + ' ' + numberWithCommas(req.power) + ' W'
+                );
+            if (req.speed && nbt.omega < req.speed)
+                parts.push(
+                    translate('hud.msg.RotaryCraft.Speed') + ' ' + numberWithCommas(req.speed) + ' rad/s'
+                );
+            if (req.torque && nbt.torque < req.torque)
+                parts.push(
+                    translate('hud.msg.RotaryCraft.Torque') + ' ' + numberWithCommas(req.torque) + ' Nm'
+                );
             if (parts.length) return RED + parts.join(', ');
         }
     </init>
@@ -25,13 +34,13 @@
             return nbt.place;
         </line>
         <line displayname='hud.msg.RotaryCraft.Power'>
-            if (nbt.power) return nbt.power + ' W';
+            if (nbt.power) return numberWithCommas(nbt.power) + ' W';
         </line>
         <line displayname='hud.msg.RotaryCraft.Torque'>
-            if (nbt.torque) return nbt.torque + ' Nm';
+            if (nbt.torque) return numberWithCommas(nbt.torque) + ' Nm';
         </line>
         <line displayname='hud.msg.RotaryCraft.Speed'>
-            if (nbt.omega) return nbt.omega + ' rad/s';
+            if (nbt.omega) return numberWithCommas(nbt.omega) + ' rad/s';
         </line>
     </tileentity>
     <tileentity id="RCblastfurnace">
@@ -44,19 +53,17 @@
     它可以在最大1024弧度／秒的情况下承受最大2048Nm的扭矩（如果升级则为8192Nm）。任何多余的能量都会被浪费掉。
     -->
     <tileentity id="RCdynamo">
-        <line displayname='hud.msg.RotaryCraft.Generation'>
+        <line displayname='hud.msg.RotaryCraft.Dynamo.Generated'>
             var speed = nbt.omega || 0;
             var torque = nbt.torque || 0;
             var power = nbt.power || 0;
-            if (isRequirements(nbt, { speed: 1024, torque: 2048 })) {
-                if (speed > 1024) speed = 1024;
-                if (nbt.upgrade) {
-                    if (torque > 8192) torque = 8192;
-                } else {
-                    if (torque > 2048) torque = 2048;
-                }
-                return WHITE + (speed * torque) / 512 + ' RF/t';
+            if (speed > 1024) speed = 1024;
+            if (nbt.upgrade) {
+                if (torque > 8192) torque = 8192;
+            } else {
+                if (torque > 2048) torque = 2048;
             }
+            return WHITE + (speed * torque) / 512 + ' RF/t';
         </line>
     </tileentity>
     <tileentity id="RCfan">
@@ -148,13 +155,28 @@
                 if (hasRequirements(stages[i])) {
                     var t = calcTime(stages[i]);
                     if (t >= 0) {
-                        var tmp = '  ' + GREEN + translate('hud.msg.RotaryCraft.Extractor.Stage') + ' ' + (i + 1) + ': ';
-                        tmp += WHITE + ' ' + cooktimes[i] + ' / ' + Math.ceil(t) + ' ' + translate('hud.msg.common.Ticks');
+                        var tmp =
+                            '  ' +
+                            GREEN +
+                            translate('hud.msg.RotaryCraft.Extractor.Stage') +
+                            ' ' +
+                            (i + 1) +
+                            ': ';
+                        tmp +=
+                            WHITE +
+                            ' ' +
+                            cooktimes[i] +
+                            ' / ' +
+                            Math.ceil(t) +
+                            ' ' +
+                            translate('hud.msg.common.Ticks');
                         result.push(tmp);
                     }
                 } else {
-                    var tmp = '  ' + RED + translate('hud.msg.RotaryCraft.Extractor.Stage') + ' ' + (i + 1) + ': ';
-                    tmp += translate('hud.msg.RotaryCraft.Requirements') + ': ' + requirementsInfo(nbt, stages[i]);
+                    var tmp =
+                        '  ' + RED + translate('hud.msg.RotaryCraft.Extractor.Stage') + ' ' + (i + 1) + ': ';
+                    tmp +=
+                        translate('hud.msg.RotaryCraft.Requirements') + ': ' + requirementsInfo(nbt, stages[i]);
                     result.push(tmp);
                 }
             }

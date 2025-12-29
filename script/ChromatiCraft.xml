@@ -1,7 +1,100 @@
 <!--Author: UraraChiya-->
 <!--Date: 2025/12/24-->
 <!--Version: V33a-->
+<!--Requie: minecraft.xml-->
 <oo>
+    <init>
+        var LUMENCOLORFORMAT = {
+            BLACK: BLACK,
+            RED: DRED,
+            GREEN: DGREEN,
+            BROWN: GOLD,
+            BLUE: DBLUE,
+            PURPLE: DPURPLE,
+            CYAN: DAQUA,
+            LIGHTGRAY: GRAY,
+            GRAY: DGRAY,
+            PINK: LPURPLE,
+            LIME: GREEN,
+            YELLOW: YELLOW,
+            LIGHTBLUE: AQUA,
+            MAGENTA: LPURPLE,
+            ORANGE: GOLD,
+            WHITE: WHITE
+        };
+        var LUMENIDTOCOLOR = {
+            0: 'BLACK',
+            1: 'RED',
+            2: 'GREEN',
+            3: 'BROWN',
+            4: 'BLUE',
+            5: 'PURPLE',
+            6: 'CYAN',
+            7: 'LIGHTGRAY',
+            8: 'GRAY',
+            9: 'PINK',
+            10: 'LIME',
+            11: 'YELLOW',
+            12: 'LIGHTBLUE',
+            13: 'MAGENTA',
+            14: 'ORANGE',
+            15: 'WHITE'
+        };
+        var LUMENIDTOFORMAT = {
+            0: BLACK,
+            1: DRED,
+            2: DGREEN,
+            3: GOLD,
+            4: DBLUE,
+            5: DPURPLE,
+            6: DAQUA,
+            7: GRAY,
+            8: DGRAY,
+            9: LPURPLE,
+            10: GREEN,
+            11: YELLOW,
+            12: AQUA,
+            13: LPURPLE,
+            14: GOLD,
+            15: WHITE
+        };
+        var LUMENCOLOR = [
+            'BLACK',
+            'RED',
+            'GREEN',
+            'BROWN',
+            'BLUE',
+            'PURPLE',
+            'CYAN',
+            'LIGHTGRAY',
+            'GRAY',
+            'PINK',
+            'LIME',
+            'YELLOW',
+            'LIGHTBLUE',
+            'MAGENTA',
+            'ORANGE',
+            'WHITE'
+        ];
+        var LUMENCOLORTOID = {
+            BLACK: 0,
+            RED: 1,
+            GREEN: 2,
+            BROWN: 3,
+            BLUE: 4,
+            PURPLE: 5,
+            CYAN: 6,
+            LIGHTGRAY: 7,
+            GRAY: 8,
+            PINK: 9,
+            LIME: 10,
+            YELLOW: 11,
+            LIGHTBLUE: 12,
+            MAGENTA: 13,
+            ORANGE: 14,
+            WHITE: 15
+        };
+    </init>
     <tileentity id="CC.*">
         <line displayname="hud.msg.ChromatiCraft.Place">
             if (nbt.place) {
@@ -21,21 +114,50 @@
                 return RED + translate('hud.msg.ChromatiCraft.Struct.Unformed');
             }
         </line>
-                <line displayname="hud.msg.ChromatiCraft.CraftRemain">
-                    if (nbt.craft) {
-                        return nbt.craft + ' ' + translate('hud.msg.common.Ticks');
-                    }
-                </line>
+        <line displayname="hud.msg.ChromatiCraft.CraftRemain">
+            if (nbt.craft) {
+                return nbt.craft + ' ' + translate('hud.msg.common.Ticks');
+            }
+        </line>
+        <!-- 
+         -->
+        <line displayname="hud.msg.ChromatiCraft.Energy">
+            if (nbt.energy) {
+                switch (typeof nbt.energy) {
+                    case 'object':
+                        lumen = [];
+                        for (var i in LUMENCOLOR) {
+                            var color = LUMENCOLOR[i];
+                            if (nbt.energy[color]) {
+                                lumen.push(LUMENIDTOFORMAT[i] + numberWithCommas(nbt.energy[color]));
+                            } else {
+                                lumen.push(LUMENIDTOFORMAT[i] + '-1');
+                            }
+                        }
+                        var result = ['\\n'];
+                        for (var i = 0; i < 8; i++) {
+                            result.push('  ' + lumen[i] + TAB + lumen[i + 8]);
+                        }
+                        return result.join('\\n ');
+                        break;
+                    case 'number':
+                        if (nbt.color) {
+                            return LUMENCOLORFORMAT[LUMENCOLOR[nbt.color]] + numberWithCommas(nbt.energy);
+                        }
+                        return numberWithCommas(nbt.energy);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        </line>
     </tileentity>
     <tileentity id="CCchroma.table">
         <line displayname="XP">
-            return nbt.xp;
+            return numberWithCommas(nbt.xp);
         </line>
     </tileentity>
     <tileentity id="CCchroma.pylon">
-        <line displayname="hud.msg.ChromatiCraft.Energy">
-            return nbt.energy;
-        </line>
         <line displayname="hud.msg.ChromatiCraft.Struct">
             if (nbt.multi) {
                 return GREEN + translate('hud.msg.ChromatiCraft.Struct.Formed');
