@@ -3,18 +3,18 @@
 <!--Version: 1.7.10-4.2.3.5-->
 <oo>
     <init>
-        function up(word){
-            return word.substring(0,1).toUpperCase()+word.substring(1)
+        function up(word) {
+            return word.substring(0, 1).toUpperCase() + word.substring(1);
         }
     </init>
     <init>
-        function getSlot(inventory, slot, slotName){
-            slotName=slotName||"Slot";
-            for (var index in inventory){
-                if (inventory[index][slotName]==slot){
+        function getSlot(inventory, slot, slotName) {
+            slotName = slotName || 'Slot';
+            for (var index in inventory) {
+                if (inventory[index][slotName] == slot) {
                     return inventory[index];
-                    }
                 }
+            }
         }
     </init>
     <tileentity id="TileArcaneWorkbench">
@@ -95,7 +95,11 @@
                 translate('nodetype.HUNGRY.name'),
                 translate('nodetype.PURE.name')
             ];
-            var modifiers = [translate('nodemod.BRIGHT.name'), translate('nodemod.PALE.name'), translate('nodemod.FADING.name')];
+            var modifiers = [
+                translate('nodemod.BRIGHT.name'),
+                translate('nodemod.PALE.name'),
+                translate('nodemod.FADING.name')
+            ];
             if (nbt.type) result.push(types[nbt.type]);
             if (nbt.modifier) result.push(modifiers[nbt['modifier']]);
             return result.join(', ');
@@ -115,7 +119,14 @@
                     }
                 }
                 aspectsInfo.push(
-                    '    ' + GREEN + translate('tc.aspect.' + aspectName) + ': ' + WHITE + amount + ' / ' + amountBase
+                    '    ' +
+                        GREEN +
+                        translate('tc.aspect.' + aspectName) +
+                        ': ' +
+                        WHITE +
+                        amount +
+                        ' / ' +
+                        amountBase
                 );
             }
             return aspectsInfo.join('\\n');

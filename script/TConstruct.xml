@@ -4,13 +4,13 @@
 <oo>
     <tileentity id="TConstruct.Smeltery">
         <line displayname='hud.msg.TConstruct.Layer'>
-            if(nbt['ValidStructure']) return nbt['Layers']
+            if (nbt['ValidStructure']) return nbt['Layers'];
         </line>
         <line displayname='hud.msg.TConstruct.Capacity'>
-            if(nbt['ValidStructure']) return nbt['MaxLiquid'] + " mB"
+            if (nbt['ValidStructure']) return nbt['MaxLiquid'] + ' mB';
         </line>
         <line displayname='hud.msg.temperature'>
-            if(nbt['ValidStructure']) return nbt['InternalTemp'] + " °C"
+            if (nbt['ValidStructure']) return nbt['InternalTemp'] + ' °C';
         </line>
     </tileentity>
 </oo>

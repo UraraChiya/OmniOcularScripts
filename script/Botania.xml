@@ -1,53 +1,59 @@
-<!--Author: EpixZhang, ViKaleidoscope-->
-<!--Date: 2015/06/28-->
-<!--Version: r1.6-194-->
+<!--Author: EpixZhang, ViKaleidoscope, UraraChiya-->
+<!--Date: 2025/12/30-->
+<!--Version: r1.8-249-->
 <oo>
     <tileentity id="botania:pool">
         <line displayname="hud.msg.Botania.Mana">
-            return nbt['mana']+GRAY+" / "+WHITE+nbt['manaCap']
+            return numberWithCommas(nbt.mana) + GRAY + ' / ' + WHITE + numberWithCommas(nbt.manaCap);
         </line>
-        <line>
-            switch(nbt['outputting']) {
-                case 0:return translate('hud.msg.Botania.output.0');
-                    break;
-                case 1:return translate('hud.msg.Botania.output.1');
-                    break;
-                }
+        <line displayname="hud.msg.common.Mode">
+            return translate('hud.msg.Botania.output.' + nbt.outputting);
         </line>
     </tileentity>
     <tileentity id="botania:spreader">
         <line displayname="hud.msg.Botania.Mana">
-            return nbt['mana']
+            return nbt.mana;
+        </line>
+        <line displayname="botania.entry.lens">
+            if (nbt.Items[0]) return name(nbt.Items[0]);
         </line>
     </tileentity>
     <tileentity id="botania:runeAltar">
         <line displayname="hud.msg.Botania.Mana">
-            return nbt['mana']+GRAY+" / "+WHITE+nbt['manaToGet']
+            return numberWithCommas(nbt.mana) + GRAY + ' / ' + WHITE + numberWithCommas(nbt.manaToGet);
         </line>
     </tileentity>
     <tileentity id="botania:enchanter">
         <line displayname="hud.msg.Botania.Mana">
-            return nbt['mana']+GRAY+" / "+WHITE+nbt['manaRequired']
+            return numberWithCommas(nbt.mana) + GRAY + ' / ' + WHITE + numberWithCommas(nbt.manaRequired);
         </line>
     </tileentity>
     <tileentity id="botania:specialFlower">
         <line displayname="hud.msg.Botania.Mana">
-            return nbt['subTileCmp']['mana']
+            return nbt.subTileCmp.mana;
         </line>
     </tileentity>
     <tileentity id="botania:rfGenerator">
         <line displayname="hud.msg.Botania.Mana">
-            return nbt['mana']+GRAY+" / "+WHITE+"1280 ("+nbt['mana']*10+" RF)"
+            return (
+                numberWithCommas(nbt.mana) +
+                GRAY +
+                ' / ' +
+                WHITE +
+                '1280 (' +
+                numberWithCommas(nbt.mana) * 10 +
+                ' RF)'
+            );
         </line>
     </tileentity>
     <tileentity id="botania:spawnerClaw">
         <line displayname="hud.msg.Botania.Mana">
-            return nbt['mana']+GRAY+" / "+WHITE+"160"
+            return numberWithCommas(nbt.mana) + GRAY + ' / ' + WHITE + '160';
         </line>
     </tileentity>
     <entity id="Botania.botania:poolMinecart">
         <line displayname="hud.msg.Botania.Mana">
-            return nbt['mana']+GRAY+" / "+WHITE+"1000000"
+            return numberWithCommas(nbt.mana) + GRAY + ' / ' + WHITE + '1,000,000';
         </line>
     </entity>
 </oo>

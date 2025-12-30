@@ -7,6 +7,10 @@ hud.msg.common.East=东
 hud.msg.common.Ticks=刻
 hud.msg.common.Enabled=已启用
 hud.msg.common.Disabled=已禁用
+hud.msg.common.Mode=模式
+hud.msg.common.XP=XP
+hud.msg.common.XPLevel=XP 等级
+hud.msg.common.XPTotal=XP 总计
 
 hud.msg.appliedenergistics2.Parts=部件
 

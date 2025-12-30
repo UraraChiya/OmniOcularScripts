@@ -7,6 +7,10 @@ hud.msg.common.East=East
 hud.msg.common.Ticks=Ticks
 hud.msg.common.Enabled=Enabled
 hud.msg.common.Disabled=Disabled
+hud.msg.common.Mode=Mode
+hud.msg.common.XP=XP
+hud.msg.common.XPLevel=XP Level
+hud.msg.common.XPTotal=XP Total
 
 hud.msg.appliedenergistics2.Parts=Parts
 

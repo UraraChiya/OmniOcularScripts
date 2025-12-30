@@ -95,6 +95,7 @@
             WHITE: 15
         };
     </init>
+    <!-- CC 共有内容 -->
     <tileentity id="CC.*">
         <line displayname="hud.msg.ChromatiCraft.Place">
             if (nbt.place) {
@@ -119,8 +120,6 @@
                 return nbt.craft + ' ' + translate('hud.msg.common.Ticks');
             }
         </line>
-        <!-- 
-         -->
         <line displayname="hud.msg.ChromatiCraft.Energy">
             if (nbt.energy) {
                 switch (typeof nbt.energy) {
@@ -152,11 +151,13 @@
             }
         </line>
     </tileentity>
+    <!-- 铸件桌 -->
     <tileentity id="CCchroma.table">
         <line displayname="XP">
             return numberWithCommas(nbt.xp);
         </line>
     </tileentity>
+    <!-- 能量塔 -->
     <tileentity id="CCchroma.pylon">
         <line displayname="hud.msg.ChromatiCraft.Struct">
             if (nbt.multi) {
@@ -166,14 +167,22 @@
             }
         </line>
     </tileentity>
+    <!-- 能量中继器 -->
     <tileentity id="CCchroma.repeater">
         <line displayname="hud.msg.ChromatiCraft.Repeater.Depth">
             return nbt.depth;
         </line>
     </tileentity>
+    <!-- 仪式桌 -->
     <tileentity id="CCchroma.ritual">
         <line displayname="hud.msg.ChromatiCraft.Ritual.Ability">
             return nbt.ability;
+        </line>
+    </tileentity>
+    <!-- 嬗变火 -->
+    <tileentity id="CCchroma.glowfire">
+        <line displayname="hud.msg.ChromatiCraft.Glowfire.Target">
+            if (nbt.Items[0]) return name(nbt.Items[0]);
         </line>
     </tileentity>
 </oo>

@@ -3,8 +3,7 @@
 <oo>
     <tileentity id="ReactorMagnetic Containment Pipe">
         <line>
-        if(nbt['chg']!=0)
-            return translate('hud.msg.ReactorCraft.chg')+": "+nbt['chg']+"kV"
+            if (nbt['chg'] != 0) return translate('hud.msg.ReactorCraft.chg') + ': ' + nbt['chg'] + 'kV';
         </line>
     </tileentity>
 </oo>
