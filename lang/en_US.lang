@@ -11,6 +11,7 @@ hud.msg.common.Mode=Mode
 hud.msg.common.XP=XP
 hud.msg.common.XPLevel=XP Level
 hud.msg.common.XPTotal=XP Total
+hud.msg.common.Process=Process
 
 hud.msg.appliedenergistics2.Parts=Parts
 
@@ -26,9 +27,13 @@ hud.msg.ChromatiCraft.Repeater.Depth=Depth
 hud.msg.ChromatiCraft.Ritual.Ability=Ability    
 
 hud.msg.RotaryCraft.Place=Placer
+hud.msg.RotaryCraft.Power=Power
+hud.msg.RotaryCraft.Omega=Omega
+hud.msg.RotaryCraft.Torque=Torque
 hud.msg.RotaryCraft.Requirements=Requirements
 hud.msg.RotaryCraft.Magnet=Magnetic Flux Density
 hud.msg.RotaryCraft.MicroTesla=µT
+hud.msg.RotaryCraft.OneTickRequires=1 Tick Requires
 
 hud.msg.RotaryCraft.Dynamo.Generated=Theoretical Generated
 

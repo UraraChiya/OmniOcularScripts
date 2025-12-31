@@ -3,24 +3,28 @@
 <!--Version: V33a-->
 <oo>
     <init>
-        function isRequirements(nbt, req) {
+        function meetsRequirements(nbt, req) {
             if (req.power && nbt.power < req.power) return false;
-            if (req.speed && nbt.omega < req.speed) return false;
+            if (req.omega && nbt.omega < req.omega) return false;
             if (req.torque && nbt.torque < req.torque) return false;
             return true;
         }
+    </init>
+    <init>
         function log2(x) {
             return Math.log(x) / Math.log(2);
         }
-        function requirementsInfo(nbt, req) {
+    </init>
+    <init>
+        function getRequirementText(nbt, req) {
             var parts = [];
             if (req.power && nbt.power < req.power)
                 parts.push(
                     translate('hud.msg.RotaryCraft.Power') + ' ' + numberWithCommas(req.power) + ' W'
                 );
-            if (req.speed && nbt.omega < req.speed)
+            if (req.omega && nbt.omega < req.omega)
                 parts.push(
-                    translate('hud.msg.RotaryCraft.Speed') + ' ' + numberWithCommas(req.speed) + ' rad/s'
+                    translate('hud.msg.RotaryCraft.Omega') + ' ' + numberWithCommas(req.omega) + ' rad/s'
                 );
             if (req.torque && nbt.torque < req.torque)
                 parts.push(
@@ -29,6 +33,61 @@
             if (parts.length) return RED + parts.join(', ');
         }
     </init>
+    <!--
+    GRINDER(MachineRegistry.GRINDER, 			840, 60), //was 900, 60
+	BEDROCK(MachineRegistry.BEDROCKBREAKER, 	600, 30),
+	BORER(MachineRegistry.BORER, 				720, 40),
+	BUCKETFILLER(MachineRegistry.BUCKETFILLER, 	200, 20),
+	COMPACTOR(MachineRegistry.COMPACTOR, 		300, 15, 4),
+	CRYSTALLIZER(MachineRegistry.CRYSTALLIZER, 	400, 24),
+	FERMENTER(MachineRegistry.FERMENTER, 		480, 35),
+	EXTRACTOR(MachineRegistry.EXTRACTOR, 		900, 60, 400, 20, 600, 30, 1200, 80),
+	FIREWORK(MachineRegistry.FIREWORK, 			300, 16),
+	FRACTIONATOR(MachineRegistry.FRACTIONATOR, 	800, 40),
+	HEATER(MachineRegistry.HEATER, 				200, 10),
+	MAGNETIZER(MachineRegistry.MAGNETIZER, 		400, 20),
+	OBSIDIAN(MachineRegistry.OBSIDIAN, 			800, 60),
+	PUMP(MachineRegistry.PUMP, 					300, 30),
+	PURIFIER(MachineRegistry.PURIFIER, 			800, 40),
+	TERRAFORMER(MachineRegistry.TERRAFORMER, 	800, 40),
+	WOODCUTTER(MachineRegistry.WOODCUTTER, 		40, 4),
+	GRINDSTONE(MachineRegistry.GRINDSTONE,		80, 6),
+	REFRIGERATOR(MachineRegistry.REFRIGERATOR,	1000, 80),
+	RAM(MachineRegistry.LINEBUILDER,			40, 2),
+	CENTRIFUGE(MachineRegistry.CENTRIFUGE,		1200, 60),
+	DROPS(MachineRegistry.DROPS,				300, 20),
+	SPILLER(MachineRegistry.SPILLER,			22,	2),
+	FILLER(MachineRegistry.FILLER,				22,	2);
+    -->
+    <init>
+        function getTotalTime(omega, base, factor) {
+            return Math.ceil(base - factor * log2(omega + 1));
+        }
+    </init>
+    <init>
+        /* 计算最小多少转速可达 1 tick 耗时*/
+        function getMinOmegaForOneTick(base, factor) {
+            var targetTime = 1;
+            var requiredLog = (base - targetTime) / factor;
+            var minOmega = Math.pow(2, requiredLog) - 1;
+            return Math.ceil(minOmega);
+        }
+    </init>
+    <init>
+        function getProcessText(curTime, omega, base, factor) {
+            var totalTime = getTotalTime(omega, base, factor);
+            var result = curTime + ' / ' + totalTime + ' ' + translate('hud.msg.common.Ticks');
+            if (totalTime > 1) {
+                var minOmega = getMinOmegaForOneTick(base, factor);
+                if (omega < minOmega) {
+                    result += ' (' + translate('hud.msg.RotaryCraft.OneTickRequires');
+                    result += ' ' + numberWithCommas(minOmega) + ' rad/s' + ')';
+                }
+            }
+            return result;
+        }
+    </init>
+    <!--通用信息显示-->
     <tileentity id="RC.*">
         <line displayname="hud.msg.RotaryCraft.Place">
             return nbt.place;
@@ -39,7 +98,7 @@
         <line displayname='hud.msg.RotaryCraft.Torque'>
             if (nbt.torque) return numberWithCommas(nbt.torque) + ' Nm';
         </line>
-        <line displayname='hud.msg.RotaryCraft.Speed'>
+        <line displayname='hud.msg.RotaryCraft.Omega'>
             if (nbt.omega) return numberWithCommas(nbt.omega) + ' rad/s';
         </line>
     </tileentity>
@@ -54,16 +113,15 @@
     -->
     <tileentity id="RCdynamo">
         <line displayname='hud.msg.RotaryCraft.Dynamo.Generated'>
-            var speed = nbt.omega || 0;
+            var omega = nbt.omega || 0;
             var torque = nbt.torque || 0;
-            var power = nbt.power || 0;
-            if (speed > 1024) speed = 1024;
+            if (omega > 1024) omega = 1024;
             if (nbt.upgrade) {
                 if (torque > 8192) torque = 8192;
             } else {
                 if (torque > 2048) torque = 2048;
             }
-            return WHITE + (speed * torque) / 512 + ' RF/t';
+            return WHITE + (omega * torque) / 512 + ' RF/t';
         </line>
     </tileentity>
     <tileentity id="RCfan">
@@ -83,100 +141,67 @@
             }
         </line>
     </tileentity>
-    <!-- 
+    <tileentity id="RCextractor">
+        <!-- 
             Stage 1 Power: 65536W
             Stage 2 Power: 16384W
             Stage 3 Power: 32768W
             Stage 4 Power: 65536W
             Stage 1 Torque: 512Nm
             Stage 4 Torque: 256Nm
-            Stage 2 Speed: 2048rad/s
-            Stage 3 Speed: 8192rad/s
+            Stage 2 Omega: 2048rad/s
+            Stage 3 Omega: 8192rad/s
 
-            x = Speed
+            x = Omega
             Stage 1 Time = 900.0-60.0*log_2.0(x+1)
             Stage 2 Time = 400.0-20.0*log_2.0(x+1)
             Stage 3 Time = 600.0-30.0*log_2.0(x+1)
             Stage 4 Time = 1200.0-80.0*log_2.0(x+1)
 
             {torque:2048,extractor:{FluidName:"water",Amount:16000},emp:0b,no_drops:0b,placeUUID:"34b7ce33-953f-4b7d-871b-6574e8c0c2c0",bedrock:0b,no_mine:0b,pox:0,poz:0,Items:[0:{Slot:2b,id:5861s,Count:16b,Damage:9s},1:{Slot:3b,id:5861s,Count:34b,Damage:17s},2:{Slot:7b,id:5861s,Count:20b,Damage:25s},3:{Slot:8b,id:5861s,Count:1b,Damage:33s}],power:65536L,poy:0,place:"UraraChiya",thisredstone:0b,_:[0:"Class: Reika.RotaryCraft.TileEntities.Processing.TileEntityExtractor",1:"ID: RCextractor",2:"Block: tile..name",3:"Block Class: Reika.RotaryCraft.Blocks.BlockMIMachine",4:"Position: [330, 64, 337]",5:"Mod: RotaryCraft",6:"Ticking: true"],CookTime:[0,0,0,641,],address:"31596210-f7f3-4627-9994-4e7bc2083b2a",io:0,read3:-1,read2:-1,read4:-1,tick:0,omni:0b,drill:4096,lastredstone:0b,omega:32,read1:0,meta:0,write1:-1,age_ticks:25711L,write2:-1}
-    -->
-    <tileentity id="RCextractor">
+        -->
         <line displayname="hud.msg.RotaryCraft.Extractor.Stage">
-            var power = nbt.power || 0;
-            var speed = nbt.omega || 0;
-            var torque = nbt.torque || 0;
-
-            var cooktimes = nbt.CookTime;
-
             var stages = [
                 {
-                    power: 65536,
-                    torque: 512,
-                    base: 900,
-                    factor: 60
+                    req: { power: 65536, torque: 512 },
+                    timefactor: { base: 900, factor: 60 }
                 },
                 {
-                    power: 16384,
-                    speed: 2048,
-                    base: 400,
-                    factor: 20
+                    req: { power: 16384, omega: 2048 },
+                    timefactor: { base: 400, factor: 20 }
                 },
                 {
-                    power: 32768,
-                    speed: 8192,
-                    base: 600,
-                    factor: 30
+                    req: { power: 32768, omega: 8192 },
+                    timefactor: { base: 600, factor: 30 }
                 },
                 {
-                    power: 65536,
-                    torque: 256,
-                    base: 1200,
-                    factor: 80
+                    req: { power: 65536, torque: 256 },
+                    timefactor: { base: 1200, factor: 80 }
                 }
             ];
 
-            function hasRequirements(stage) {
-                if (stage.power && power < stage.power) return false;
-                if (stage.speed && speed < stage.speed) return false;
-                if (stage.torque && torque < stage.torque) return false;
-                return true;
-            }
-
-            function calcTime(stage) {
-                return stage.base - stage.factor * log2(speed + 1);
-            }
-
             var result = ['\\n'];
 
-            for (var i = 0; i < 4; i++) {
-                if (cooktimes[i] < 0) continue;
-
-                if (hasRequirements(stages[i])) {
-                    var t = calcTime(stages[i]);
-                    if (t >= 0) {
-                        var tmp =
-                            '  ' +
-                            GREEN +
-                            translate('hud.msg.RotaryCraft.Extractor.Stage') +
-                            ' ' +
-                            (i + 1) +
-                            ': ';
-                        tmp +=
-                            WHITE +
-                            ' ' +
-                            cooktimes[i] +
-                            ' / ' +
-                            Math.ceil(t) +
-                            ' ' +
-                            translate('hud.msg.common.Ticks');
-                        result.push(tmp);
-                    }
+            for (var i = 0; i < stages.length; i++) {
+                var stage = stages[i];
+                var stageNum = i + 1;
+                if (meetsRequirements(nbt, stage.req)) {
+                    var processText = getProcessText(
+                        nbt.CookTime[i],
+                        nbt.omega,
+                        stage.timefactor.base,
+                        stage.timefactor.factor
+                    );
+                    var tmp = '  ' + GREEN + translate('hud.msg.RotaryCraft.Extractor.Stage') + ' ';
+                    tmp += stageNum + ': ' + WHITE + ' ' + processText;
+                    result.push(tmp);
                 } else {
                     var tmp =
-                        '  ' + RED + translate('hud.msg.RotaryCraft.Extractor.Stage') + ' ' + (i + 1) + ': ';
+                        '  ' + RED + translate('hud.msg.RotaryCraft.Extractor.Stage') + ' ' + stageNum + ': ';
                     tmp +=
-                        translate('hud.msg.RotaryCraft.Requirements') + ': ' + requirementsInfo(nbt, stages[i]);
+                        translate('hud.msg.RotaryCraft.Requirements') +
+                        ': ' +
+                        getRequirementText(nbt, stage.req);
                     result.push(tmp);
                 }
             }
@@ -186,17 +211,15 @@
     </tileentity>
     <tileentity id="RCfriction">
         <line displayname='hud.msg.RotaryCraft.Requirements'>
-            return requirementsInfo(nbt, { power: 8192, torque: 32 });
+            return getRequirementText(nbt, { power: 8192, torque: 32 });
         </line>
-        <!--
-        温度公式为 ：T=12*log2(speed 速度)*log2(torque 扭矩) + 30 (在满足机器最低运行要求的情况下)
-        -->
         <line displayname='hud.msg.RotaryCraft.Friction.MaxTemperature'>
-            var speed = nbt.omega || 0;
+            /* 温度公式为 ：T=12*log2(omega 速度)*log2(torque 扭矩) + 30 (在满足机器最低运行要求的情况下) */
+            var omega = nbt.omega || 0;
             var torque = nbt.torque || 0;
-            if (isRequirements(nbt, { power: 8192, torque: 32 })) {
-                var temp = 12 * log2(speed) * log2(torque) + 30;
-                var avg = Math.sqrt(speed * torque);
+            if (meetsRequirements(nbt, { power: 8192, torque: 32 })) {
+                var temp = 12 * log2(omega) * log2(torque) + 30;
+                var avg = Math.sqrt(omega * torque);
                 var maxTemp = 12 * log2(avg) * log2(avg) + 30;
                 return Math.floor(temp) + ' / ' + Math.floor(maxTemp) + ' °C';
             }
@@ -210,6 +233,22 @@
     <tileentity id="RCmagnetizer">
         <line displayname='hud.msg.RotaryCraft.Magnet'>
             return nbt.Items[0].tag.magnet + ' ' + translate('hud.msg.RotaryCraft.MicroTesla');
+        </line>
+    </tileentity>
+    <tileentity id="RCgrinder">
+        <line displayname='hud.msg.common.Process'>
+            return getProcessText(nbt.CookTime, nbt.omega, 840, 60);
+        </line>
+        <line displayname='hud.msg.RotaryCraft.Requirements'>
+            return getRequirementText(nbt, { power: 4096, torque: 128 });
+        </line>
+    </tileentity>
+    <tileentity id="RCcentrifuge">
+        <line displayname='hud.msg.common.Process'>
+            return getProcessText(nbt.CookTime, nbt.omega, 1200, 60);
+        </line>
+        <line displayname='hud.msg.RotaryCraft.Requirements'>
+            return getRequirementText(nbt, { power: 16384, omega: 4096 });
         </line>
     </tileentity>
 </oo>

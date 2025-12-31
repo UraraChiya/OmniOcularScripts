@@ -11,6 +11,7 @@ hud.msg.common.Mode=模式
 hud.msg.common.XP=XP
 hud.msg.common.XPLevel=XP 等级
 hud.msg.common.XPTotal=XP 总计
+hud.msg.common.Process=进度
 
 hud.msg.appliedenergistics2.Parts=部件
 
@@ -26,9 +27,13 @@ hud.msg.ChromatiCraft.Repeater.Depth=深度
 hud.msg.ChromatiCraft.Ritual.Ability=能力
 
 hud.msg.RotaryCraft.Place=放置者
+hud.msg.RotaryCraft.Power=功率
+hud.msg.RotaryCraft.Omega=角速度
+hud.msg.RotaryCraft.Torque=扭矩
 hud.msg.RotaryCraft.Requirements=需求
 hud.msg.RotaryCraft.Magnet=磁通量密度
 hud.msg.RotaryCraft.MicroTesla= μT
+hud.msg.RotaryCraft.OneTickRequires=1 刻需求
 
 hud.msg.RotaryCraft.Dynamo.Generated=理论生成
 
