@@ -25,6 +25,7 @@ hud.msg.ChromatiCraft.Energy=Energy
 
 hud.msg.ChromatiCraft.Repeater.Depth=Depth
 hud.msg.ChromatiCraft.Ritual.Ability=Ability    
+hud.msg.ChromatiCraft.Glowfire.Target=Target
 
 hud.msg.RotaryCraft.Place=Placer
 hud.msg.RotaryCraft.Power=Power

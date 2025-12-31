@@ -87,6 +87,33 @@
             return result;
         }
     </init>
+    <init>
+        function getLimit(type) {
+            switch (type) {
+                case 'WOOD':
+                    return { omega: 4000, torque: 278 };
+                    break;
+                case 'STONE':
+                    return { omega: 12000, torque: 959 };
+                    break;
+                case 'STEEL':
+                    return { omega: 57000, torque: 7000 };
+                    break;
+                case 'TUNGSTEN':
+                    return { omega: 314000, torque: 10000 };
+                    break;
+                case 'DIAMOND':
+                    return { omega: 4000000, torque: 70000 };
+                    break;
+                case 'BEDROCK':
+                    return { omega: 2147483647, torque: 2147483647 };
+                    break;
+                default:
+                    return { omega: 4000, torque: 278 };
+                    break;
+            }
+        }
+    </init>
     <!--通用信息显示-->
     <tileentity id="RC.*">
         <line displayname="hud.msg.RotaryCraft.Place">
@@ -231,6 +258,9 @@
         </line>
     </tileentity>
     <tileentity id="RCmagnetizer">
+        <line displayname='hud.msg.RotaryCraft.Requirements'>
+            return getRequirementText(nbt, { power: 16384, omega: 2048 });
+        </line>
         <line displayname='hud.msg.RotaryCraft.Magnet'>
             return nbt.Items[0].tag.magnet + ' ' + translate('hud.msg.RotaryCraft.MicroTesla');
         </line>

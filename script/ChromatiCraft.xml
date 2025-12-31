@@ -95,6 +95,77 @@
             WHITE: 15
         };
     </init>
+    <init>
+        /**
+         * 根据目标音高 Key 计算对应的水晶 ID 和和弦 Index
+         * ES5 兼容版本
+         */
+        function solveCrystalMusic(targetKey) {
+            /* 基础定义*/
+            var C4 = 36;
+
+            /* 音高常量映射 */
+            var PITCH = {
+                C4: 36,
+                D4: 38,
+                E4: 40,
+                F4: 41,
+                G4: 43,
+                A4: 45,
+                B4: 47,
+                C5: 48,
+                D5: 50,
+                E5: 52,
+                F5: 53,
+                G5: 55,
+                A5: 57,
+                C6: 60
+            };
+
+            /* 水晶定义 (ID 0-15) */
+            var crystals = [
+                { id: 0, name: 'Black', base: PITCH.C4, minor: false },
+                { id: 1, name: 'Red', base: PITCH.G4, minor: false },
+                { id: 2, name: 'Green', base: PITCH.F4, minor: true },
+                { id: 3, name: 'Brown', base: PITCH.D4, minor: false },
+                { id: 4, name: 'Blue', base: PITCH.E4, minor: false },
+                { id: 5, name: 'Purple', base: PITCH.A4, minor: false },
+                { id: 6, name: 'Cyan', base: PITCH.A4, minor: true },
+                { id: 7, name: 'LightGray', base: PITCH.D5, minor: true },
+                { id: 8, name: 'Gray', base: PITCH.C5, minor: true },
+                { id: 9, name: 'Pink', base: PITCH.F5, minor: false },
+                { id: 10, name: 'Lime', base: PITCH.E5, minor: false },
+                { id: 11, name: 'Yellow', base: PITCH.G5, minor: false },
+                { id: 12, name: 'LightBlue', base: PITCH.A5, minor: false },
+                { id: 13, name: 'Magenta', base: PITCH.B4, minor: false },
+                { id: 14, name: 'Orange', base: PITCH.E4, minor: true },
+                { id: 15, name: 'White', base: PITCH.C6, minor: false }
+            ];
+
+            var results = [];
+
+            /* 使用 forEach (ES5) 和 普通 function */
+            crystals.forEach(function (crystal) {
+                var notes = [];
+                notes[0] = crystal.base;
+                notes[1] = crystal.base + (crystal.minor ? 3 : 4);
+                notes[2] = crystal.base + 7;
+                notes[3] = crystal.base + 12;
+
+                for (var i = 0; i < 4; i++) {
+                    if (notes[i] === targetKey) {
+                        results.push({
+                            crystalId: crystal.id,
+                            crystalName: crystal.name,
+                            chordIdx: i
+                        });
+                    }
+                }
+            });
+
+            return results;
+        }
+    </init>
     <!-- CC 共有内容 -->
     <tileentity id="CC.*">
         <line displayname="hud.msg.ChromatiCraft.Place">
@@ -183,6 +254,52 @@
     <tileentity id="CCchroma.glowfire">
         <line displayname="hud.msg.ChromatiCraft.Glowfire.Target">
             if (nbt.Items[0]) return name(nbt.Items[0]);
+        </line>
+    </tileentity>
+    <!-- 水晶音乐存储 -->
+    <tileentity id="CCTileMusicMemory">
+        <line displayname="hud.msg.ChromatiCraft.MusicMemory.Solution">
+            if (nbt.keys && nbt.keys.length > 0) {
+                var lines = ['\\n'];
+                /* 对应和弦索引 0, 1, 2, 3 的位置箭头 */
+                var arrows = ['↖', '↗', '↘', '↙'];
+
+                for (var i = 0; i < nbt.keys.length; i++) {
+                    var key = nbt.keys[i];
+                    /* 调用之前定义的解题函数 */
+                    var solutions = solveCrystalMusic(key);
+
+                    if (solutions.length > 0) {
+                        /* 取第一个可能的解 (通常这就足够了) */
+                        var res = solutions[0];
+
+                        /* 获取颜色格式代码 (例如 DRED, DPURPLE 等) */
+                        var colorFmt = LUMENIDTOFORMAT[res.crystalId];
+
+                        /* 格式化输出: 颜色代码 + 颜色名 + 方向箭头 */
+                        /* 例如: "Purple ↖" (带颜色) */
+                        lines.push(
+                            '  ' +
+                                i +
+                                TAB +
+                                colorFmt +
+                                res.crystalName +
+                                ' ' +
+                                GRAY +
+                                res.crystalId +
+                                TAB +
+                                colorFmt +
+                                arrows[res.chordIdx]
+                        );
+                    } else {
+                        /* 如果找不到对应的解，显示白色未知 */
+                        lines.push('  ' + WHITE + 'Unknown (' + key + ')');
+                    }
+                }
+
+                /* 在开头加一个换行，确保护符显示在标签下方，并用换行符连接所有步骤 */
+                return lines.join('\\n');
+            }
         </line>
     </tileentity>
 </oo>
