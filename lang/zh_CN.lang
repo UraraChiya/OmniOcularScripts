@@ -26,6 +26,7 @@ hud.msg.ChromatiCraft.Energy=能量
 hud.msg.ChromatiCraft.Repeater.Depth=深度
 hud.msg.ChromatiCraft.Ritual.Ability=能力
 hud.msg.ChromatiCraft.Glowfire.Target=目标
+hud.msg.ChromatiCraft.Puzzle.Solution=解法
 
 hud.msg.RotaryCraft.Place=放置者
 hud.msg.RotaryCraft.Power=功率

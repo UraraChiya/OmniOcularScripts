@@ -256,9 +256,10 @@
             if (nbt.Items[0]) return name(nbt.Items[0]);
         </line>
     </tileentity>
+    <!-- Puzzle -->
     <!-- 水晶音乐存储 -->
     <tileentity id="CCTileMusicMemory">
-        <line displayname="hud.msg.ChromatiCraft.MusicMemory.Solution">
+        <line displayname="hud.msg.ChromatiCraft.Puzzle.Solution">
             if (nbt.keys && nbt.keys.length > 0) {
                 var lines = ['\\n'];
                 /* 对应和弦索引 0, 1, 2, 3 的位置箭头 */
