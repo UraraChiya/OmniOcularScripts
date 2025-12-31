@@ -1,0 +1,46 @@
+{
+  "name": "omniocular-formatter",
+  "version": "0.3.7",
+  "main": "./extension.js",
+  "activationEvents": [
+    "onLanguage:omniocular"
+  ],
+  "engines": {
+    "vscode": "^1.70.0"
+  },
+  "contributes": {
+    "languages": [
+      {
+        "id": "omniocular",
+        "aliases": ["OmniOcular Script"],
+        "extensions": [".xml"],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "omniocular",
+        "scopeName": "text.xml.omniocular",
+        "path": "./syntaxes/omniocular.tmLanguage.json"
+      },
+      {
+        "scopeName": "omniocular.injection",
+        "path": "./syntaxes/omniocular.injection.json",
+        "injectTo": [
+          "text.xml.omniocular"
+        ],
+        "embeddedLanguages": {
+          "source.js": "javascript"
+        }
+      }
+    ],
+    "configurationDefaults": {
+      "[omniocular]": {
+        "editor.defaultFormatter": "UraraChiya.omniocular-formatter"
+      }
+    }
+  },
+  "dependencies": {
+    "prettier": "^3.1.0"
+  }
+}
