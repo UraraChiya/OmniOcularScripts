@@ -16,6 +16,7 @@ hud.msg.common.Process=Process
 hud.msg.appliedenergistics2.Parts=Parts
 
 hud.msg.ChromatiCraft.Place=Placer
+hud.msg.ChromatiCraft.Place.NotSamePlayer=Not Same Player
 hud.msg.ChromatiCraft.Owner=Owner
 hud.msg.ChromatiCraft.CraftRemain=Craft Remaining
 hud.msg.ChromatiCraft.Tier=Tier

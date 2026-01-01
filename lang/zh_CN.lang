@@ -16,6 +16,7 @@ hud.msg.common.Process=进度
 hud.msg.appliedenergistics2.Parts=部件
 
 hud.msg.ChromatiCraft.Place=放置者
+hud.msg.ChromatiCraft.Place.NotSamePlayer=非相同玩家
 hud.msg.ChromatiCraft.Owner=所有者
 hud.msg.ChromatiCraft.CraftRemain=剩余制作时间
 hud.msg.ChromatiCraft.Tier=层级

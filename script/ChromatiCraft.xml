@@ -173,10 +173,12 @@
             if (nbt.place) {
                 result += nbt.place;
             }
-            if (nbt.placeUUID) {
-                if (nbt.place != uuid2name(nbt.placeUUID)) {
-                    result += uuid2name(nbt.placeUUID);
-                }
+            if (nbt.placeUUID && nbt.place != uuid2name(nbt.placeUUID)) {
+                result +=
+                    ' ' +
+                    uuid2name(nbt.placeUUID) +
+                    ' ' +
+                    translate('hud.msg.ChromatiCraft.Place.NotSamePlayer');
             }
             return result;
         </line>
