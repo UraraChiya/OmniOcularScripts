@@ -169,12 +169,16 @@
     <!-- CC 共有内容 -->
     <tileentity id="CC.*">
         <line displayname="hud.msg.ChromatiCraft.Place">
+            var result = '';
             if (nbt.place) {
-                if (nbt.placeUUID) {
-                    return nbt.place;
-                }
-                return nbt.place;
+                result += nbt.place;
             }
+            if (nbt.placeUUID) {
+                if (nbt.place != uuid2name(nbt.placeUUID)) {
+                    result += uuid2name(nbt.placeUUID);
+                }
+            }
+            return result;
         </line>
         <line displayname="hud.msg.ChromatiCraft.Owner">
             if (nbt.owners[0]) return uuid2name(nbt.owners[0]);
@@ -185,6 +189,9 @@
             } else if (nbt.struct == 0) {
                 return RED + translate('hud.msg.ChromatiCraft.Struct.Unformed');
             }
+        </line>
+        <line displayname="hud.msg.ChromatiCraft.Tier">
+            return nbt.tier;
         </line>
         <line displayname="hud.msg.ChromatiCraft.CraftRemain">
             if (nbt.craft) {
@@ -225,12 +232,16 @@
                             }
                         }
                         for (var i = 0; i < lumens.length; i += 2) {
-                            results.push('  ' + lumens[i] + TAB + (lumens[i + 1] ? lumens[i + 1] : ''));
+                            if (i + 1 == lumens.length) {
+                                results.push('  ' + lumens[i]);
+                            } else {
+                                results.push('  ' + lumens[i] + TAB + lumens[i + 1]);
+                            }
                         }
-                        if (lumens) return results.join('\\n');
+                        if (lumens.length > 0) return results.join('\\n');
                         break;
                     case 'number':
-                        if (nbt.color) {
+                        if (nbt.color != undefined) {
                             return LUMENCOLORFORMAT[LUMENCOLOR[nbt.color]] + formatAlignedSI(nbt.energy);
                         }
                         return formatAlignedSI(nbt.energy);
