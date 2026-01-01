@@ -180,7 +180,7 @@
                     ' ' +
                     translate('hud.msg.ChromatiCraft.Place.NotSamePlayer');
             }
-            return result;
+            if (result) return result;
         </line>
         <line displayname="hud.msg.ChromatiCraft.Owner">
             if (nbt.owners[0]) return uuid2name(nbt.owners[0]);
@@ -203,22 +203,6 @@
         <line displayname="hud.msg.ChromatiCraft.Energy">
             if (nbt.energy) {
                 switch (typeof nbt.energy) {
-                    case 'object.bak':
-                        var lumens = [];
-                        for (var i in LUMENCOLOR) {
-                            var color = LUMENCOLOR[i];
-                            if (nbt.energy[color]) {
-                                lumens.push(LUMENIDTOFORMAT[i] + formatSI(nbt.energy[color]));
-                            } else {
-                                lumens.push(LUMENIDTOFORMAT[i] + '-1');
-                            }
-                        }
-                        var results = ['\\n'];
-                        for (var i = 0; i < 8; i++) {
-                            results.push('  ' + lumens[i] + TAB + lumens[i + 8]);
-                        }
-                        return results.join('\\n ');
-                        break;
                     case 'object':
                         var results = ['\\n'];
                         var lumens = [];
@@ -235,12 +219,12 @@
                         }
                         for (var i = 0; i < lumens.length; i += 2) {
                             if (i + 1 == lumens.length) {
-                                results.push('  ' + lumens[i]);
+                                results.push(lumens[i]);
                             } else {
-                                results.push('  ' + lumens[i] + TAB + lumens[i + 1]);
+                                results.push(lumens[i] + TAB + lumens[i + 1]);
                             }
                         }
-                        if (lumens.length > 0) return results.join('\\n');
+                        if (lumens.length > 0) return results.join('\\n  ');
                         break;
                     case 'number':
                         if (nbt.color != undefined) {
@@ -293,7 +277,7 @@
     <tileentity id="CCTileMusicMemory">
         <line displayname="hud.msg.ChromatiCraft.Puzzle.Solution">
             if (nbt.keys && nbt.keys.length > 0) {
-                var lines = ['\\n'];
+                var results = ['\\n'];
                 /* 对应和弦索引 0, 1, 2, 3 的位置箭头 */
                 var arrows = ['↖', '↗', '↘', '↙'];
 
@@ -311,9 +295,8 @@
 
                         /* 格式化输出: 颜色代码 + 颜色名 + 方向箭头 */
                         /* 例如: "Purple ↖" (带颜色) */
-                        lines.push(
-                            '  ' +
-                                i +
+                        results.push(
+                            i +
                                 TAB +
                                 colorFmt +
                                 res.crystalName +
@@ -326,12 +309,12 @@
                         );
                     } else {
                         /* 如果找不到对应的解，显示白色未知 */
-                        lines.push('  ' + WHITE + 'Unknown (' + key + ')');
+                        results.push(WHITE + 'Unknown (' + key + ')');
                     }
                 }
 
                 /* 在开头加一个换行，确保护符显示在标签下方，并用换行符连接所有步骤 */
-                return lines.join('\\n');
+                return results.join('\\n  ');
             }
         </line>
     </tileentity>

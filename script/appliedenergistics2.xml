@@ -22,7 +22,7 @@
     -->
     <tileentity id="BlockCableBus">
         <line displayname="hud.msg.appliedenergistics2.Parts">
-            var part = ['\\n'];
+            var results = ['\\n'];
             var directions = [
                 translate('hud.msg.common.Bottom'),
                 translate('hud.msg.common.Top'),
@@ -33,15 +33,15 @@
             ];
             for (i = 0; i < 6; i++) {
                 if (nbt['def:' + i]) {
-                    var info = '  ' + GREEN + directions[i] + ': ' + WHITE + name(nbt['def:' + i]);
+                    var info = GREEN + directions[i] + ': ' + WHITE + name(nbt['def:' + i]);
                     if (nbt['extra:' + i]['priority'] != undefined) {
                         info += '\\n    ' + GREEN + translate('gui.appliedenergistics2.Priority') + ': ';
                         info += WHITE + nbt['extra:' + i]['priority'];
                     }
-                    part.push(info);
+                    results.push(info);
                 }
             }
-            return part.join('\\n');
+            return results.join('\\n  ');
         </line>
     </tileentity>
 </oo>

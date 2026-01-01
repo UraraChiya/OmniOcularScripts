@@ -215,12 +215,11 @@
                         stage.timefactor.base,
                         stage.timefactor.factor
                     );
-                    var tmp = '  ' + GREEN + translate('hud.msg.RotaryCraft.Extractor.Stage') + ' ';
+                    var tmp = GREEN + translate('hud.msg.RotaryCraft.Extractor.Stage') + ' ';
                     tmp += stageNum + ': ' + WHITE + ' ' + processText;
                     result.push(tmp);
                 } else {
-                    var tmp =
-                        '  ' + RED + translate('hud.msg.RotaryCraft.Extractor.Stage') + ' ' + stageNum + ': ';
+                    var tmp = RED + translate('hud.msg.RotaryCraft.Extractor.Stage') + ' ' + stageNum + ': ';
                     tmp +=
                         translate('hud.msg.RotaryCraft.Requirements') +
                         ': ' +
@@ -229,7 +228,7 @@
                 }
             }
 
-            if (result.length > 1) return result.join('\\n ');
+            if (result.length > 1) return result.join('\\n  ');
         </line>
     </tileentity>
     <tileentity id="RCfriction">

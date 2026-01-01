@@ -16,6 +16,13 @@
         }
     </init>
     <init>
+        function getItemSlot(Items, slot) {
+            for (var i in Items) {
+                if (Items[i].Slot == slot) return Items[i];
+            }
+        }
+    </init>
+    <init>
         /* log 函数 */
         function log(base, n) {
             return Math.log(n) / Math.log(base);

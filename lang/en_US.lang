@@ -49,3 +49,7 @@ hud.msg.RotaryCraft.Fan.Harvesting=Harvesting
 hud.msg.RotaryCraft.Extractor.Stage=Stage
 
 hud.msg.RotaryCraft.Friction.MaxTemperature=Max Temp
+
+hud.msg.Forestry.Queen.Info=Info
+hud.msg.Forestry.Queen.Name=Name
+hud.msg.Forestry.Queen.Health=Health

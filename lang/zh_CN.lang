@@ -49,3 +49,7 @@ hud.msg.RotaryCraft.Fan.Harvesting=收割
 hud.msg.RotaryCraft.Extractor.Stage=阶段
 
 hud.msg.RotaryCraft.Friction.MaxTemperature=最高温度
+
+hud.msg.Forestry.Queen.Info=信息
+hud.msg.Forestry.Queen.Name=名字
+hud.msg.Forestry.Queen.Health=健康
