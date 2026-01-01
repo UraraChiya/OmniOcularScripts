@@ -69,7 +69,7 @@
                 formatted = parseFloat(formatted).toFixed(2);
             }
 
-            return formatted + prefixes[index];
+            return formatted + ' ' + prefixes[index];
         }
         function formatIEC(num) {
             /* 1. 处理零的特殊情况 */
@@ -110,7 +110,7 @@
                 formatted = parseFloat(formatted).toFixed(2);
             }
 
-            return formatted + prefixes[index];
+            return formatted + ' ' + prefixes[index];
         }
     </init>
     <!-- 用于将字符串转成样式 -->
