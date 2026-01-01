@@ -4,6 +4,7 @@
 <oo>
     <init>
         function uuid2name(uuid) {
+            /* 找不到更好的写法，只能写死了 */
             var names = {
                 '80b99335-ad79-42ed-ab38-1d15bf2bac3e': 'shen_FNX',
                 '669b5531-6e6c-4841-9a6d-76496e851739': 'Xudongwan',
@@ -15,6 +16,7 @@
         }
     </init>
     <init>
+        /* log 函数 */
         function log(base, n) {
             return Math.log(n) / Math.log(base);
         }
@@ -26,11 +28,13 @@
         }
     </init>
     <init>
+        /* 三位分割整数 */
         function numberWithCommas(x) {
             return x.toString().replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');
         }
     </init>
     <init>
+        /* 格式化 SI 或 IEC 样式 */
         function formatSI(num) {
             if (num === 0) return '0';
 
@@ -91,17 +95,17 @@
             /* 6. 核心：强制保留三位有效数字 */
             var formatted = scaled.toPrecision(3);
 
-            /* 7. 进位补偿逻辑
-                     例如：1023.9 可能会被 toPrecision(3) 四舍五入为 "1024"
-                     此时需要进位到下一个词头（如从 Ki 进到 Mi） */
+            /* 7. 进位补偿逻辑 */
+            /* 例如：1023.9 可能会被 toPrecision(3) 四舍五入为 "1024" */
+            /* 此时需要进位到下一个词头（如从 Ki 进到 Mi） */
             if (Math.abs(parseFloat(formatted)) >= 1024 && index < prefixes.length - 1) {
                 index++;
                 scaled /= 1024;
                 formatted = scaled.toPrecision(3);
             }
 
-            /* 8. 修正可能出现的科学计数法字符串（如 "1.00e+0"）
-                     使其保持 "1.00" 这种直观的格式 */
+            /* 8. 修正可能出现的科学计数法字符串（如 "1.00e+0"） */
+            /* 使其保持 "1.00" 这种直观的格式 */
             if (formatted.indexOf('e') !== -1) {
                 formatted = parseFloat(formatted).toFixed(2);
             }

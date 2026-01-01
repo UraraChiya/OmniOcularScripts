@@ -1,8 +1,0 @@
-{
-  "scopeName": "text.xml.omniocular",
-  "patterns": [
-    {
-      "include": "text.xml"
-    }
-  ]
-} 
