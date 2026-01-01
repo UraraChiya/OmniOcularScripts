@@ -32,8 +32,26 @@
         function numberWithCommas(x) {
             return x.toString().replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');
         }
-    </init>
-    <init>
+        /* 补空格：使用最基础的循环确保兼容性 */
+        function padSpaces(input, targetLength) {
+            /* 1. 将输入转换为字符串并处理可能的 undefined/null */
+            var str = input === null || input === undefined ? '' : input.toString();
+
+            /* 2. 如果当前长度已达到或超过目标，直接返回原样 */
+            if (str.length >= targetLength) {
+                return str;
+            }
+
+            /* 3. 使用 while 循环逐个拼接空格 */
+            var spaces = '';
+            var paddingNeeded = targetLength - str.length;
+            while (spaces.length < paddingNeeded) {
+                spaces += ' ';
+            }
+
+            /* 4. 返回拼接后的结果 */
+            return spaces + str;
+        }
         /* 格式化 SI 或 IEC 样式 */
         function formatSI(num) {
             if (num === 0) return '0';
@@ -111,6 +129,15 @@
             }
 
             return formatted + ' ' + prefixes[index];
+        }
+        /* 对齐函数 */
+        function formatAlignedSI(num) {
+            /* 1.23 K 加上空格共 6 位 */
+            return padSpaces(formatSI(num), 6);
+        }
+        function formatAlignedIEC(num) {
+            /* 1.23 Ki 加上空格共 7 位，考虑到最大可能到 1023 Ki，建议设为 8 */
+            return padSpaces(formatIEC(num), 8);
         }
     </init>
     <!-- 用于将字符串转成样式 -->

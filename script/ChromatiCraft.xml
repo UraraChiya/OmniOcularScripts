@@ -217,7 +217,10 @@
                             var color = LUMENCOLOR[i];
                             if (nbt.energy[color]) {
                                 lumens.push(
-                                    LUMENIDTOFORMAT[i] + i + ': ' + formatSI(nbt.energy[color])
+                                    LUMENIDTOFORMAT[i] +
+                                        padSpaces(i, 2) +
+                                        ': ' +
+                                        formatAlignedSI(nbt.energy[color])
                                 );
                             }
                         }
@@ -228,9 +231,9 @@
                         break;
                     case 'number':
                         if (nbt.color) {
-                            return LUMENCOLORFORMAT[LUMENCOLOR[nbt.color]] + formatSI(nbt.energy);
+                            return LUMENCOLORFORMAT[LUMENCOLOR[nbt.color]] + formatAlignedSI(nbt.energy);
                         }
-                        return formatSI(nbt.energy);
+                        return formatAlignedSI(nbt.energy);
                         break;
                     default:
                         break;
