@@ -194,27 +194,43 @@
         <line displayname="hud.msg.ChromatiCraft.Energy">
             if (nbt.energy) {
                 switch (typeof nbt.energy) {
-                    case 'object':
-                        lumen = [];
+                    case 'object.bak':
+                        var lumens = [];
                         for (var i in LUMENCOLOR) {
                             var color = LUMENCOLOR[i];
                             if (nbt.energy[color]) {
-                                lumen.push(LUMENIDTOFORMAT[i] + numberWithCommas(nbt.energy[color]));
+                                lumens.push(LUMENIDTOFORMAT[i] + formatSI(nbt.energy[color]));
                             } else {
-                                lumen.push(LUMENIDTOFORMAT[i] + '-1');
+                                lumens.push(LUMENIDTOFORMAT[i] + '-1');
                             }
                         }
-                        var result = ['\\n'];
+                        var results = ['\\n'];
                         for (var i = 0; i < 8; i++) {
-                            result.push('  ' + lumen[i] + TAB + lumen[i + 8]);
+                            results.push('  ' + lumens[i] + TAB + lumens[i + 8]);
                         }
-                        return result.join('\\n ');
+                        return results.join('\\n ');
+                        break;
+                    case 'object':
+                        var results = ['\\n'];
+                        var lumens = [];
+                        for (var i = 0; i < LUMENCOLOR.length; i++) {
+                            var color = LUMENCOLOR[i];
+                            if (nbt.energy[color]) {
+                                lumens.push(
+                                    LUMENIDTOFORMAT[i] + i + ': ' + formatSI(nbt.energy[color])
+                                );
+                            }
+                        }
+                        for (var i = 0; i < lumens.length; i += 2) {
+                            results.push('  ' + lumens[i] + TAB + (lumens[i + 1] ? lumens[i + 1] : ''));
+                        }
+                        if (lumens) return results.join('\\n');
                         break;
                     case 'number':
                         if (nbt.color) {
-                            return LUMENCOLORFORMAT[LUMENCOLOR[nbt.color]] + numberWithCommas(nbt.energy);
+                            return LUMENCOLORFORMAT[LUMENCOLOR[nbt.color]] + formatSI(nbt.energy);
                         }
-                        return numberWithCommas(nbt.energy);
+                        return formatSI(nbt.energy);
                         break;
                     default:
                         break;

@@ -15,8 +15,98 @@
         }
     </init>
     <init>
+        function log(base, n) {
+            return Math.log(n) / Math.log(base);
+        }
+        function log2(n) {
+            return log(2, n);
+        }
+        function log10(n) {
+            return log(10, n);
+        }
+    </init>
+    <init>
         function numberWithCommas(x) {
             return x.toString().replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');
+        }
+    </init>
+    <init>
+        function formatSI(num) {
+            if (num === 0) return '0';
+
+            var absNum = Math.abs(num);
+
+            /* 1. 小于 1000 时按原样输出 */
+            if (absNum < 1000) {
+                return num.toString();
+            }
+
+            var prefixes = ['', 'k', 'M', 'G', 'T', 'P', 'E'];
+
+            /* 2. 直接调用你的 log 函数计算数量级 (以 1000 为底) */
+            /* 假设你的 log 函数签名是 log(base, n) */
+            var i = Math.floor(log(1000, absNum));
+            var index = Math.min(i, prefixes.length - 1);
+
+            var scaled = num / Math.pow(1000, index);
+
+            /* 3. 格式化三位有效数字 */
+            var formatted = scaled.toPrecision(3);
+
+            /* 4. 进位补偿：处理 999.9 -> 1000 的情况 */
+            if (Math.abs(parseFloat(formatted)) >= 1000 && index < prefixes.length - 1) {
+                index++;
+                scaled /= 1000;
+                formatted = scaled.toPrecision(3);
+            }
+
+            /* 5. 修正科学计数法（ES5 兼容写法） */
+            if (formatted.indexOf('e') !== -1) {
+                formatted = parseFloat(formatted).toFixed(2);
+            }
+
+            return formatted + prefixes[index];
+        }
+        function formatIEC(num) {
+            /* 1. 处理零的特殊情况 */
+            if (num === 0) return '0';
+
+            var absNum = Math.abs(num);
+
+            /* 2. 对于小于 1024 的数字，按原样输出字符串（不补零） */
+            if (absNum < 1024) {
+                return num.toString();
+            }
+
+            /* 3. 定义 IEC 二进制词头列表 */
+            var prefixes = ['', 'Ki', 'Mi', 'Gi', 'Ti', 'Pi', 'Ei'];
+
+            /* 4. 使用自定义 log 函数计算以 1024 为底的数量级 */
+            var i = Math.floor(log(1024, absNum));
+            var index = Math.min(i, prefixes.length - 1);
+
+            /* 5. 计算缩放后的数值 */
+            var scaled = num / Math.pow(1024, index);
+
+            /* 6. 核心：强制保留三位有效数字 */
+            var formatted = scaled.toPrecision(3);
+
+            /* 7. 进位补偿逻辑
+                     例如：1023.9 可能会被 toPrecision(3) 四舍五入为 "1024"
+                     此时需要进位到下一个词头（如从 Ki 进到 Mi） */
+            if (Math.abs(parseFloat(formatted)) >= 1024 && index < prefixes.length - 1) {
+                index++;
+                scaled /= 1024;
+                formatted = scaled.toPrecision(3);
+            }
+
+            /* 8. 修正可能出现的科学计数法字符串（如 "1.00e+0"）
+                     使其保持 "1.00" 这种直观的格式 */
+            if (formatted.indexOf('e') !== -1) {
+                formatted = parseFloat(formatted).toFixed(2);
+            }
+
+            return formatted + prefixes[index];
         }
     </init>
     <!-- 用于将字符串转成样式 -->

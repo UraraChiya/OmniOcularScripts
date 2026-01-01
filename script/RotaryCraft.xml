@@ -1,6 +1,7 @@
 <!--Author: UraraChiya-->
 <!--Date: 2025/12/22-->
 <!--Version: V33a-->
+<!--Requie: minecraft.xml-->
 <oo>
     <init>
         function meetsRequirements(nbt, req) {
@@ -8,11 +9,6 @@
             if (req.omega && nbt.omega < req.omega) return false;
             if (req.torque && nbt.torque < req.torque) return false;
             return true;
-        }
-    </init>
-    <init>
-        function log2(x) {
-            return Math.log(x) / Math.log(2);
         }
     </init>
     <init>
