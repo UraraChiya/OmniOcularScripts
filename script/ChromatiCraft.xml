@@ -96,75 +96,106 @@
         };
     </init>
     <init>
-        /**
-         * 根据目标音高 Key 计算对应的水晶 ID 和和弦 Index
-         * ES5 兼容版本
-         */
-        function solveCrystalMusic(targetKey) {
-            /* 基础定义*/
-            var C4 = 36;
-
-            /* 音高常量映射 */
-            var PITCH = {
-                C4: 36,
-                D4: 38,
-                E4: 40,
-                F4: 41,
-                G4: 43,
-                A4: 45,
-                B4: 47,
-                C5: 48,
-                D5: 50,
-                E5: 52,
-                F5: 53,
-                G5: 55,
-                A5: 57,
-                C6: 60
-            };
-
-            /* 水晶定义 (ID 0-15) */
-            var crystals = [
-                { id: 0, name: 'Black', base: PITCH.C4, minor: false },
-                { id: 1, name: 'Red', base: PITCH.G4, minor: false },
-                { id: 2, name: 'Green', base: PITCH.F4, minor: true },
-                { id: 3, name: 'Brown', base: PITCH.D4, minor: false },
-                { id: 4, name: 'Blue', base: PITCH.E4, minor: false },
-                { id: 5, name: 'Purple', base: PITCH.A4, minor: false },
-                { id: 6, name: 'Cyan', base: PITCH.A4, minor: true },
-                { id: 7, name: 'LightGray', base: PITCH.D5, minor: true },
-                { id: 8, name: 'Gray', base: PITCH.C5, minor: true },
-                { id: 9, name: 'Pink', base: PITCH.F5, minor: false },
-                { id: 10, name: 'Lime', base: PITCH.E5, minor: false },
-                { id: 11, name: 'Yellow', base: PITCH.G5, minor: false },
-                { id: 12, name: 'LightBlue', base: PITCH.A5, minor: false },
-                { id: 13, name: 'Magenta', base: PITCH.B4, minor: false },
-                { id: 14, name: 'Orange', base: PITCH.E4, minor: true },
-                { id: 15, name: 'White', base: PITCH.C6, minor: false }
-            ];
-
-            var results = [];
-
-            /* 使用 forEach (ES5) 和 普通 function */
-            crystals.forEach(function (crystal) {
-                var notes = [];
-                notes[0] = crystal.base;
-                notes[1] = crystal.base + (crystal.minor ? 3 : 4);
-                notes[2] = crystal.base + 7;
-                notes[3] = crystal.base + 12;
-
-                for (var i = 0; i < 4; i++) {
-                    if (notes[i] === targetKey) {
-                        results.push({
-                            crystalId: crystal.id,
-                            crystalName: crystal.name,
-                            chordIdx: i
-                        });
-                    }
-                }
-            });
-
-            return results;
-        }
+        var PITCH_TO_CRYSTALS = {
+            36: [{ id: 0, name: 'Black', idx: 0 }],
+            38: [{ id: 3, name: 'Brown', idx: 0 }],
+            40: [
+                { id: 0, name: 'Black', idx: 1 },
+                { id: 4, name: 'Blue', idx: 0 },
+                { id: 14, name: 'Orange', idx: 0 }
+            ],
+            41: [{ id: 2, name: 'Green', idx: 0 }],
+            42: [{ id: 3, name: 'Brown', idx: 1 }],
+            43: [
+                { id: 0, name: 'Black', idx: 2 },
+                { id: 1, name: 'Red', idx: 0 },
+                { id: 14, name: 'Orange', idx: 1 }
+            ],
+            44: [
+                { id: 2, name: 'Green', idx: 1 },
+                { id: 4, name: 'Blue', idx: 1 }
+            ],
+            45: [
+                { id: 3, name: 'Brown', idx: 2 },
+                { id: 5, name: 'Purple', idx: 0 },
+                { id: 6, name: 'Cyan', idx: 0 }
+            ],
+            47: [
+                { id: 1, name: 'Red', idx: 1 },
+                { id: 4, name: 'Blue', idx: 2 },
+                { id: 13, name: 'Magenta', idx: 0 },
+                { id: 14, name: 'Orange', idx: 2 }
+            ],
+            48: [
+                { id: 0, name: 'Black', idx: 3 },
+                { id: 2, name: 'Green', idx: 2 },
+                { id: 6, name: 'Cyan', idx: 1 },
+                { id: 8, name: 'Gray', idx: 0 }
+            ],
+            49: [{ id: 5, name: 'Purple', idx: 1 }],
+            50: [
+                { id: 1, name: 'Red', idx: 2 },
+                { id: 3, name: 'Brown', idx: 3 },
+                { id: 7, name: 'LightGray', idx: 0 }
+            ],
+            51: [
+                { id: 8, name: 'Gray', idx: 1 },
+                { id: 13, name: 'Magenta', idx: 1 }
+            ],
+            52: [
+                { id: 4, name: 'Blue', idx: 3 },
+                { id: 5, name: 'Purple', idx: 2 },
+                { id: 6, name: 'Cyan', idx: 2 },
+                { id: 10, name: 'Lime', idx: 0 },
+                { id: 14, name: 'Orange', idx: 3 }
+            ],
+            53: [
+                { id: 2, name: 'Green', idx: 3 },
+                { id: 7, name: 'LightGray', idx: 1 },
+                { id: 9, name: 'Pink', idx: 0 }
+            ],
+            54: [{ id: 13, name: 'Magenta', idx: 2 }],
+            55: [
+                { id: 1, name: 'Red', idx: 3 },
+                { id: 8, name: 'Gray', idx: 2 },
+                { id: 11, name: 'Yellow', idx: 0 }
+            ],
+            56: [{ id: 10, name: 'Lime', idx: 1 }],
+            57: [
+                { id: 5, name: 'Purple', idx: 3 },
+                { id: 6, name: 'Cyan', idx: 3 },
+                { id: 7, name: 'LightGray', idx: 2 },
+                { id: 9, name: 'Pink', idx: 1 },
+                { id: 12, name: 'LightBlue', idx: 0 }
+            ],
+            59: [
+                { id: 10, name: 'Lime', idx: 2 },
+                { id: 11, name: 'Yellow', idx: 1 },
+                { id: 13, name: 'Magenta', idx: 3 }
+            ],
+            60: [
+                { id: 8, name: 'Gray', idx: 3 },
+                { id: 9, name: 'Pink', idx: 2 },
+                { id: 15, name: 'White', idx: 0 }
+            ],
+            61: [{ id: 12, name: 'LightBlue', idx: 1 }],
+            62: [
+                { id: 7, name: 'LightGray', idx: 3 },
+                { id: 11, name: 'Yellow', idx: 2 }
+            ],
+            64: [
+                { id: 10, name: 'Lime', idx: 3 },
+                { id: 12, name: 'LightBlue', idx: 2 },
+                { id: 15, name: 'White', idx: 1 }
+            ],
+            65: [{ id: 9, name: 'Pink', idx: 3 }],
+            67: [
+                { id: 11, name: 'Yellow', idx: 3 },
+                { id: 15, name: 'White', idx: 2 }
+            ],
+            69: [{ id: 12, name: 'LightBlue', idx: 3 }],
+            72: [{ id: 15, name: 'White', idx: 3 }]
+        };
     </init>
     <!-- CC 共有内容 -->
     <tileentity id="CC.*">
@@ -272,6 +303,15 @@
             if (nbt.Items[0]) return name(nbt.Items[0]);
         </line>
     </tileentity>
+    <!-- 传送门裂缝 -->
+    <tileentity id="CCTileEntityCrystalPortal">
+        <line displayname="hud.msg.ChromatiCraft.CrystalPortal.Charge">
+            if (nbt.built) return nbt.charge;
+        </line>
+        <line displayname="hud.msg.ChromatiCraft.CrystalPortal.Tuning">
+            if (nbt.built) return nbt.tuning;
+        </line>
+    </tileentity>
     <!-- Puzzle -->
     <!-- 水晶音乐存储 -->
     <tileentity id="CCTileMusicMemory">
@@ -284,14 +324,14 @@
                 for (var i = 0; i < nbt.keys.length; i++) {
                     var key = nbt.keys[i];
                     /* 调用之前定义的解题函数 */
-                    var solutions = solveCrystalMusic(key);
+                    var solutions = PITCH_TO_CRYSTALS[key];
 
                     if (solutions.length > 0) {
                         /* 取第一个可能的解 (通常这就足够了) */
                         var res = solutions[0];
 
                         /* 获取颜色格式代码 (例如 DRED, DPURPLE 等) */
-                        var colorFmt = LUMENIDTOFORMAT[res.crystalId];
+                        var colorFmt = LUMENIDTOFORMAT[res.id];
 
                         /* 格式化输出: 颜色代码 + 颜色名 + 方向箭头 */
                         /* 例如: "Purple ↖" (带颜色) */
@@ -299,13 +339,13 @@
                             i +
                                 TAB +
                                 colorFmt +
-                                res.crystalName +
+                                LUMENIDTOCOLOR[res.id] +
                                 ' ' +
                                 GRAY +
-                                res.crystalId +
+                                res.id +
                                 TAB +
                                 colorFmt +
-                                arrows[res.chordIdx]
+                                arrows[res.idx]
                         );
                     } else {
                         /* 如果找不到对应的解，显示白色未知 */

@@ -32,13 +32,18 @@
                 translate('hud.msg.common.East')
             ];
             for (i = 0; i < 6; i++) {
-                if (nbt['def:' + i]) {
-                    var info = GREEN + directions[i] + ': ' + WHITE + name(nbt['def:' + i]);
+                if (nbt['def:' + i] != undefined) {
+                    nbt.push(GREEN + directions[i] + ': ' + WHITE + name(nbt['def:' + i]));
                     if (nbt['extra:' + i]['priority'] != undefined) {
-                        info += '\\n    ' + GREEN + translate('gui.appliedenergistics2.Priority') + ': ';
-                        info += WHITE + nbt['extra:' + i]['priority'];
+                        results.push(
+                            '  └─' +
+                                GREEN +
+                                translate('gui.appliedenergistics2.Priority') +
+                                ': ' +
+                                WHITE +
+                                nbt['extra:' + i]['priority']
+                        );
                     }
-                    results.push(info);
                 }
             }
             return results.join('\\n  ');
