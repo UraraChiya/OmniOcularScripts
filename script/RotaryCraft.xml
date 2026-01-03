@@ -20,7 +20,7 @@
                 );
             if (req.omega && nbt.omega < req.omega)
                 parts.push(
-                    translate('hud.msg.RotaryCraft.Omega') + ' ' + numberWithCommas(req.omega) + ' s⁻¹'
+                    translate('hud.msg.RotaryCraft.Omega') + ' ' + numberWithCommas(req.omega) + ' rad/s'
                 );
             if (req.torque && nbt.torque < req.torque)
                 parts.push(
@@ -77,7 +77,7 @@
                 var minOmega = getMinOmegaForOneTick(base, factor);
                 if (omega < minOmega) {
                     result += ' (' + translate('hud.msg.RotaryCraft.OneTickRequires');
-                    result += ' ' + numberWithCommas(minOmega) + ' s⁻¹' + ')';
+                    result += ' ' + numberWithCommas(minOmega) + ' rad/s' + ')';
                 }
             }
             return result;
@@ -122,7 +122,7 @@
             if (nbt.torque) return numberWithCommas(nbt.torque) + ' Nm';
         </line>
         <line displayname='hud.msg.RotaryCraft.Omega'>
-            if (nbt.omega) return numberWithCommas(nbt.omega) + ' s⁻¹';
+            if (nbt.omega) return numberWithCommas(nbt.omega) + ' rad/s';
         </line>
     </tileentity>
     <tileentity id="RCblastfurnace">
@@ -172,8 +172,8 @@
             Stage 4 Power: 65536W
             Stage 1 Torque: 512Nm
             Stage 4 Torque: 256Nm
-            Stage 2 Omega: 2048s⁻¹
-            Stage 3 Omega: 8192s⁻¹
+            Stage 2 Omega: 2048rad/s
+            Stage 3 Omega: 8192rad/s
 
             x = Omega
             Stage 1 Time = 900.0-60.0*log_2.0(x+1)
