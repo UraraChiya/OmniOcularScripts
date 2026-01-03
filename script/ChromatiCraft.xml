@@ -213,7 +213,7 @@
             }
             if (result) return result;
         </line>
-        <line displayname="hud.msg.ChromatiCraft.Owner">
+        <line displayname="hud.msg.common.Owner">
             if (nbt.owners[0]) return uuid2name(nbt.owners[0]);
         </line>
         <line displayname="hud.msg.ChromatiCraft.Struct">

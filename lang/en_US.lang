@@ -12,12 +12,20 @@ hud.msg.common.XP=XP
 hud.msg.common.XPLevel=XP Level
 hud.msg.common.XPTotal=XP Total
 hud.msg.common.Process=Process
+hud.msg.common.Owner=Owner
+hud.msg.common.CookTime=Cook Time
+hud.msg.common.BurnTime=Burn Time
+hud.msg.common.EnergyStored=Energy Stored
+hud.msg.common.TimeRemain=Time Remaining
+
+hud.msg.Railcraft.CurrentItemBurnTime=Current Item Burn Time
+hud.msg.Railcraft.Output=Output
+hud.msg.Railcraft.Heat=Heat
 
 hud.msg.appliedenergistics2.Parts=Parts
 
 hud.msg.ChromatiCraft.Place=Placer
 hud.msg.ChromatiCraft.Place.NotSamePlayer=Not Same Player
-hud.msg.ChromatiCraft.Owner=Owner
 hud.msg.ChromatiCraft.CraftRemain=Craft Remaining
 hud.msg.ChromatiCraft.Tier=Tier
 hud.msg.ChromatiCraft.Struct=Structure
