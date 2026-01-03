@@ -248,13 +248,17 @@
                                 );
                             }
                         }
-                        for (var i = 0; i < lumens.length; i += 2) {
-                            if (i + 1 == lumens.length) {
-                                results.push(lumens[i]);
-                            } else {
-                                results.push(lumens[i] + TAB + lumens[i + 1]);
+
+                        for (var i = 0; i < lumens.length; i += 4) {
+                            var row = [];
+                            for (var j = 0; j < 4; j++) {
+                                if (i + j < lumens.length) {
+                                    row.push(lumens[i + j]);
+                                }
                             }
+                            results.push(row.join(TAB));
                         }
+
                         if (lumens.length > 0) return results.join('\\n  ');
                         break;
                     case 'number':
