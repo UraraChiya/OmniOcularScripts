@@ -12,15 +12,15 @@ hud.msg.common.XP=XP
 hud.msg.common.XPLevel=XP 等级
 hud.msg.common.XPTotal=XP 总计
 hud.msg.common.Process=进度
-hud.msg.common.Owner=Owner
-hud.msg.commom.CookTime=烹饪时间
+hud.msg.common.Owner=所有者
+hud.msg.common.CookTime=烹饪时间
+hud.msg.common.BurnTime=燃烧时间
 hud.msg.common.EnergyStored=储存能量
 hud.msg.common.TimeRemain=剩余时间
 
-
-hud.msg.common.Railcraft.CurrentItemBurnTime=当前物品燃烧时间
-hud.msg.common.Railcraft.Output=输出
-hud.msg.common.Railcraft.Heat=热量
+hud.msg.Railcraft.CurrentItemBurnTime=当前物品燃烧时间
+hud.msg.Railcraft.Output=输出
+hud.msg.Railcraft.Heat=热量
 
 hud.msg.appliedenergistics2.Parts=部件
 
