@@ -364,7 +364,7 @@
     </tileentity>
     <!-- 反射迷宫 -->
     <tileentity id="CCTileEntityStructureDataStorage">
-        <line>
+        <line displayname="hud.msg.ChromatiCraft.Puzzle.Solution">
             /* ─ │ ╱ ╲ ◢ ◣ ◤ ◥ ▲ ▶ ▼ ◀ ▀ ▄ ▌ ▐ */
             switch (nbt.extra.level) {
                 case 'mirrortut' /* 1 */:
