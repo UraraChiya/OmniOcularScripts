@@ -1,386 +1,640 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
-    <title>异形数独编辑器 - 逻辑优化版</title>
+    <title>拼图数独求解器</title>
     <style>
-        :root { 
-            --cell-size: 45px; 
-            --label-size: 30px; 
+        :root {
+            --cell-size: 45px;
+            --label-size: 30px;
             --bg-primary: #2a2a2a;
             --bg-secondary: #333;
             --border-color: #444;
             --highlight-color: #f1c40f;
-            --brush-highlight: #fceea7; 
+            --brush-highlight: #fceea7;
         }
-        body { font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif; background: #1a1a1a; color: #eee; display: flex; flex-direction: column; align-items: center; padding: 20px; margin: 0; }
-        
-        .fixed-toolbar { 
-            background: var(--bg-primary); padding: 20px; border-radius: 12px; 
-            display: flex; flex-wrap: wrap; gap: 25px; margin-bottom: 25px; 
-            border: 1px solid var(--border-color); box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+
+        body {
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            background: #1a1a1a;
+            color: #eee;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            margin: 0;
+        }
+
+        .fixed-toolbar {
+            background: var(--bg-primary);
+            padding: 20px;
+            border-radius: 12px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+            margin-bottom: 25px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             align-items: flex-start;
         }
 
-        .tool-group { display: flex; flex-direction: column; gap: 10px; }
-        .tool-label { font-size: 11px; color: #aaa; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
-        .divider { width: 1px; background: var(--border-color); align-self: stretch; margin: 0 5px; }
+        .tool-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .tool-label {
+            font-size: 11px;
+            color: #aaa;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        .divider {
+            width: 1px;
+            background: var(--border-color);
+            align-self: stretch;
+            margin: 0 5px;
+        }
 
         /* 尺寸控制器样式 */
-        .control-row { display: flex; gap: 12px; }
-        .size-control { 
-            display: flex; align-items: center; gap: 2px; background: var(--bg-secondary); 
-            padding: 4px; border-radius: 6px; border: 1px solid var(--border-color); 
+        .control-row {
+            display: flex;
+            gap: 12px;
         }
-        .size-label-span { font-size: 11px; color: #aaa; padding: 0 6px; }
-        .size-input { 
-            width: 36px; background: transparent; border: none; color: var(--highlight-color); 
-            text-align: center; font-size: 15px; font-weight: bold; outline: none; font-family: monospace;
+
+        .size-control {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            background: var(--bg-secondary);
+            padding: 4px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
         }
-        .btn-mini { width: 26px; height: 26px; border-radius: 4px; border: none; background: #444; color: white; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; }
+
+        .size-label-span {
+            font-size: 11px;
+            color: #aaa;
+            padding: 0 6px;
+        }
+
+        .size-input {
+            width: 36px;
+            background: transparent;
+            border: none;
+            color: var(--highlight-color);
+            text-align: center;
+            font-size: 15px;
+            font-weight: bold;
+            outline: none;
+            font-family: monospace;
+        }
+
+        .btn-mini {
+            width: 26px;
+            height: 26px;
+            border-radius: 4px;
+            border: none;
+            background: #444;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
         /* 笔刷样式 */
-        .swatch { 
-            width: 32px; height: 32px; border: 2px solid #555; cursor: pointer; border-radius: 6px; 
-            display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: bold; 
-            transition: all 0.2s; box-sizing: border-box;
+        .swatch {
+            width: 32px;
+            height: 32px;
+            border: 2px solid #555;
+            cursor: pointer;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: bold;
+            transition: all 0.2s;
+            box-sizing: border-box;
         }
-        .swatch:hover { transform: translateY(-2px); border-color: #999; }
-        .swatch.active { border-color: #fff; box-shadow: 0 0 12px rgba(255,255,255,0.5); transform: scale(1.1); z-index: 2; }
 
-        .palette { display: grid; grid-template-columns: repeat(8, 1fr); gap: 6px; }
-        .reg-swatch { background: #444; color: #ccc; border-color: #555; }
-        .val-palette-container { display: flex; flex-direction: column; gap: 8px; }
-        .val-row { display: flex; gap: 6px; }
-        
+        .swatch:hover {
+            transform: translateY(-2px);
+            border-color: #999;
+        }
+
+        .swatch.active {
+            border-color: #fff;
+            box-shadow: 0 0 12px rgba(255, 255, 255, 0.5);
+            transform: scale(1.1);
+            z-index: 2;
+        }
+
+        .palette {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 6px;
+        }
+
+        .reg-swatch {
+            background: #444;
+            color: #ccc;
+            border-color: #555;
+        }
+
+        .val-palette-container {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .val-row {
+            display: flex;
+            gap: 6px;
+        }
+
         /* 棋盘 */
-        .game-viewport { background: var(--bg-primary); padding: 30px; border-radius: 16px; box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
-        .game-layout { display: grid; grid-template-columns: var(--label-size) auto; grid-template-rows: var(--label-size) auto; align-items: center; }
-        #boardContainer { grid-column: 2; grid-row: 2; background: #ccc; border: 3px solid var(--bg-primary); }
-        
-        table { border-collapse: collapse; table-layout: fixed; }
-        td { width: var(--cell-size); height: var(--cell-size); padding: 0; border: 1px solid #bbb; background: #eee; position: relative; text-align: center; vertical-align: middle; }
-        .cell-highlight { background-color: var(--brush-highlight) !important; }
-        .rid-badge { position: absolute; top: 1px; right: 2px; font-size: 8px; color: rgba(0,0,0,0.3); z-index: 1; pointer-events: none; }
-        input.cell-input { width: 100%; height: 100%; border: none; background: transparent; text-align: center; font-size: 20px; font-weight: bold; outline: none; cursor: default; }
-        input.cell-input.is-x { color: #ff4757; font-weight: normal; font-size: 18px; }
+        .game-viewport {
+            background: var(--bg-primary);
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
 
-        .b-t { border-top: 3px solid #111 !important; } .b-b { border-bottom: 3px solid #111 !important; }
-        .b-l { border-left: 3px solid #111 !important; } .b-r { border-right: 3px solid #111 !important; }
-        .label { display: flex; align-items: center; justify-content: center; font-size: 12px; color: #777; font-family: monospace; }
-        .coord-container.cols { grid-column: 2; display: flex; }
-        .coord-container.rows { grid-row: 2; display: flex; flex-direction: column; }
-        .label.col { width: var(--cell-size); }
-        .label.row { height: var(--cell-size); width: var(--label-size); }
+        .game-layout {
+            display: grid;
+            grid-template-columns: var(--label-size) auto;
+            grid-template-rows: var(--label-size) auto;
+            align-items: center;
+        }
 
-        .solve-section { margin-top: 25px; text-align: center; }
-        .btn-solve { background: #27ae60; color: white; padding: 12px 35px; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; }
-        #status { color: var(--highlight-color); font-weight: bold; margin-bottom: 10px; }
+        #boardContainer {
+            grid-column: 2;
+            grid-row: 2;
+            background: #ccc;
+            border: 3px solid var(--bg-primary);
+        }
+
+        table {
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
+
+        td {
+            width: var(--cell-size);
+            height: var(--cell-size);
+            padding: 0;
+            border: 1px solid #bbb;
+            background: #eee;
+            position: relative;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .cell-highlight {
+            background-color: var(--brush-highlight) !important;
+        }
+
+        .rid-badge {
+            position: absolute;
+            top: 1px;
+            right: 2px;
+            font-size: 8px;
+            color: rgba(0, 0, 0, 0.3);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        input.cell-input {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: transparent;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            outline: none;
+            cursor: pointer;
+        }
+
+        input.cell-input.is-x {
+            color: #ff4757;
+            font-weight: normal;
+            font-size: 18px;
+        }
+
+        .b-t {
+            border-top: 3px solid #111 !important;
+        }
+
+        .b-b {
+            border-bottom: 3px solid #111 !important;
+        }
+
+        .b-l {
+            border-left: 3px solid #111 !important;
+        }
+
+        .b-r {
+            border-right: 3px solid #111 !important;
+        }
+
+        .label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: #777;
+            font-family: monospace;
+        }
+
+        .coord-container.cols {
+            grid-column: 2;
+            display: flex;
+        }
+
+        .coord-container.rows {
+            grid-row: 2;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .label.col {
+            width: var(--cell-size);
+        }
+
+        .label.row {
+            height: var(--cell-size);
+            width: var(--label-size);
+        }
+
+        .solve-section {
+            margin-top: 25px;
+            text-align: center;
+        }
+
+        .btn-solve {
+            background: #27ae60;
+            color: white;
+            padding: 12px 35px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        #status {
+            color: var(--highlight-color);
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
     </style>
 </head>
+
 <body oncontextmenu="return false;">
 
-<div class="fixed-toolbar">
-    <div class="tool-group">
-        <span class="tool-label">1. 区域选择 (绘制分块)</span>
-        <div class="palette" id="regPalette"></div>
-    </div>
-
-    <div class="divider"></div>
-
-    <div class="tool-group">
-        <span class="tool-label">2. 棋盘尺寸</span>
-        <div class="control-row">
-            <div class="size-control">
-                <span class="size-label-span">行</span>
-                <button class="btn-mini" onclick="resize(-1, 0)">-</button>
-                <input type="text" class="size-input" id="rowInput" value="6" onchange="manualResize()">
-                <button class="btn-mini" onclick="resize(1, 0)">+</button>
-            </div>
-            <div class="size-control">
-                <span class="size-label-span">列</span>
-                <button class="btn-mini" onclick="resize(0, -1)">-</button>
-                <input type="text" class="size-input" id="colInput" value="6" onchange="manualResize()">
-                <button class="btn-mini" onclick="resize(0, 1)">+</button>
-            </div>
+    <div class="fixed-toolbar">
+        <div class="tool-group">
+            <span class="tool-label">1. 区域选择 (绘制分块)</span>
+            <div class="palette" id="regPalette"></div>
         </div>
-        <div style="display:flex; gap:5px; margin-top:5px;">
-            <button onclick="clearNumbers()" style="background:#e67e22; border:none; color:white; padding:5px 10px; border-radius:4px; cursor:pointer; font-size:11px;">清空数字</button>
-            <button onclick="clearRegions()" style="background:#c0392b; border:none; color:white; padding:5px 10px; border-radius:4px; cursor:pointer; font-size:11px;">重置区域</button>
-        </div>
-    </div>
 
-    <div class="divider"></div>
+        <div class="divider"></div>
 
-    <div class="tool-group">
-        <span class="tool-label">3. 数字选择 (填数 & 高亮)</span>
-        <div class="val-palette-container">
-            <div class="val-row" id="valRow1"></div>
-            <div class="val-row" id="valRow2"></div>
-            <div class="val-row">
-                <div id="vbrush-mouse" class="swatch reg-swatch active" onclick="selectValBrush('mouse')">🖱️</div>
-                <div id="vbrush--2" class="swatch reg-swatch" style="color:#ff4757" onclick="selectValBrush(-2)">❌</div>
-                <div id="vbrush--3" class="swatch reg-swatch" onclick="selectValBrush(-3)">🧽</div>
-                <span style="font-size: 10px; color: #666; align-self: center; margin-left: 5px;">功能键</span>
+        <div class="tool-group">
+            <span class="tool-label">2. 棋盘尺寸</span>
+            <div class="control-row">
+                <div class="size-control">
+                    <span class="size-label-span">行</span>
+                    <button class="btn-mini" onclick="resize(-1, 0)">-</button>
+                    <input type="text" class="size-input" id="rowInput" value="6" onchange="manualResize()">
+                    <button class="btn-mini" onclick="resize(1, 0)">+</button>
+                </div>
+                <div class="size-control">
+                    <span class="size-label-span">列</span>
+                    <button class="btn-mini" onclick="resize(0, -1)">-</button>
+                    <input type="text" class="size-input" id="colInput" value="6" onchange="manualResize()">
+                    <button class="btn-mini" onclick="resize(0, 1)">+</button>
+                </div>
+            </div>
+            <div style="display:flex; gap:5px; margin-top:5px;">
+                <button onclick="clearNumbers()"
+                    style="background:#e67e22; border:none; color:white; padding:5px 10px; border-radius:4px; cursor:pointer; font-size:11px;">清空数字</button>
+                <button onclick="clearRegions()"
+                    style="background:#c0392b; border:none; color:white; padding:5px 10px; border-radius:4px; cursor:pointer; font-size:11px;">重置区域</button>
             </div>
         </div>
+
+        <div class="divider"></div>
+
+        <div class="tool-group">
+            <span class="tool-label">3. 数字选择 (填数 & 高亮)</span>
+            <div class="val-palette-container">
+                <div class="val-row" id="valRow1"></div>
+                <div class="val-row" id="valRow2"></div>
+                <div class="val-row">
+                    <div id="vbrush-mouse" class="swatch reg-swatch active" onclick="selectValBrush('mouse')">🖱️</div>
+                    <div id="vbrush--2" class="swatch reg-swatch" style="color:#ff4757" onclick="selectValBrush(-2)">❌
+                    </div>
+                    <div id="vbrush--3" class="swatch reg-swatch" onclick="selectValBrush(-3)">🧽</div>
+                    <span style="font-size: 10px; color: #666; align-self: center; margin-left: 5px;">功能键</span>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
 
-<div class="game-viewport">
-    <div class="game-layout">
-        <div class="coord-container cols" id="colHeader"></div>
-        <div class="coord-container rows" id="rowHeader"></div>
-        <div id="boardContainer"></div>
+    <div class="game-viewport">
+        <div class="game-layout">
+            <div class="coord-container cols" id="colHeader"></div>
+            <div class="coord-container rows" id="rowHeader"></div>
+            <div id="boardContainer"></div>
+        </div>
     </div>
-</div>
 
-<div class="solve-section">
-    <div id="status">准备就绪</div>
-    <div id="counter" style="font-size: 12px; color: #777; font-family: monospace; height: 20px;"></div>
-    <button id="solveBtn" class="btn-solve" onclick="startSolving()">开始求解 (Solve)</button>
-    <button id="stopBtn" class="btn-solve" style="background:#c0392b; display:none;" onclick="stopSolving()">停止</button>
-</div>
+    <div class="solve-section">
+        <div id="status">准备就绪</div>
+        <div id="counter" style="font-size: 12px; color: #777; font-family: monospace; height: 20px;"></div>
+        <button id="solveBtn" class="btn-solve" onclick="startSolving()">开始求解 (Solve)</button>
+        <button id="stopBtn" class="btn-solve" style="background:#c0392b; display:none;"
+            onclick="stopSolving()">停止</button>
+    </div>
 
-<script>
-const COLOR_MAP = {
-    0: '#000000', 1: '#FF0000', 2: '#00AA00', 3: '#8B4513', 4: '#0000FF', 5: '#800080', 6: '#00CED1', 7: '#A9A9A9',
-    8: '#666666', 9: '#FFC0CB', 10: '#32CD32', 11: '#FFD700', 12: '#87CEEB', 13: '#FF00FF', 14: '#FFA500', 15: '#FFFFFF'
-};
+    <script>
+        const COLOR_MAP = {
+            0: '#000000', 1: '#FF0000', 2: '#00AA00', 3: '#8B4513', 4: '#0000FF', 5: '#800080', 6: '#00CED1', 7: '#A9A9A9',
+            8: '#666666', 9: '#FFC0CB', 10: '#32CD32', 11: '#FFD700', 12: '#87CEEB', 13: '#FF00FF', 14: '#FFA500', 15: '#FFFFFF'
+        };
 
-let rows = 6, cols = 6;
-let grid = Array(rows).fill().map(() => Array(cols).fill(-1));
-let regions = Array(rows).fill().map(() => Array(cols).fill(0));
-let activeReg = null;
-let activeVal = 'mouse';
-let isMouseDown = false;
-let stopFlag = false;
-let iterations = 0;
+        let rows = 6, cols = 6;
+        let grid = Array(rows).fill().map(() => Array(cols).fill(-1));
+        let regions = Array(rows).fill().map(() => Array(cols).fill(0));
+        let activeReg = null;
+        let activeVal = 'mouse';
+        let isMouseDown = false;
+        let stopFlag = false;
+        let iterations = 0;
 
-function initPalettes() {
-    const rp = document.getElementById('regPalette');
-    rp.innerHTML = '';
-    for (let i = 0; i < 16; i++) {
-        const div = document.createElement('div');
-        div.className = 'swatch reg-swatch';
-        div.id = `rbrush-${i}`; div.innerText = i;
-        div.onclick = () => selectRegBrush(i);
-        rp.appendChild(div);
-    }
-    const r1 = document.getElementById('valRow1'); r1.innerHTML = '';
-    for (let i = 0; i <= 7; i++) r1.appendChild(createValSwatch(i));
-    const r2 = document.getElementById('valRow2'); r2.innerHTML = '';
-    for (let i = 8; i <= 15; i++) r2.appendChild(createValSwatch(i));
-}
+        function initPalettes() {
+            const rp = document.getElementById('regPalette');
+            rp.innerHTML = '';
+            for (let i = 0; i < 16; i++) {
+                const div = document.createElement('div');
+                div.className = 'swatch reg-swatch';
+                div.id = `rbrush-${i}`; div.innerText = i;
+                div.onclick = () => selectRegBrush(i);
+                rp.appendChild(div);
+            }
+            const r1 = document.getElementById('valRow1'); r1.innerHTML = '';
+            for (let i = 0; i <= 7; i++) r1.appendChild(createValSwatch(i));
+            const r2 = document.getElementById('valRow2'); r2.innerHTML = '';
+            for (let i = 8; i <= 15; i++) r2.appendChild(createValSwatch(i));
+        }
 
-function createValSwatch(val) {
-    const div = document.createElement('div');
-    div.className = 'swatch'; div.id = `vbrush-${val}`;
-    div.style.backgroundColor = COLOR_MAP[val];
-    div.style.color = [6, 7, 9, 10, 11, 12, 14, 15].includes(val) ? '#000' : '#fff';
-    div.innerText = val;
-    div.onclick = () => selectValBrush(val);
-    return div;
-}
+        function createValSwatch(val) {
+            const div = document.createElement('div');
+            div.className = 'swatch'; div.id = `vbrush-${val}`;
+            div.style.backgroundColor = COLOR_MAP[val];
+            div.style.color = [6, 7, 9, 10, 11, 12, 14, 15].includes(val) ? '#000' : '#fff';
+            div.innerText = val;
+            div.onclick = () => selectValBrush(val);
+            return div;
+        }
 
-function selectRegBrush(id) { activeReg = id; activeVal = null; updateUI(); renderBoard(); }
-function selectValBrush(val) { activeVal = val; activeReg = null; updateUI(); renderBoard(); }
+        function selectRegBrush(id) { activeReg = id; activeVal = null; updateUI(); renderBoard(); }
+        function selectValBrush(val) { activeVal = val; activeReg = null; updateUI(); renderBoard(); }
 
-function updateUI() {
-    document.querySelectorAll('.reg-swatch').forEach(s => s.classList.remove('active'));
-    if (activeReg !== null) document.getElementById(`rbrush-${activeReg}`).classList.add('active');
-    document.querySelectorAll('.swatch:not(.reg-swatch)').forEach(s => s.classList.remove('active'));
-    document.getElementById('vbrush-mouse').classList.remove('active');
-    document.getElementById('vbrush--2').classList.remove('active');
-    document.getElementById('vbrush--3').classList.remove('active');
-    if (activeVal !== null) {
-        const tid = activeVal === 'mouse' ? 'mouse' : activeVal;
-        const btn = document.getElementById(`vbrush-${tid}`);
-        if(btn) btn.classList.add('active');
-    }
-}
+        function updateUI() {
+            document.querySelectorAll('.reg-swatch').forEach(s => s.classList.remove('active'));
+            if (activeReg !== null) document.getElementById(`rbrush-${activeReg}`).classList.add('active');
+            document.querySelectorAll('.swatch:not(.reg-swatch)').forEach(s => s.classList.remove('active'));
 
-function renderBoard() {
-    document.getElementById('rowInput').value = rows;
-    document.getElementById('colInput').value = cols;
-    const container = document.getElementById('boardContainer');
-    const ch = document.getElementById('colHeader'); ch.innerHTML = '';
-    const rh = document.getElementById('rowHeader'); rh.innerHTML = '';
-    for(let i=1; i<=cols; i++) ch.innerHTML += `<div class="label col">${i}</div>`;
-    for(let i=1; i<=rows; i++) rh.innerHTML += `<div class="label row">${i}</div>`;
+            document.getElementById('vbrush-mouse').classList.remove('active');
+            document.getElementById('vbrush--2').classList.remove('active');
+            document.getElementById('vbrush--3').classList.remove('active');
 
-    let table = document.createElement('table');
-    for (let r = 0; r < rows; r++) {
-        let tr = document.createElement('tr');
-        for (let c = 0; c < cols; c++) {
-            let td = document.createElement('td');
-            let rid = regions[r][c];
-            if (activeVal !== null && typeof activeVal === 'number' && activeVal >= 0 && grid[r][c] === activeVal) td.classList.add('cell-highlight');
-            if (r === 0 || regions[r-1][c] !== rid) td.classList.add('b-t');
-            if (r === rows - 1 || regions[r+1][c] !== rid) td.classList.add('b-b');
-            if (c === 0 || regions[r][c-1] !== rid) td.classList.add('b-l');
-            if (c === cols - 1 || regions[r][c+1] !== rid) td.classList.add('b-r');
-            
-            let badge = document.createElement('div');
-            badge.className = 'rid-badge'; badge.innerText = rid;
-            td.appendChild(badge);
+            if (activeVal !== null) {
+                const tid = activeVal === 'mouse' ? 'mouse' : activeVal;
+                const btn = document.getElementById(`vbrush-${tid}`);
+                if (btn) btn.classList.add('active');
+            }
+        }
 
-            let input = document.createElement('input');
-            input.className = 'cell-input';
-            input.readOnly = activeVal !== 'mouse';
-            if (grid[r][c] === -2) { input.value = "❌"; input.classList.add('is-x'); }
-            else { input.value = grid[r][c] === -1 ? "" : grid[r][c]; if (grid[r][c] >= 0) input.style.color = COLOR_MAP[grid[r][c]]; }
+        // 修改后的 renderBoard 函数中的 input 部分逻辑
+        function renderBoard() {
+            document.getElementById('rowInput').value = rows;
+            document.getElementById('colInput').value = cols;
+            const container = document.getElementById('boardContainer');
+            const ch = document.getElementById('colHeader'); ch.innerHTML = '';
+            const rh = document.getElementById('rowHeader'); rh.innerHTML = '';
+            for (let i = 1; i <= cols; i++) ch.innerHTML += `<div class="label col">${i}</div>`;
+            for (let i = 1; i <= rows; i++) rh.innerHTML += `<div class="label row">${i}</div>`;
 
-            td.onmousedown = (e) => { isMouseDown = true; if (e.button === 2) { selectRegBrush(regions[r][c]); return; } handleCellAction(r, c); };
-            td.onmouseenter = () => { if(isMouseDown) handleCellAction(r, c); };
-            input.onkeydown = (e) => {
-                if(activeVal !== 'mouse') return;
-                if(e.key === "Backspace" || e.key === "Delete") { grid[r][c] = -1; renderBoard(); }
-                else if(e.key.toLowerCase() === 'x') { grid[r][c] = -2; renderBoard(); }
-                else if (e.key >= '0' && e.key <= '9') {
-                    let cur = grid[r][c] >= 0 ? grid[r][c].toString() : "";
-                    let next = parseInt(cur + e.key);
-                    grid[r][c] = next <= 15 ? next : parseInt(e.key);
-                    renderBoard();
+            let table = document.createElement('table');
+            for (let r = 0; r < rows; r++) {
+                let tr = document.createElement('tr');
+                for (let c = 0; c < cols; c++) {
+                    let td = document.createElement('td');
+                    let rid = regions[r][c];
+
+                    if (activeVal !== null && typeof activeVal === 'number' && activeVal >= 0 && grid[r][c] === activeVal) td.classList.add('cell-highlight');
+                    if (r === 0 || regions[r - 1][c] !== rid) td.classList.add('b-t');
+                    if (r === rows - 1 || regions[r + 1][c] !== rid) td.classList.add('b-b');
+                    if (c === 0 || regions[r][c - 1] !== rid) td.classList.add('b-l');
+                    if (c === cols - 1 || regions[r][c + 1] !== rid) td.classList.add('b-r');
+
+                    let badge = document.createElement('div');
+                    badge.className = 'rid-badge'; badge.innerText = rid;
+                    td.appendChild(badge);
+
+                    let input = document.createElement('input');
+                    input.className = 'cell-input';
+                    input.readOnly = (activeVal !== 'mouse');
+
+                    if (grid[r][c] === -2) {
+                        input.value = "❌";
+                        input.classList.add('is-x');
+                    } else {
+                        input.value = grid[r][c] === -1 ? "" : grid[r][c];
+                        if (grid[r][c] >= 0) input.style.color = COLOR_MAP[grid[r][c]];
+                    }
+
+                    // --- 核心优化点：点击格子立即聚焦 ---
+                    td.onmousedown = (e) => {
+                        if (e.button === 2) {
+                            selectRegBrush(regions[r][c]);
+                            return;
+                        }
+                        if (activeVal === 'mouse') {
+                            input.focus(); // 强制聚焦，解决“点两下”问题
+                        } else {
+                            isMouseDown = true;
+                            handleCellAction(r, c);
+                        }
+                    };
+
+                    td.onmouseenter = () => { if (isMouseDown) handleCellAction(r, c); };
+
+                    input.onkeydown = (e) => {
+                        if (activeVal !== 'mouse') return;
+
+                        if (e.key === "Backspace" || e.key === "Delete") {
+                            grid[r][c] = -1;
+                            input.value = "";
+                        } else if (e.key.toLowerCase() === 'x') {
+                            grid[r][c] = -2;
+                            renderBoard(); // ❌ 需要重新渲染样式
+                        } else if (e.key >= '0' && e.key <= '9') {
+                            let cur = (grid[r][c] >= 0) ? grid[r][c].toString() : "";
+                            let next = parseInt(cur + e.key);
+                            grid[r][c] = next <= 15 ? next : parseInt(e.key);
+
+                            input.value = grid[r][c];
+                            input.style.color = COLOR_MAP[grid[r][c]];
+                            e.preventDefault();
+                        }
+                    };
+
+                    // 输入完成离开后，刷新一次以防万一
+                    input.onblur = () => {
+                        if (activeVal === 'mouse') {
+                            // 延迟一丁点时间刷新，避免阻断点击下一个格子的事件流
+                            setTimeout(() => { if (!document.activeElement.classList.contains('cell-input')) renderBoard(); }, 100);
+                        }
+                    };
+
+                    td.appendChild(input);
+                    tr.appendChild(td);
                 }
-            };
-            td.appendChild(input); tr.appendChild(td);
+                table.appendChild(tr);
+            }
+            container.innerHTML = ""; container.appendChild(table);
         }
-        table.appendChild(tr);
-    }
-    container.innerHTML = ""; container.appendChild(table);
-}
-
-function handleCellAction(r, c) {
-    if (activeReg !== null) regions[r][c] = activeReg;
-    else if (activeVal === -3) grid[r][c] = -1;
-    else if (activeVal === -2) grid[r][c] = -2;
-    else if (typeof activeVal === 'number') grid[r][c] = activeVal;
-    renderBoard();
-}
-
-window.onmouseup = () => isMouseDown = false;
-
-function resize(dr, dc) {
-    let nr = rows + dr, nc = cols + dc;
-    if (nr < 2 || nc < 2) return;
-    updateGridSize(nr, nc);
-}
-
-function manualResize() {
-    let nr = parseInt(document.getElementById('rowInput').value);
-    let nc = parseInt(document.getElementById('colInput').value);
-    if (isNaN(nr) || isNaN(nc) || nr < 2 || nc < 2) return;
-    updateGridSize(nr, nc);
-}
-
-function updateGridSize(nr, nc) {
-    let oldG = grid, oldR = regions;
-    grid = Array(nr).fill().map((_, r) => Array(nc).fill().map((_, c) => (oldG[r] && oldG[r][c] !== undefined) ? oldG[r][c] : -1));
-    regions = Array(nr).fill().map((_, r) => Array(nc).fill().map((_, c) => (oldR[r] && oldR[r][c] !== undefined) ? oldR[r][c] : 0));
-    rows = nr; cols = nc; renderBoard();
-}
-
-function clearNumbers() { grid = grid.map(r => r.fill(-1)); renderBoard(); }
-function clearRegions() { regions = regions.map(r => r.fill(0)); renderBoard(); }
-
-// --- 求解逻辑 ---
-function getConstraintGroups() {
-    const groups = []; const v = Array(rows).fill().map(() => Array(cols).fill(false));
-    for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) if (!v[r][c]) {
-        const id = regions[r][c], g = [], q = [[r, c]]; v[r][c] = true;
-        while (q.length > 0) {
-            const [cr, cc] = q.shift(); g.push([cr, cc]);
-            [[cr-1, cc], [cr+1, cc], [cr, cc-1], [cr, cc+1]].forEach(([nr, nc]) => {
-                if (nr >= 0 && nr < rows && nc >= 0 && nc < cols && !v[nr][nc] && regions[nr][nc] === id) { v[nr][nc] = true; q.push([nr, nc]); }
-            });
+        function handleCellAction(r, c) {
+            if (activeReg !== null) regions[r][c] = activeReg;
+            else if (activeVal === -3) grid[r][c] = -1;
+            else if (activeVal === -2) grid[r][c] = -2;
+            else if (typeof activeVal === 'number') grid[r][c] = activeVal;
+            renderBoard();
         }
-        groups.push(g);
-    }
-    return groups;
-}
 
-// 核心优化：验证每个区域内非❌的格子数量，超过16则判定无效。不需要每个区域都是16个格子。
-function preValidate(g, groups) {
-    for (let group of groups) {
-        let validSlots = 0;
-        for (let [r, c] of group) {
-            if (g[r][c] !== -2) validSlots++;
+        window.onmouseup = () => isMouseDown = false;
+
+        function resize(dr, dc) {
+            let nr = rows + dr, nc = cols + dc;
+            if (nr < 2 || nc < 2) return;
+            updateGridSize(nr, nc);
         }
-        if (validSlots > 16) return false; // 剪枝点
-    }
-    return true;
-}
 
-async function solveAsync(vals, g, groups) {
-    if (stopFlag) return false;
-    if (++iterations % 5000 === 0) { 
-        document.getElementById('counter').innerText = `已尝试: ${iterations.toLocaleString()}`; 
-        await new Promise(r => setTimeout(r, 0)); 
-    }
-    
-    let r = -1, c = -1, min = 101;
-    for(let i=0; i<rows; i++) for(let j=0; j<cols; j++) {
-        if(g[i][j] === -1) {
-            let possible = vals.filter(v => isSafe(g, i, j, v, groups));
-            if (possible.length === 0) return false;
-            if(possible.length < min) { min = possible.length; r = i; c = j; }
+        function manualResize() {
+            let nr = parseInt(document.getElementById('rowInput').value);
+            let nc = parseInt(document.getElementById('colInput').value);
+            if (isNaN(nr) || isNaN(nc) || nr < 2 || nc < 2) return;
+            updateGridSize(nr, nc);
         }
-    }
-    if (r === -1) return true;
 
-    for (let v of vals) {
-        if (isSafe(g, r, c, v, groups)) {
-            g[r][c] = v;
-            if (await solveAsync(vals, g, groups)) return true;
-            g[r][c] = -1;
+        function updateGridSize(nr, nc) {
+            let oldG = grid, oldR = regions;
+            grid = Array(nr).fill().map((_, r) => Array(nc).fill().map((_, c) => (oldG[r] && oldG[r][c] !== undefined) ? oldG[r][c] : -1));
+            regions = Array(nr).fill().map((_, r) => Array(nc).fill().map((_, c) => (oldR[r] && oldR[r][c] !== undefined) ? oldR[r][c] : 0));
+            rows = nr; cols = nc; renderBoard();
         }
-    }
-    return false;
-}
 
-function isSafe(g, r, c, v, groups) {
-    // ❌ 不参与约束检查，跳过
-    if (g[r][c] === -2) return true;
-    
-    // 行列重复性检查
-    for(let j=0; j<cols; j++) if(j!==c && g[r][j] === v) return false;
-    for(let i=0; i<rows; i++) if(i!==r && g[i][c] === v) return false;
-    
-    // 区域重复性检查
-    const group = groups.find(gp => gp.some(co => co[0] === r && co[1] === c));
-    for (let [gr, gc] of group) if ((gr!==r || gc!==c) && g[gr][gc] === v) return false;
-    
-    return true;
-}
+        function clearNumbers() { grid = grid.map(r => r.fill(-1)); renderBoard(); }
+        function clearRegions() { regions = regions.map(r => r.fill(0)); renderBoard(); }
 
-async function startSolving() {
-    stopFlag = false; iterations = 0;
-    const groups = getConstraintGroups();
-    
-    // 全局预检
-    if (!preValidate(grid, groups)) {
-        document.getElementById('status').innerText = "❌ 错误: 存在区域非❌格子 > 16";
-        return;
-    }
+        function getConstraintGroups() {
+            const groups = []; const v = Array(rows).fill().map(() => Array(cols).fill(false));
+            for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) if (!v[r][c]) {
+                const id = regions[r][c], g = [], q = [[r, c]]; v[r][c] = true;
+                while (q.length > 0) {
+                    const [cr, cc] = q.shift(); g.push([cr, cc]);
+                    [[cr - 1, cc], [cr + 1, cc], [cr, cc - 1], [cr, cc + 1]].forEach(([nr, nc]) => {
+                        if (nr >= 0 && nr < rows && nc >= 0 && nc < cols && !v[nr][nc] && regions[nr][nc] === id) { v[nr][nc] = true; q.push([nr, nc]); }
+                    });
+                }
+                groups.push(g);
+            }
+            return groups;
+        }
 
-    document.getElementById('solveBtn').style.display = 'none';
-    document.getElementById('stopBtn').style.display = 'inline-block';
-    document.getElementById('status').innerText = "求解中...";
-    
-    const workingGrid = JSON.parse(JSON.stringify(grid));
-    const success = await solveAsync(Array.from({length:16}, (_,i)=>i), workingGrid, groups);
-    
-    if (success) { grid = workingGrid; renderBoard(); document.getElementById('status').innerText = "✅ 求解成功"; }
-    else { document.getElementById('status').innerText = stopFlag ? "⏹ 已停止" : "❌ 此配置无解"; }
-    
-    document.getElementById('solveBtn').style.display = 'inline-block'; 
-    document.getElementById('stopBtn').style.display = 'none';
-}
-function stopSolving() { stopFlag = true; }
+        function preValidate(g, groups) {
+            for (let group of groups) {
+                let validSlots = 0;
+                for (let [r, c] of group) {
+                    if (g[r][c] !== -2) validSlots++;
+                }
+                if (validSlots > 16) return false;
+            }
+            return true;
+        }
 
-initPalettes();
-renderBoard();
-</script>
+        async function solveAsync(vals, g, groups) {
+            if (stopFlag) return false;
+            if (++iterations % 5000 === 0) {
+                document.getElementById('counter').innerText = `已尝试: ${iterations.toLocaleString()}`;
+                await new Promise(r => setTimeout(r, 0));
+            }
+
+            let r = -1, c = -1, min = 101;
+            for (let i = 0; i < rows; i++) for (let j = 0; j < cols; j++) {
+                if (g[i][j] === -1) {
+                    let possible = vals.filter(v => isSafe(g, i, j, v, groups));
+                    if (possible.length === 0) return false;
+                    if (possible.length < min) { min = possible.length; r = i; c = j; }
+                }
+            }
+            if (r === -1) return true;
+
+            for (let v of vals) {
+                if (isSafe(g, r, c, v, groups)) {
+                    g[r][c] = v;
+                    if (await solveAsync(vals, g, groups)) return true;
+                    g[r][c] = -1;
+                }
+            }
+            return false;
+        }
+
+        function isSafe(g, r, c, v, groups) {
+            if (g[r][c] === -2) return true;
+            for (let j = 0; j < cols; j++) if (j !== c && g[r][j] === v) return false;
+            for (let i = 0; i < rows; i++) if (i !== r && g[i][c] === v) return false;
+            const group = groups.find(gp => gp.some(co => co[0] === r && co[1] === c));
+            if (group) {
+                for (let [gr, gc] of group) if ((gr !== r || gc !== c) && g[gr][gc] === v) return false;
+            }
+            return true;
+        }
+
+        async function startSolving() {
+            stopFlag = false; iterations = 0;
+            const groups = getConstraintGroups();
+            if (!preValidate(grid, groups)) {
+                document.getElementById('status').innerText = "❌ 错误: 存在区域非❌格子 > 16";
+                return;
+            }
+            document.getElementById('solveBtn').style.display = 'none';
+            document.getElementById('stopBtn').style.display = 'inline-block';
+            document.getElementById('status').innerText = "求解中...";
+            const workingGrid = JSON.parse(JSON.stringify(grid));
+            const success = await solveAsync(Array.from({ length: 16 }, (_, i) => i), workingGrid, groups);
+            if (success) { grid = workingGrid; renderBoard(); document.getElementById('status').innerText = "✅ 求解成功"; }
+            else { document.getElementById('status').innerText = stopFlag ? "⏹ 已停止" : "❌ 此配置无解"; }
+            document.getElementById('solveBtn').style.display = 'inline-block';
+            document.getElementById('stopBtn').style.display = 'none';
+        }
+        function stopSolving() { stopFlag = true; }
+
+        initPalettes();
+        renderBoard();
+    </script>
 </body>
+
 </html>
