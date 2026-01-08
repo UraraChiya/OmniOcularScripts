@@ -33,7 +33,7 @@
             ];
             for (i = 0; i < 6; i++) {
                 if (nbt['def:' + i] != undefined) {
-                    nbt.push(GREEN + directions[i] + ': ' + WHITE + name(nbt['def:' + i]));
+                    nbt.push(customLabelFormat(directions[i], name(nbt['def:' + i])));
                     if (nbt['extra:' + i]['priority'] != undefined) {
                         results.push(
                             '  └─' +

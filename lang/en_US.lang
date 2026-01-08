@@ -12,6 +12,7 @@ hud.msg.common.XP=XP
 hud.msg.common.XPLevel=XP Level
 hud.msg.common.XPTotal=XP Total
 hud.msg.common.Process=Process
+hud.msg.common.Info=Info
 hud.msg.common.Owner=Owner
 hud.msg.common.CookTime=Cook Time
 hud.msg.common.BurnTime=Burn Time

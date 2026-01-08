@@ -1,7 +1,7 @@
 <!--Author: UraraChiya-->
 <!--Date: 2025/12/22-->
 <!--Version: V33a-->
-<!--Requie: minecraft.xml-->
+<!--Requie: OmniOcular.xml-->
 <oo>
     <init>
         function meetsRequirements(nbt, req) {
@@ -108,6 +108,56 @@
                     return { omega: 4000, torque: 278 };
                     break;
             }
+        }
+    </init>
+    <init>
+        function getAllTheInfo(param) {
+            /* 初始化基础变量，使用 || 确保默认值 */
+            var power = param.power || 0;
+            var torque = param.torque || 0;
+            var omega = param.omega || 0;
+            var hasLimit = !!param.hasLimit; /* 是否是象变速箱那样有上限限制*/
+            var req = param.req || {}; /* 若有上限限制，则 req 为上限限制，若没有，则 req 为下限限制*/
+            var process = param.process || {};
+
+            /* 返回值列表 */
+            var results = ['\\n'];
+
+            var formatInfo = function (val, reqVal, unit, translationKey) {
+                var label = translate(translationKey);
+                var formattedVal = numberWithCommas(val);
+
+                if (reqVal) {
+                    /* 判定逻辑说明：*/
+                    /* 1. 如果是上限模式 (hasLimit)，绿色条件是 val <= reqVal */
+                    /* 2. 如果是下限模式 (!hasLimit)，绿色条件是 val >= reqVal */
+                    var isGreen = hasLimit ? val <= reqVal : val >= reqVal;
+                    var color = isGreen ? GREEN : RED;
+
+                    return customLabelFormat(
+                        label,
+                        color + formattedVal + ' / ' + numberWithCommas(reqVal) + ' ' + unit
+                    );
+                }
+
+                return customLabelFormat(label, GREEN + formattedVal + ' ' + unit);
+            };
+
+            /* 处理三项核心参数 */
+            results.push(formatInfo(power, req.power, 'W', 'hud.msg.RotaryCraft.Power'));
+            results.push(formatInfo(torque, req.torque, 'Nm', 'hud.msg.RotaryCraft.Torque'));
+            results.push(formatInfo(omega, req.omega, 'rad/s', 'hud.msg.RotaryCraft.Omega'));
+
+            /* 处理进度信息 */
+            if (process && process.base && process.factor) {
+                results.push(
+                    customLabelFormat(
+                        translate('hud.msg.common.Process'),
+                        getProcessText(process.curTime, omega, process.base, process.factor)
+                    )
+                );
+            }
+            return results.join('\\n  ');
         }
     </init>
     <!--通用信息显示-->
@@ -274,6 +324,25 @@
         </line>
         <line displayname='hud.msg.RotaryCraft.Requirements'>
             return getRequirementText(nbt, { power: 16384, omega: 4096 });
+        </line>
+    </tileentity>
+    <tileentity id="RCbedrockbreaker">
+        <line displayname='hud.msg.common.Info'>
+            return getAllTheInfo({
+                power: nbt.power,
+                torque: nbt.torque,
+                omega: nbt.omega,
+                hasLimit: false,
+                req: {
+                    power: 4194304,
+                    torque: 16384
+                },
+                process: {
+                    curTime: nbt.CookTime,
+                    base: 600,
+                    factor: 30
+                }
+            });
         </line>
     </tileentity>
 </oo>

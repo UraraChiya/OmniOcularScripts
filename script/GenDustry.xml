@@ -1,7 +1,7 @@
 <!--Author: UraraChiya-->
 <!--Date: 2026/01/01-->
 <!--Version: 1.6.4.135-mc1.7.10-->
-<!--Requie: minecraft.xml-->
+<!--Requie: OmniOcular.xml-->
 <oo>
     <tileentity id="gendustry.IndustrialApiary">
         <line displayname='hud.msg.Forestry.Queen.Info'>
@@ -11,13 +11,15 @@
             }
             /* Name */
             var results = ['\\n'];
-            results.push(translate('hud.msg.Forestry.Queen.Name') + ': ' + name(princess));
+            results.push(customLabelFormat(translate('hud.msg.Forestry.Queen.Name'), name(princess)));
             /* health */
             var health = princess.tag.Health;
             var maxHealth = princess.tag.MaxH;
-            results.push(translate('hud.msg.Forestry.Queen.Health') + ': ' + health + ' / ' + maxHealth);
+            results.push(
+                customLabelFormat(translate('hud.msg.Forestry.Queen.Health'), health + ' / ' + maxHealth)
+            );
 
-            return results.join('\\n  ' + WHITE);
+            return results.join('\\n  ');
         </line>
     </tileentity>
 </oo>

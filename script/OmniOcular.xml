@@ -1,7 +1,188 @@
 <!--Author: UraraChiya-->
-<!--Date: 2025/12/22-->
+<!--Date: 2026/01/08-->
 <!--Version: 1.7.10-->
 <oo>
+    <!-- Minecraft 实用函数 -->
+    <init>
+        function uuid2name(uuid) {
+            /* 找不到更好的写法，只能写死了 */
+            var names = {
+                '80b99335-ad79-42ed-ab38-1d15bf2bac3e': 'shen_FNX',
+                '669b5531-6e6c-4841-9a6d-76496e851739': 'Xudongwan',
+                '34b7ce33-953f-4b7d-871b-6574e8c0c2c0': 'Leong123',
+                '4fd78824-8b21-4a37-91fd-6159b153d481': 'Mgctz',
+                '8db8031b-4fe8-4671-8c20-ffcd78c9c677': 'MDDyue'
+            };
+            return names[uuid.toLowerCase()] || uuid.split('-')[0];
+        }
+
+        function getItemSlot(Items, slot) {
+            for (var i in Items) {
+                if (Items[i].Slot == slot) return Items[i];
+            }
+        }
+    </init>
+    <!-- 数学函数 -->
+    <init>
+        /* log 函数 */
+        function log(base, n) {
+            return Math.log(n) / Math.log(base);
+        }
+        function log2(n) {
+            return log(2, n);
+        }
+        function log10(n) {
+            return log(10, n);
+        }
+    </init>
+    <!-- 整数格式化 -->
+    <init>
+        /* 三位分割整数 */
+        function numberWithCommas(x) {
+            return x.toString().replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');
+        }
+        /* 补空格：使用最基础的循环确保兼容性 */
+        function padSpaces(input, targetLength) {
+            /* 1. 将输入转换为字符串并处理可能的 undefined/null */
+            var str = input === null || input === undefined ? '' : input.toString();
+
+            /* 2. 如果当前长度已达到或超过目标，直接返回原样 */
+            if (str.length >= targetLength) {
+                return str;
+            }
+
+            /* 3. 使用 while 循环逐个拼接空格 */
+            var spaces = '';
+            var paddingNeeded = targetLength - str.length;
+            while (spaces.length < paddingNeeded) {
+                spaces += ' ';
+            }
+
+            /* 4. 返回拼接后的结果 */
+            return spaces + str;
+        }
+        /* 格式化 SI 或 IEC 样式 */
+        function formatSI(num) {
+            if (num === 0) return '0';
+
+            var absNum = Math.abs(num);
+
+            /* 1. 小于 1000 时按原样输出 */
+            if (absNum < 1000) {
+                return num.toString();
+            }
+
+            var prefixes = ['', 'k', 'M', 'G', 'T', 'P', 'E'];
+
+            /* 2. 直接调用你的 log 函数计算数量级 (以 1000 为底) */
+            /* 假设你的 log 函数签名是 log(base, n) */
+            var i = Math.floor(log(1000, absNum));
+            var index = Math.min(i, prefixes.length - 1);
+
+            var scaled = num / Math.pow(1000, index);
+
+            /* 3. 格式化三位有效数字 */
+            var formatted = scaled.toPrecision(3);
+
+            /* 4. 进位补偿：处理 999.9 -> 1000 的情况 */
+            if (Math.abs(parseFloat(formatted)) >= 1000 && index < prefixes.length - 1) {
+                index++;
+                scaled /= 1000;
+                formatted = scaled.toPrecision(3);
+            }
+
+            /* 5. 修正科学计数法（ES5 兼容写法） */
+            if (formatted.indexOf('e') !== -1) {
+                formatted = parseFloat(formatted).toFixed(2);
+            }
+
+            return formatted + ' ' + prefixes[index];
+        }
+        function formatIEC(num) {
+            /* 1. 处理零的特殊情况 */
+            if (num === 0) return '0';
+
+            var absNum = Math.abs(num);
+
+            /* 2. 对于小于 1024 的数字，按原样输出字符串（不补零） */
+            if (absNum < 1024) {
+                return num.toString();
+            }
+
+            /* 3. 定义 IEC 二进制词头列表 */
+            var prefixes = ['', 'Ki', 'Mi', 'Gi', 'Ti', 'Pi', 'Ei'];
+
+            /* 4. 使用自定义 log 函数计算以 1024 为底的数量级 */
+            var i = Math.floor(log(1024, absNum));
+            var index = Math.min(i, prefixes.length - 1);
+
+            /* 5. 计算缩放后的数值 */
+            var scaled = num / Math.pow(1024, index);
+
+            /* 6. 核心：强制保留三位有效数字 */
+            var formatted = scaled.toPrecision(3);
+
+            /* 7. 进位补偿逻辑 */
+            /* 例如：1023.9 可能会被 toPrecision(3) 四舍五入为 "1024" */
+            /* 此时需要进位到下一个词头（如从 Ki 进到 Mi） */
+            if (Math.abs(parseFloat(formatted)) >= 1024 && index < prefixes.length - 1) {
+                index++;
+                scaled /= 1024;
+                formatted = scaled.toPrecision(3);
+            }
+
+            /* 8. 修正可能出现的科学计数法字符串（如 "1.00e+0"） */
+            /* 使其保持 "1.00" 这种直观的格式 */
+            if (formatted.indexOf('e') !== -1) {
+                formatted = parseFloat(formatted).toFixed(2);
+            }
+
+            return formatted + ' ' + prefixes[index];
+        }
+        /* 对齐函数 */
+        function formatAlignedSI(num) {
+            /* 1.23 K 加上空格共 6 位 */
+            return padSpaces(formatSI(num), 6);
+        }
+        function formatAlignedIEC(num) {
+            /* 1.23 Ki 加上空格共 7 位，考虑到最大可能到 1023 Ki，建议设为 8 */
+            return padSpaces(formatIEC(num), 8);
+        }
+    </init>
+    <!-- 用于将字符串转成样式 -->
+    <init>
+        var FORMAT = {
+            BLACK: BLACK,
+            DBLUE: DBLUE,
+            DGREEN: DGREEN,
+            DAQUA: DAQUA,
+            DRED: DRED,
+            DPURPLE: DPURPLE,
+            GOLD: GOLD,
+            GRAY: GRAY,
+            DGRAY: DGRAY,
+            BLUE: BLUE,
+            GREEN: GREEN,
+            AQUA: AQUA,
+            RED: RED,
+            LPURPLE: LPURPLE,
+            YELLOW: YELLOW,
+            WHITE: WHITE,
+
+            OBF: OBF,
+            BOLD: BOLD,
+            STRIKE: STRIKE,
+            UNDER: UNDER,
+            ITALIC: ITALIC,
+            RESET: RESET
+        };
+    </init>
+    <init>
+        function customLabelFormat(label, text) {
+            return YELLOW + label + ': ' + WHITE + text;
+        }
+    </init>
+    <!-- 设置显示样式 -->
     <setting id="displaynameTileentity">
         "|" + GREEN + "DISPLAYNAME" + ": " + WHITE+ "RETURN"
     </setting>
