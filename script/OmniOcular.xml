@@ -35,7 +35,7 @@
             return log(10, n);
         }
     </init>
-    <!-- 整数格式化 -->
+    <!-- 格式化函数 -->
     <init>
         /* 三位分割整数 */
         function numberWithCommas(x) {
@@ -61,7 +61,7 @@
             /* 4. 返回拼接后的结果 */
             return spaces + str;
         }
-        /* 格式化 SI 或 IEC 样式 */
+        /* 格式化 SI 样式 */
         function formatSI(num) {
             if (num === 0) return '0';
 
@@ -98,6 +98,7 @@
 
             return formatted + ' ' + prefixes[index];
         }
+        /* 格式化 IEC 样式 */
         function formatIEC(num) {
             /* 1. 处理零的特殊情况 */
             if (num === 0) return '0';
