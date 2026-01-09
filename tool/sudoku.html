@@ -122,6 +122,27 @@
             font-weight: bold;
             transition: all 0.2s;
             box-sizing: border-box;
+            position: relative;
+            /* 为计数角标定位 */
+        }
+
+        /* 数字统计角标 */
+        .swatch-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ff4757;
+            color: white;
+            font-size: 9px;
+            min-width: 14px;
+            height: 14px;
+            border-radius: 7px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 2px;
+            border: 1px solid #1a1a1a;
+            pointer-events: none;
         }
 
         .swatch:hover {
@@ -402,7 +423,7 @@
             div.className = 'swatch'; div.id = `vbrush-${val}`;
             div.style.backgroundColor = COLOR_MAP[val];
             div.style.color = [6, 7, 9, 10, 11, 12, 14, 15].includes(val) ? '#000' : '#fff';
-            div.innerText = val;
+            div.innerHTML = `<span>${val}</span><div class="swatch-count" id="vcount-${val}">0</div>`;
             div.onclick = () => selectValBrush(val);
             return div;
         }
@@ -426,7 +447,7 @@
             }
         }
 
-        // 修改后的 renderBoard 函数中的 input 部分逻辑
+        // 修改后的 renderBoard 函数
         function renderBoard() {
             document.getElementById('rowInput').value = rows;
             document.getElementById('colInput').value = cols;
@@ -465,14 +486,13 @@
                         if (grid[r][c] >= 0) input.style.color = COLOR_MAP[grid[r][c]];
                     }
 
-                    // --- 核心优化点：点击格子立即聚焦 ---
                     td.onmousedown = (e) => {
                         if (e.button === 2) {
                             selectRegBrush(regions[r][c]);
                             return;
                         }
                         if (activeVal === 'mouse') {
-                            input.focus(); // 强制聚焦，解决“点两下”问题
+                            input.focus();
                         } else {
                             isMouseDown = true;
                             handleCellAction(r, c);
@@ -487,9 +507,10 @@
                         if (e.key === "Backspace" || e.key === "Delete") {
                             grid[r][c] = -1;
                             input.value = "";
+                            updateCounts(); // 实时更新计数
                         } else if (e.key.toLowerCase() === 'x') {
                             grid[r][c] = -2;
-                            renderBoard(); // ❌ 需要重新渲染样式
+                            renderBoard();
                         } else if (e.key >= '0' && e.key <= '9') {
                             let cur = (grid[r][c] >= 0) ? grid[r][c].toString() : "";
                             let next = parseInt(cur + e.key);
@@ -497,14 +518,13 @@
 
                             input.value = grid[r][c];
                             input.style.color = COLOR_MAP[grid[r][c]];
+                            updateCounts(); // 实时更新计数
                             e.preventDefault();
                         }
                     };
 
-                    // 输入完成离开后，刷新一次以防万一
                     input.onblur = () => {
                         if (activeVal === 'mouse') {
-                            // 延迟一丁点时间刷新，避免阻断点击下一个格子的事件流
                             setTimeout(() => { if (!document.activeElement.classList.contains('cell-input')) renderBoard(); }, 100);
                         }
                     };
@@ -515,7 +535,27 @@
                 table.appendChild(tr);
             }
             container.innerHTML = ""; container.appendChild(table);
+            updateCounts(); // 渲染完成后更新一次计数
         }
+
+        // 新增：数字统计逻辑
+        function updateCounts() {
+            const counts = Array(16).fill(0);
+            for (let r = 0; r < rows; r++) {
+                for (let c = 0; c < cols; c++) {
+                    const val = grid[r][c];
+                    if (val >= 0 && val <= 15) counts[val]++;
+                }
+            }
+            counts.forEach((count, i) => {
+                const el = document.getElementById(`vcount-${i}`);
+                if (el) {
+                    el.innerText = count;
+                    el.style.display = count > 0 ? 'flex' : 'none'; // 数量为0时隐藏角标
+                }
+            });
+        }
+
         function handleCellAction(r, c) {
             if (activeReg !== null) regions[r][c] = activeReg;
             else if (activeVal === -3) grid[r][c] = -1;

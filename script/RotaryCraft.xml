@@ -119,7 +119,7 @@
             var curTime = param.nbt.CookTime || undefined;
             var hasLimit = !!param.hasLimit; /* 是否是象变速箱那样有上限限制*/
             var req = param.req || undefined; /* 若有上限限制，则 req 为上限限制，否则为下限限制*/
-            var process = param.process || undefined;
+            var process = param.process || 0;
 
             /* 返回值列表 */
             var results = ['\\n'];
@@ -150,7 +150,7 @@
             results.push(formatInfo(omega, req.omega, 'rad/s', 'hud.msg.RotaryCraft.Omega'));
 
             /* 处理进度信息 */
-            if (curTime && process && process.base && process.factor) {
+            if (curTime && process.base && process.factor) {
                 results.push(
                     customLabelFormat(
                         translate('hud.msg.common.Process'),
