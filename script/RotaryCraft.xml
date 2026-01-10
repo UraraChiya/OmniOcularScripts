@@ -124,8 +124,7 @@
             /* 返回值列表 */
             var results = ['\\n'];
 
-            var formatInfo = function (val, reqVal, unit, translationKey) {
-                var label = translate(translationKey);
+            var formatInfo = function (val, reqVal, unit, label) {
                 var formattedVal = numberWithCommas(val);
 
                 if (reqVal) {
@@ -145,9 +144,9 @@
             };
 
             /* 处理三项核心参数 */
-            results.push(formatInfo(power, req.power, 'W', 'hud.msg.RotaryCraft.Power'));
-            results.push(formatInfo(torque, req.torque, 'Nm', 'hud.msg.RotaryCraft.Torque'));
-            results.push(formatInfo(omega, req.omega, 'rad/s', 'hud.msg.RotaryCraft.Omega'));
+            results.push(formatInfo(power, req.power, 'W', translate('hud.msg.RotaryCraft.Power')));
+            results.push(formatInfo(torque, req.torque, 'Nm', translate('hud.msg.RotaryCraft.Torque')));
+            results.push(formatInfo(omega, req.omega, 'rad/s', translate('hud.msg.RotaryCraft.Omega')));
 
             /* 处理进度信息 */
             if (curTime && process.base && process.factor) {
@@ -356,6 +355,24 @@
                     base: 600,
                     factor: 30
                 }
+            });
+        </line>
+    </tileentity>
+    <tileentity id="RCshaft">
+        <line displayname='hud.msg.common.Info'>
+            return getAllTheInfo({
+                nbt: nbt,
+                hasLimit: true,
+                req: getLimit(nbt.shafttype)
+            });
+        </line>
+    </tileentity>
+    <tileentity id="RCgearbox">
+        <line displayname='hud.msg.common.Info'>
+            return getAllTheInfo({
+                nbt: nbt,
+                hasLimit: true,
+                req: getLimit(nbt.geartype)
             });
         </line>
     </tileentity>
