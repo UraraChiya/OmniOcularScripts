@@ -8,33 +8,45 @@
         }
     </init>
     <init>
-        function getSlot(inventory, slot, slotName) {
-            slotName = slotName || 'Slot';
-            for (var index in inventory) {
-                if (inventory[index][slotName] == slot) {
-                    return inventory[index];
-                }
-            }
+        function getNodeType(nbt) {
+            var results = [];
+            var types = [
+                translate('nodetype.NORMAL.name'),
+                translate('nodetype.UNSTABLE.name'),
+                translate('nodetype.DARK.name'),
+                translate('nodetype.TAINTED.name'),
+                translate('nodetype.HUNGRY.name'),
+                translate('nodetype.PURE.name')
+            ];
+            var modifiers = [
+                translate('nodemod.BRIGHT.name'),
+                translate('nodemod.PALE.name'),
+                translate('nodemod.FADING.name')
+            ];
+            if (nbt.type >= 0) results.push(types[nbt.type]);
+            if (nbt.modifier >= 0) results.push(modifiers[nbt['modifier']]);
+            if (results) return results.join(', ');
         }
     </init>
     <tileentity id="TileArcaneWorkbench">
         <line>
-            var Wand = getSlot(nbt['Inventory'], 10, 'Slot');
+            var Wand = getItemSlot(nbt['Inventory'], 10, 'Slot');
             return name(Wand);
         </line>
         <line>
-            var WandFocus = getSlot(nbt['Inventory'], 10, 'Slot');
+            var WandFocus = getItemSlot(nbt['Inventory'], 10, 'Slot');
             return name(WandFocus['tag']['focus']);
         </line>
         <line>
-            var TagVis = getSlot(nbt['Inventory'], 10, 'Slot');
-            var rt = [];
-            rt.push(YELLOW + (TagVis['tag']['aer'] / 100).toFixed(1));
-            rt.push(DLIGHTBLUE + (TagVis['tag']['ignis'] / 100).toFixed(1));
-            rt.push(BLUE + (TagVis['tag']['aqua'] / 100).toFixed(1));
-            rt.push(LIGHTGRAY + (TagVis['tag']['ordo'] / 100).toFixed(1));
-            rt.push(DARKGRAY + (TagVis['tag']['perditio'] / 100).toFixed(1));
-            return rt.join(WHITE + ' | ' + RESET);
+            var wand = getItemSlot(nbt['Inventory'], 10, 'Slot');
+            var results = [];
+            results.push(YELLOW + ((wand['tag']['aer'] || 0) / 100).toFixed(1));
+            results.push(DGREEN + ((wand['tag']['terra'] || 0) / 100).toFixed(1));
+            results.push(RED + ((wand['tag']['ignis'] || 0) / 100).toFixed(1));
+            results.push(DAQUA + ((wand['tag']['aqua'] || 0) / 100).toFixed(1));
+            results.push(GRAY + ((wand['tag']['ordo'] || 0) / 100).toFixed(1));
+            results.push(DGRAY + ((wand['tag']['perditio'] || 0) / 100).toFixed(1));
+            return results.join(WHITE + ' | ');
         </line>
     </tileentity>
     <tileentity id="TileInfusionStone">
@@ -84,25 +96,14 @@
             if (nbt['power'] != 0) return GREEN + 'Activated';
         </line>
     </tileentity>
+    <tileentity id='TileJarNode'>
+        <line displayname="hud.msg.Thaumcraft.NodeType">
+            return getNodeType(nbt);
+        </line>
+    </tileentity>
     <tileentity id="TileNode">
         <line displayname="hud.msg.Thaumcraft.NodeType">
-            var result = [];
-            var types = [
-                translate('nodetype.NORMAL.name'),
-                translate('nodetype.UNSTABLE.name'),
-                translate('nodetype.DARK.name'),
-                translate('nodetype.TAINTED.name'),
-                translate('nodetype.HUNGRY.name'),
-                translate('nodetype.PURE.name')
-            ];
-            var modifiers = [
-                translate('nodemod.BRIGHT.name'),
-                translate('nodemod.PALE.name'),
-                translate('nodemod.FADING.name')
-            ];
-            if (nbt.type) result.push(types[nbt.type]);
-            if (nbt.modifier) result.push(modifiers[nbt['modifier']]);
-            return result.join(', ');
+            return getNodeType(nbt);
         </line>
         <line displayname="tc.research_name.ASPECTS">
             var aspectsInfo = ['\\n'];

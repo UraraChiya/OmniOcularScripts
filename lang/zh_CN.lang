@@ -19,6 +19,9 @@ hud.msg.common.BurnTime=燃烧时间
 hud.msg.common.EnergyStored=储存能量
 hud.msg.common.TimeRemain=剩余时间
 
+hud.msg.Botania.PassiveDecayTicks=被动死亡时间
+hud.msg.Botania.TicksExisted=存在时间
+
 hud.msg.Railcraft.CurrentItemBurnTime=当前物品燃烧时间
 hud.msg.Railcraft.Output=输出
 hud.msg.Railcraft.Heat=热量

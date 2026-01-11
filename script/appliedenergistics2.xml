@@ -33,16 +33,33 @@
             ];
             for (i = 0; i < 6; i++) {
                 if (nbt['def:' + i] != undefined) {
-                    nbt.push(customLabelFormat(directions[i], name(nbt['def:' + i])));
+                    results.push(customLabelFormat(directions[i], name(nbt['def:' + i])));
                     if (nbt['extra:' + i]['priority'] != undefined) {
                         results.push(
-                            '  └─' +
+                            '  └' +
                                 GREEN +
                                 translate('gui.appliedenergistics2.Priority') +
                                 ': ' +
                                 WHITE +
                                 nbt['extra:' + i]['priority']
                         );
+                    }
+                    /* Thaumic Energistics 奥数合成终端 */
+                    if (nbt['extra:' + i]['TEACT_Inventory'] != undefined) {
+                        var wand = getItemSlot(nbt['extra:' + i]['TEACT_Inventory'], 9, 'Slot#');
+                        if (wand) {
+                            results.push('  ├' + name(wand));
+                            var vises = [];
+
+                            vises.push(YELLOW + ((wand['tag']['aer'] || 0) / 100).toFixed(1));
+                            vises.push(DGREEN + ((wand['tag']['terra'] || 0) / 100).toFixed(1));
+                            vises.push(RED + ((wand['tag']['ignis'] || 0) / 100).toFixed(1));
+                            vises.push(DAQUA + ((wand['tag']['aqua'] || 0) / 100).toFixed(1));
+                            vises.push(GRAY + ((wand['tag']['ordo'] || 0) / 100).toFixed(1));
+                            vises.push(DGRAY + ((wand['tag']['perditio'] || 0) / 100).toFixed(1));
+
+                            results.push('  └' + vises.join(WHITE + ' | '));
+                        }
                     }
                 }
             }

@@ -1,5 +1,5 @@
 <!--Author: EpixZhang, ViKaleidoscope, UraraChiya-->
-<!--Date: 2025/12/30-->
+<!--Date: 2026/01/11-->
 <!--Version: r1.8-249-->
 <oo>
     <tileentity id="botania:pool">
@@ -31,6 +31,28 @@
     <tileentity id="botania:specialFlower">
         <line displayname="hud.msg.Botania.Mana">
             return nbt.subTileCmp.mana;
+        </line>
+        <line displayname='hud.msg.Common.Info'>
+            var results = ['\\n'];
+
+            /* 恒为 0 和不存在则不显示 */
+            if (nbt.subTileCmp.passiveDecayTicks) {
+                results.push(
+                    customLabelFormat(
+                        translate('hud.msg.Botania.PassiveDecayTicks'),
+                        convertTicksToTime(nbt.subTileCmp.passiveDecayTicks) + ' / 1h 00m 00s'
+                    )
+                );
+            }
+            if (nbt.subTileCmp.ticksExisted != undefined) {
+                results.push(
+                    customLabelFormat(
+                        translate('hud.msg.Botania.TicksExisted'),
+                        convertTicksToTime(nbt.subTileCmp.ticksExisted)
+                    )
+                );
+            }
+            return results.join('\\n  ');
         </line>
     </tileentity>
     <tileentity id="botania:rfGenerator">

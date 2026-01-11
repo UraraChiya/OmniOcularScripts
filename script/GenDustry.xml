@@ -5,7 +5,7 @@
 <oo>
     <tileentity id="gendustry.IndustrialApiary">
         <line displayname='hud.msg.Forestry.Queen.Info'>
-            var princess = getItemSlot(nbt.Items, 0);
+            var princess = getItemSlot(nbt.Items, 0, 'Slot');
             if (!princess) {
                 return RED + translate('for.errors.noQueen.desc');
             }

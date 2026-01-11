@@ -19,6 +19,9 @@ hud.msg.common.BurnTime=Burn Time
 hud.msg.common.EnergyStored=Energy Stored
 hud.msg.common.TimeRemain=Time Remaining
 
+hud.msg.Botania.PassiveDecayTicks=Passive Decay Ticks
+hud.msg.Botania.TicksExisted=Ticks Existed
+
 hud.msg.Railcraft.CurrentItemBurnTime=Current Item Burn Time
 hud.msg.Railcraft.Output=Output
 hud.msg.Railcraft.Heat=Heat

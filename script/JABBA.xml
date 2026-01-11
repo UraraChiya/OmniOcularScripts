@@ -1,10 +1,10 @@
 <!--Author: UraraChiya-->
-<!--Date: 2025/12/25-->
+<!--Date: 202/01/11-->
 <!--Version: 1.2.2-->
 <oo>
     <tileentity id="TileEntityBarrel">
         <line displayname="item.upgrade.core.void.name">
-            return nbt.void ? 'On' : 'Off';
+            return nbt.void ? 'Yes' : undefined;
         </line>
     </tileentity>
 </oo>

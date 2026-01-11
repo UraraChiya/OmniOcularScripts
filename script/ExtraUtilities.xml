@@ -1,0 +1,10 @@
+<!--Author: UraraChiya-->
+<!--Date: 2026/01/11-->
+<!--Version: 1.2.12-->
+<oo>
+    <tileentity id="TileEntityFilingCabinet">
+        <line displayname='Count'>
+            return nbt.item_no;
+        </line>
+    </tileentity>
+</oo>

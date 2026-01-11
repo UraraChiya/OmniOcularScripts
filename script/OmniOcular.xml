@@ -16,9 +16,10 @@
             return names[uuid.toLowerCase()] || uuid.split('-')[0];
         }
 
-        function getItemSlot(Items, slot) {
+        function getItemSlot(Items, slot, slotName) {
+            slotName = slotName || 'Slot';
             for (var i in Items) {
-                if (Items[i].Slot == slot) return Items[i];
+                if (Items[i][slotName] == slot) return Items[i];
             }
         }
     </init>
@@ -41,25 +42,41 @@
         function numberWithCommas(x) {
             return x.toString().replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');
         }
-        /* 补空格：使用最基础的循环确保兼容性 */
-        function padSpaces(input, targetLength) {
-            /* 1. 将输入转换为字符串并处理可能的 undefined/null */
+
+        /**
+         * 补全任意字符 (ES5 兼容版)
+         * @param {any} input - 原始输入
+         * @param {number} targetLength - 目标长度
+         * @param {string} padChar - 用于补全的字符 (默认为空格)
+         * @returns {string}
+         */
+        function padStart(input, targetLength, padChar) {
+            /* 1. 将输入转换为字符串，并处理 null/undefined */
             var str = input === null || input === undefined ? '' : input.toString();
 
-            /* 2. 如果当前长度已达到或超过目标，直接返回原样 */
-            if (str.length >= targetLength) {
+            /* 2. 默认填充字符为单个空格，并确保 padChar 是字符串 */
+            padChar = padChar === null || padChar === undefined ? ' ' : padChar.toString();
+
+            /* 3. 如果当前长度已达到目标，或者 padChar 为空字符串，直接返回 */
+            if (str.length >= targetLength || padChar.length === 0) {
                 return str;
             }
 
-            /* 3. 使用 while 循环逐个拼接空格 */
-            var spaces = '';
+            /* 4. 计算需要补全的长度 */
             var paddingNeeded = targetLength - str.length;
-            while (spaces.length < paddingNeeded) {
-                spaces += ' ';
+            var padding = '';
+
+            /* 5. 循环拼接。注意：如果 padChar 是多个字符，这里可以进行截取或全量拼接 */
+            while (padding.length < paddingNeeded) {
+                padding += padChar;
             }
 
-            /* 4. 返回拼接后的结果 */
-            return spaces + str;
+            /* 6. 截取多余的部分（防止 padChar 长度 > 1 时超过目标长度）并拼接返回 */
+            return padding.substring(0, paddingNeeded) + str;
+        }
+
+        function padSpaces(input, targetLength) {
+            return padStart(input, targetLength, ' ');
         }
         /* 格式化 SI 样式 */
         function formatSI(num) {
@@ -181,6 +198,67 @@
     <init>
         function customLabelFormat(label, text) {
             return YELLOW + label + ': ' + WHITE + text;
+        }
+    </init>
+    <init>
+        function convertSecondsToTime(seconds) {
+            var results = [];
+
+            /* 1. 处理天数 */
+            var days = Math.floor(seconds / 86400);
+            var remainingSeconds = seconds % 86400;
+            if (days > 0) {
+                results.push(days + 'd');
+            }
+
+            /* 2. 处理小时 */
+            var hours = Math.floor(remainingSeconds / 3600);
+            remainingSeconds %= 3600;
+            if (days > 0 || hours > 0) {
+                var hStr = days > 0 ? padStart(hours, 2, '0') : hours.toString();
+                results.push(hStr + 'h');
+            }
+
+            /* 3. 处理分钟 */
+            var minutes = Math.floor(remainingSeconds / 60);
+            remainingSeconds %= 60;
+            if (days > 0 || hours > 0 || minutes > 0) {
+                var mStr = days > 0 || hours > 0 ? padStart(minutes, 2, '0') : minutes.toString();
+                results.push(mStr + 'm');
+            }
+
+            /* 4. 处理秒数（核心修改点） */
+            var sValue;
+            /* 判断是否为小数：与自身取整后对比 */
+            if (remainingSeconds % 1 !== 0) {
+                /* 是小数，保留两位小数 */
+                sValue = remainingSeconds.toFixed(2);
+            } else {
+                /* 是整数，保持原样 */
+                sValue = remainingSeconds.toString();
+            }
+
+            /* 5. 秒数补位逻辑 */
+            var sStr;
+            if (days > 0 || hours > 0 || minutes > 0) {
+                /* 如果前面有大单位，需要确保整数部分是两位数 */
+                /* 先拆分小数点，只对整数部分补零，防止 padStart 干扰小数位 */
+                var parts = sValue.split('.');
+                var integerPart = padStart(parts[0], 2, '0');
+                sStr = parts.length > 1 ? integerPart + '.' + parts[1] : integerPart;
+            } else {
+                /* 没有大单位，该几位就几位 */
+                sStr = sValue;
+            }
+
+            results.push(sStr + 's');
+
+            return results.join(' ');
+        }
+
+        /* 假设 tps 恒为 20 */
+        function convertTicksToTime(ticks) {
+            return convertSecondsToTime(ticks / 20);
         }
     </init>
     <!-- 设置显示样式 -->
