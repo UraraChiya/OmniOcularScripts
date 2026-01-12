@@ -1,0 +1,10 @@
+<!--Author: UraraChiya-->
+<!--Date: 2026/01/12-->
+<!--Version: 1.0.27_X5570-->
+<oo>
+    <tileentity id="tileentity_press">
+        <line displayname='hud.msg.common.BurnTime'>
+            return nbt.burnTime;
+        </line>
+    </tileentity>
+</oo>
