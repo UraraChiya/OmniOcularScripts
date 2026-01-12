@@ -116,10 +116,10 @@
             var power = param.nbt.power || 0;
             var torque = param.nbt.torque || 0;
             var omega = param.nbt.omega || 0;
-            var curTime = param.nbt.CookTime || undefined;
-            var hasLimit = !!param.hasLimit; /* 是否是象变速箱那样有上限限制*/
-            var req = param.req || undefined; /* 若有上限限制，则 req 为上限限制，否则为下限限制*/
-            var process = param.process || 0;
+            var curTime = param.nbt.CookTime || 0;
+            var hasLimit = param.hasLimit || false; /* 是否是象变速箱那样有上限限制*/
+            var req = param.req || {}; /* 若有上限限制，则 req 为上限限制，否则为下限限制*/
+            var process = param.process || {};
 
             /* 返回值列表 */
             var results = ['\\n'];
@@ -149,7 +149,7 @@
             results.push(formatInfo(omega, req.omega, 'rad/s', translate('hud.msg.RotaryCraft.Omega')));
 
             /* 处理进度信息 */
-            if (curTime && process.base && process.factor) {
+            if (process.base != undefined && process.factor != undefined) {
                 results.push(
                     customLabelFormat(
                         translate('hud.msg.common.Process'),
@@ -165,19 +165,51 @@
         <line displayname="hud.msg.RotaryCraft.Place">
             return nbt.place;
         </line>
-        <line displayname='hud.msg.RotaryCraft.Power'>
-            if (nbt.power) return numberWithCommas(nbt.power) + ' W';
-        </line>
-        <line displayname='hud.msg.RotaryCraft.Torque'>
-            if (nbt.torque) return numberWithCommas(nbt.torque) + ' Nm';
-        </line>
-        <line displayname='hud.msg.RotaryCraft.Omega'>
-            if (nbt.omega) return numberWithCommas(nbt.omega) + ' rad/s';
-        </line>
         <line displayname='hud.msg.RotaryCraft.Bedrock'>
             if (nbt.bedrock != undefined) {
                 return nbt.bedrock ? GREEN + 'Yes' : RED + 'No';
             }
+        </line>
+        <line displayname='hud.msg.common.Info'>
+            if (nbt.power == undefined || nbt.omega == undefined || nbt.torque == undefined) {
+                return;
+            }
+            var hasLimit = undefined;
+            var req = {};
+            var process = {};
+
+            /* 通过特殊 nbt 区分机器 */
+            if (nbt.geartype != undefined) {
+                /* Gearbox */
+                hasLimit = true;
+                req = getLimit(nbt.geartype);
+            } else if (nbt.shafttype != undefined) {
+                /* Shaft */
+                hasLimit = true;
+                req = getLimit(nbt.shafttype);
+            } else if (nbt.grinder != undefined) {
+                /* Grinder */
+                req = { power: 4096, torque: 128 };
+                process = { base: 840, factor: 60 };
+            } else if (nbt.fermenter != undefined) {
+                /* Fermenter */
+                req = { power: 1024, omega: 32 };
+                process = { base: 480, factor: 35 };
+            } else if (nbt.centrifuge != undefined) {
+                /* Centrifuge */
+                req = { power: 16384, omega: 4096 };
+                process = { base: 1200, factor: 60 };
+            } else if (nbt.step != undefined) {
+                /* BedrockBreaker */
+                req = { power: 4194304, torque: 16384 };
+                process = { base: 600, factor: 30 };
+            }
+            return getAllTheInfo({
+                nbt: nbt,
+                hasLimit: hasLimit,
+                req: req,
+                process: process
+            });
         </line>
     </tileentity>
     <tileentity id="RCblastfurnace">
@@ -313,72 +345,6 @@
         </line>
         <line displayname='hud.msg.RotaryCraft.Magnet'>
             return nbt.Items[0].tag.magnet + ' ' + translate('hud.msg.RotaryCraft.MicroTesla');
-        </line>
-    </tileentity>
-    <tileentity id="RCgrinder">
-        <line displayname='hud.msg.common.Info'>
-            return getAllTheInfo({
-                nbt: nbt,
-                hasLimit: false,
-                req: {
-                    power: 4096,
-                    torque: 128
-                },
-                process: {
-                    base: 840,
-                    factor: 60
-                }
-            });
-        </line>
-    </tileentity>
-    <tileentity id="RCcentrifuge">
-        <line displayname='hud.msg.common.Info'>
-            return getAllTheInfo({
-                nbt: nbt,
-                hasLimit: false,
-                req: {
-                    power: 16384,
-                    omega: 4096
-                },
-                process: {
-                    base: 1200,
-                    factor: 60
-                }
-            });
-        </line>
-    </tileentity>
-    <tileentity id="RCbedrockbreaker">
-        <line displayname='hud.msg.common.Info'>
-            return getAllTheInfo({
-                nbt: nbt,
-                hasLimit: false,
-                req: {
-                    power: 4194304,
-                    torque: 16384
-                },
-                process: {
-                    base: 600,
-                    factor: 30
-                }
-            });
-        </line>
-    </tileentity>
-    <tileentity id="RCshaft">
-        <line displayname='hud.msg.common.Info'>
-            return getAllTheInfo({
-                nbt: nbt,
-                hasLimit: true,
-                req: getLimit(nbt.shafttype)
-            });
-        </line>
-    </tileentity>
-    <tileentity id="RCgearbox">
-        <line displayname='hud.msg.common.Info'>
-            return getAllTheInfo({
-                nbt: nbt,
-                hasLimit: true,
-                req: getLimit(nbt.geartype)
-            });
         </line>
     </tileentity>
 </oo>
