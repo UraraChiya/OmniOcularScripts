@@ -101,6 +101,11 @@
             return getNodeType(nbt);
         </line>
     </tileentity>
+    <tileentity id="TileNodeEnergized">
+        <line displayname="hud.msg.Thaumcraft.NodeType">
+            return getNodeType(nbt);
+        </line>
+    </tileentity>
     <tileentity id="TileNode">
         <line displayname="hud.msg.Thaumcraft.NodeType">
             return getNodeType(nbt);

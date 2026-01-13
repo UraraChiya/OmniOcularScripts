@@ -128,9 +128,9 @@
                 var formattedVal = numberWithCommas(val);
 
                 if (reqVal) {
-                    /* 判定逻辑说明：*/
-                    /* 1. 如果是上限模式 (hasLimit)，绿色条件是 val <= reqVal */
-                    /* 2. 如果是下限模式 (!hasLimit)，绿色条件是 val >= reqVal */
+                    /* 判定逻辑说明：
+                     * 1. 如果是上限模式 (hasLimit)，绿色条件是 val <= reqVal
+                     * 2. 如果是下限模式 (!hasLimit)，绿色条件是 val >= reqVal */
                     var isGreen = hasLimit ? val <= reqVal : val >= reqVal;
                     var color = isGreen ? GREEN : RED;
 
@@ -203,6 +203,12 @@
                 /* BedrockBreaker */
                 req = { power: 4194304, torque: 16384 };
                 process = { base: 600, factor: 30 };
+            } else if (nbt.furnLoc != undefined) {
+                /* Friction */
+                req = { power: 8192, torque: 32 };
+            } else if (nbt.temperature != undefined) {
+                /* Heater */
+                req = { power: 8192, torque: 16 };
             }
             return getAllTheInfo({
                 nbt: nbt,
@@ -319,9 +325,6 @@
         </line>
     </tileentity>
     <tileentity id="RCfriction">
-        <line displayname='hud.msg.RotaryCraft.Requirements'>
-            return getRequirementText(nbt, { power: 8192, torque: 32 });
-        </line>
         <line displayname='hud.msg.RotaryCraft.Friction.MaxTemperature'>
             /* 温度公式为 ：T=12*log2(omega 速度)*log2(torque 扭矩) + 30 (在满足机器最低运行要求的情况下) */
             var omega = nbt.omega || 0;

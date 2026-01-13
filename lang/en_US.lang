@@ -65,3 +65,5 @@ hud.msg.RotaryCraft.Friction.MaxTemperature=Max Temp
 hud.msg.Forestry.Queen.Info=Info
 hud.msg.Forestry.Queen.Name=Name
 hud.msg.Forestry.Queen.Health=Health
+
+hud.msg.hbm.Stamp=Stamp

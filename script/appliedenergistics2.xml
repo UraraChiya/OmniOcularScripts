@@ -63,7 +63,7 @@
                     }
                 }
             }
-            return results.join('\\n  ');
+            if (len(results) > 1) return results.join('\\n  ');
         </line>
     </tileentity>
 </oo>
