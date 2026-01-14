@@ -32,7 +32,7 @@
         <line displayname="hud.msg.Botania.Mana">
             return nbt.subTileCmp.mana;
         </line>
-        <line displayname='hud.msg.Common.Info'>
+        <line displayname='hud.msg.common.Info'>
             var results = ['\\n'];
 
             /* 恒为 0 和不存在则不显示 */
