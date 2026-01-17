@@ -307,6 +307,12 @@
             if (nbt.Items[0]) return name(nbt.Items[0]);
         </line>
     </tileentity>
+    <!-- 矿工 -->
+    <tileentity id="CCchroma.miner">
+        <line displayname="hud.msg.ChromatiCraft.Miner.Dropped">
+            return nbt.dropped ? GREEN + 'No' : RED + 'Yes';
+        </line>
+    </tileentity>
     <!-- 传送门裂缝 -->
     <tileentity id="CCTileEntityCrystalPortal">
         <line displayname="hud.msg.ChromatiCraft.CrystalPortal.Charge">
