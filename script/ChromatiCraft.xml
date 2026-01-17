@@ -310,7 +310,7 @@
     <!-- 矿工 -->
     <tileentity id="CCchroma.miner">
         <line displayname="hud.msg.ChromatiCraft.Miner.Dropped">
-            return nbt.dropped ? GREEN + 'No' : RED + 'Yes';
+            return nbt.dropped ? RED + 'Yes' : GREEN + 'No';
         </line>
     </tileentity>
     <!-- 传送门裂缝 -->
