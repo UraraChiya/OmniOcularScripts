@@ -312,6 +312,12 @@
         <line displayname="hud.msg.ChromatiCraft.Miner.Dropped">
             return nbt.dropped ? RED + 'Yes' : GREEN + 'No';
         </line>
+        <line displayname="hud.msg.ChromatiCraft.Miner.Fortune">
+            return nbt.fortune;
+        </line>
+        <line displayname="hud.msg.ChromatiCraft.Miner.SilkTouch">
+        return nbt.silk;
+        </line>
     </tileentity>
     <!-- 传送门裂缝 -->
     <tileentity id="CCTileEntityCrystalPortal">

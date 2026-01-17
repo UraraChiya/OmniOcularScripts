@@ -42,6 +42,8 @@ hud.msg.ChromatiCraft.Ritual.Ability=Ability
 hud.msg.ChromatiCraft.Glowfire.Target=Target
 hud.msg.ChromatiCraft.Puzzle.Solution=Solution
 hud.msg.ChromatiCraft.Miner.Dropped=Dropped
+hud.msg.ChromatiCraft.Miner.Fortune=Fortune
+hud.msg.ChromatiCraft.Miner.SilkTouch=SilkTouch
 
 hud.msg.RotaryCraft.Place=Placer
 hud.msg.RotaryCraft.Power=Power
