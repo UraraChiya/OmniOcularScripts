@@ -297,6 +297,9 @@
         <line displayname="hud.msg.ChromatiCraft.Repeater.States">
             return nbt.states;
         </line>
+        <line displayname="hud.msg.ChromatiCraft.Repeater.Meta">
+            return nbt.meta;
+        </line>
     </tileentity>
     <!-- 复合灵气中继器 -->
     <tileentity id="CCchroma.compound">
@@ -322,6 +325,9 @@
         </line>
         <line displayname="hud.msg.ChromatiCraft.Repeater.States">
             return nbt.states;
+        </line>
+        <line displayname="hud.msg.ChromatiCraft.Repeater.Meta">
+            return nbt.meta;
         </line>
     </tileentity>
     <!-- 仪式桌 -->
