@@ -354,6 +354,9 @@
         <line displayname="hud.msg.ChromatiCraft.Miner.SilkTouch">
             return nbt.silk;
         </line>
+        <line displayname="hud.msg.ChromatiCraft.Miner.Dig">
+            return nbt.dig ? 'YES' : 'No';
+        </line>
     </tileentity>
     <!-- 传送门裂缝 -->
     <tileentity id="CCTileEntityCrystalPortal">
