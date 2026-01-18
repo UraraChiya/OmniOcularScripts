@@ -209,6 +209,10 @@
             } else if (nbt.temperature != undefined) {
                 /* Heater */
                 req = { power: 8192, torque: 16 };
+            } else if (nbt.fractionationunitin != undefined) {
+                /* Fractionator */
+                req = { power: 65536, omega: 8192 };
+                process = { base: 800, factor: 40 };
             }
             return getAllTheInfo({
                 nbt: nbt,
