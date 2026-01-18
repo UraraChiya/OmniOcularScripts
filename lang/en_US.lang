@@ -38,7 +38,8 @@ hud.msg.ChromatiCraft.Struct.Unformed=Unformed
 hud.msg.ChromatiCraft.Energy=Energy
 
 hud.msg.ChromatiCraft.Repeater.Depth=Depth
-hud.msg.ChromatiCraft.Ritual.Ability=Ability    
+hud.msg.ChromatiCraft.Repeater.States=States
+hud.msg.ChromatiCraft.Ritual.Ability=Ability
 hud.msg.ChromatiCraft.Glowfire.Target=Target
 hud.msg.ChromatiCraft.Puzzle.Solution=Solution
 hud.msg.ChromatiCraft.Miner.Dropped=Dropped

@@ -294,6 +294,9 @@
         <line displayname="hud.msg.ChromatiCraft.Repeater.Depth">
             return nbt.depth;
         </line>
+        <line displayname="hud.msg.ChromatiCraft.Repeater.States">
+            return nbt.states;
+        </line>
     </tileentity>
     <!-- 仪式桌 -->
     <tileentity id="CCchroma.ritual">
