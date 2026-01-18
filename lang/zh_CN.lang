@@ -46,6 +46,9 @@ hud.msg.ChromatiCraft.Puzzle.Solution=解法
 hud.msg.ChromatiCraft.Miner.Dropped=停止
 hud.msg.ChromatiCraft.Miner.Fortune=时运
 hud.msg.ChromatiCraft.Miner.SilkTouch=精准采集
+hud.msg.ChromatiCraft.Wireless.Broadcast=广播
+hud.msg.ChromatiCraft.Wireless.Broadcast.l=广播
+hud.msg.ChromatiCraft.Wireless.Broadcast.2=增强广播
 
 hud.msg.RotaryCraft.Place=放置者
 hud.msg.RotaryCraft.Power=功率

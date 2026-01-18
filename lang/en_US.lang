@@ -46,6 +46,9 @@ hud.msg.ChromatiCraft.Puzzle.Solution=Solution
 hud.msg.ChromatiCraft.Miner.Dropped=Dropped
 hud.msg.ChromatiCraft.Miner.Fortune=Fortune
 hud.msg.ChromatiCraft.Miner.SilkTouch=SilkTouch
+hud.msg.ChromatiCraft.Wireless.Broadcast=Broadcast
+hud.msg.ChromatiCraft.Wireless.Broadcast.l=Broadcasting
+hud.msg.ChromatiCraft.Wireless.Broadcast.2=Enhanced Broadcasting
 
 hud.msg.RotaryCraft.Place=Placer
 hud.msg.RotaryCraft.Power=Power

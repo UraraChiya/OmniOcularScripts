@@ -295,8 +295,8 @@
             return nbt.depth;
         </line>
         <!--<line displayname="hud.msg.ChromatiCraft.Repeater.States">
-            return nbt.states;
-        </line>
+    return nbt.states;
+</line>
         <line displayname="hud.msg.ChromatiCraft.Repeater.Meta">
             return nbt.meta;
         </line>-->
@@ -362,6 +362,17 @@
         </line>
         <line displayname="hud.msg.ChromatiCraft.CrystalPortal.Tuning">
             if (nbt.built) return nbt.tuning;
+        </line>
+    </tileentity>
+    <!-- 环境流明分配核心 -->
+    <tileentity id="CCchroma.wireless">
+        <line displayname="hud.msg.ChromatiCraft.Wireless.Broadcast">
+            if (nbt.broadcast2) {
+                return translate('hud.msg.ChromatiCraft.Wireless.Broadcast.2');
+            }
+            if (nbt.broadcast) {
+                return translate('hud.msg.ChromatiCraft.Wireless.Broadcast.l');
+            }
         </line>
     </tileentity>
     <!-- Puzzle -->
