@@ -289,10 +289,36 @@
             }
         </line>
     </tileentity>
-    <!-- 能量中继器 -->
+    <!-- 灵气中继器 -->
     <tileentity id="CCchroma.repeater">
         <line displayname="hud.msg.ChromatiCraft.Repeater.Depth">
             return nbt.depth;
+        </line>
+        <line displayname="hud.msg.ChromatiCraft.Repeater.States">
+            return nbt.states;
+        </line>
+    </tileentity>
+    <!-- 复合灵气中继器 -->
+    <tileentity id="CCchroma.compound">
+        <line displayname="hud.msg.ChromatiCraft.Repeater.Depth">
+            var results = ['\\n'];
+            var depths = [];
+            for (var i = 0; i < 16; i++) {
+                var depth = nbt['depth_' + i] || -1;
+                depths.push(LUMENIDTOFORMAT[i] + padSpaces(i, 2) + ': ' + depth);
+            }
+            for (var i = 0; i < depths.length; i += 4) {
+                var row = [];
+                for (var j = 0; j < 4; j++) {
+                    if (i + j < depths.length) {
+                        row.push(depths[i + j]);
+                    }
+                }
+                results.push(row.join(TAB));
+            }
+
+            if (depths.length > 0) return results.join('\\n  ');
+            return;
         </line>
         <line displayname="hud.msg.ChromatiCraft.Repeater.States">
             return nbt.states;
@@ -319,7 +345,7 @@
             return nbt.fortune;
         </line>
         <line displayname="hud.msg.ChromatiCraft.Miner.SilkTouch">
-        return nbt.silk;
+            return nbt.silk;
         </line>
     </tileentity>
     <!-- 传送门裂缝 -->
