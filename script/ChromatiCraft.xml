@@ -355,7 +355,7 @@
             return nbt.silk;
         </line>
         <line displayname="hud.msg.ChromatiCraft.Miner.Dig">
-            return nbt.dig ? 'YES' : 'No';
+            return nbt.dig ? GREEN + 'YES' : RED + 'No';
         </line>
     </tileentity>
     <!-- 传送门裂缝 -->
