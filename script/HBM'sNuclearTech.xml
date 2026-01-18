@@ -6,8 +6,11 @@
         <line displayname='hud.msg.common.BurnTime'>
             return nbt.burnTime;
         </line>
-        <line displayname='hud.msg.hbm.Stamp'>
+        <line displayname='hud.msg.HBM.Press.Stamp'>
             return name(getItemSlot(nbt.items, 1, 'slot'));
+        </line>
+        <line displayname='hud.msg.HBM.Speed'>
+            return nbt.speed / 4 + '%';
         </line>
     </tileentity>
 </oo>

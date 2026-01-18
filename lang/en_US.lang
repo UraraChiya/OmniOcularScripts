@@ -74,4 +74,5 @@ hud.msg.Forestry.Queen.Info=Info
 hud.msg.Forestry.Queen.Name=Name
 hud.msg.Forestry.Queen.Health=Health
 
-hud.msg.hbm.Stamp=Stamp
+hud.msg.HBM.Speed=Speed
+hud.msg.HBM.Press.Stamp=Stamp
