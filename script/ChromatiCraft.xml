@@ -294,12 +294,12 @@
         <line displayname="hud.msg.ChromatiCraft.Repeater.Depth">
             return nbt.depth;
         </line>
-        <line displayname="hud.msg.ChromatiCraft.Repeater.States">
+        <!--<line displayname="hud.msg.ChromatiCraft.Repeater.States">
             return nbt.states;
         </line>
         <line displayname="hud.msg.ChromatiCraft.Repeater.Meta">
             return nbt.meta;
-        </line>
+        </line>-->
     </tileentity>
     <!-- 复合灵气中继器 -->
     <tileentity id="CCchroma.compound">
@@ -323,12 +323,13 @@
             if (depths.length > 0) return results.join('\\n  ');
             return;
         </line>
+        <!--
         <line displayname="hud.msg.ChromatiCraft.Repeater.States">
             return nbt.states;
         </line>
         <line displayname="hud.msg.ChromatiCraft.Repeater.Meta">
             return nbt.meta;
-        </line>
+        </line>-->
     </tileentity>
     <!-- 仪式桌 -->
     <tileentity id="CCchroma.ritual">
