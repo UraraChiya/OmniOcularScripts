@@ -113,9 +113,9 @@
     <init>
         function getAllTheInfo(param) {
             /* 初始化基础变量，使用 || 确保默认值 */
-            var power = param.nbt.power || 0;
-            var torque = param.nbt.torque || 0;
-            var omega = param.nbt.omega || 0;
+            var power = param.nbt.power;
+            var torque = param.nbt.torque;
+            var omega = param.nbt.omega;
             var curTime = param.nbt.CookTime || 0;
             var hasLimit = param.hasLimit || false; /* 是否是象变速箱那样有上限限制*/
             var req = param.req || {}; /* 若有上限限制，则 req 为上限限制，否则为下限限制*/
