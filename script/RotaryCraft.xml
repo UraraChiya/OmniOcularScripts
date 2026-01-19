@@ -216,6 +216,9 @@
             } else if (nbt.liquefactionmachine != undefined) {
                 /* Wetter */
                 req = { power: 4096, omega: 1024 };
+            } else if (nbt.accel != undefined && nbt.fuel != undefined) {
+                /* Pulsejet */
+                req = { omega: 131072 };
             }
             return getAllTheInfo({
                 nbt: nbt,
