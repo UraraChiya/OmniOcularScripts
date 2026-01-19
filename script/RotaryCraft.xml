@@ -154,9 +154,11 @@
             };
 
             /* 处理三项核心参数 */
-            results.push(formatInfo(power, req.power, 'W', translate('hud.msg.RotaryCraft.Power')));
-            results.push(formatInfo(torque, req.torque, 'Nm', translate('hud.msg.RotaryCraft.Torque')));
-            results.push(formatInfo(omega, req.omega, 'rad/s', translate('hud.msg.RotaryCraft.Omega')));
+            if (power != undefined && torque != undefined && omega != undefined) {
+                results.push(formatInfo(power, req.power, 'W', translate('hud.msg.RotaryCraft.Power')));
+                results.push(formatInfo(torque, req.torque, 'Nm', translate('hud.msg.RotaryCraft.Torque')));
+                results.push(formatInfo(omega, req.omega, 'rad/s', translate('hud.msg.RotaryCraft.Omega')));
+            }
 
             /* 处理进度信息 */
             if (process.base != undefined && process.factor != undefined) {
@@ -174,7 +176,10 @@
     <!--通用信息显示-->
     <tileentity id="RC.*">
         <line displayname='hud.msg.common.Info'>
-            if (nbt.power == undefined || nbt.omega == undefined || nbt.torque == undefined) {
+            if (
+                nbt.place == undefined &&
+                (nbt.power == undefined || nbt.omega == undefined || nbt.torque == undefined)
+            ) {
                 return;
             }
             var hasLimit = undefined;
