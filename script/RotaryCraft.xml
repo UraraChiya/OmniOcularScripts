@@ -124,6 +124,16 @@
             /* 返回值列表 */
             var results = ['\\n'];
 
+            /* 放置者 */
+            if (nbt.place) {
+                results.push(customLabelFormat(translate('hud.msg.RotaryCraft.Place'), nbt.place));
+            }
+
+            /* 基岩 */
+            if (nbt.bedrock) {
+                results.push(customLabelFormat(translate('hud.msg.RotaryCraft.Bedrock'), nbt.bedrock));
+            }
+
             var formatInfo = function (val, reqVal, unit, label) {
                 var formattedVal = numberWithCommas(val);
 
@@ -157,19 +167,12 @@
                     )
                 );
             }
+
             return results.join('\\n  ');
         }
     </init>
     <!--通用信息显示-->
     <tileentity id="RC.*">
-        <line displayname="hud.msg.RotaryCraft.Place">
-            return nbt.place;
-        </line>
-        <line displayname='hud.msg.RotaryCraft.Bedrock'>
-            if (nbt.bedrock != undefined) {
-                return nbt.bedrock ? GREEN + 'Yes' : RED + 'No';
-            }
-        </line>
         <line displayname='hud.msg.common.Info'>
             if (nbt.power == undefined || nbt.omega == undefined || nbt.torque == undefined) {
                 return;
