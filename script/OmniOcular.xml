@@ -110,7 +110,7 @@
             }
 
             /* 5. 修正科学计数法：
-                               例如 1.00e+0，对于 3 位有效数，toFixed 应为 2 */
+             * 例如 1.00e+0，对于 3 位有效数，toFixed 应为 2 */
             if (formatted.indexOf('e') !== -1) {
                 formatted = parseFloat(formatted).toFixed(precision - 1);
             }
