@@ -78,9 +78,11 @@
         function padSpaces(input, targetLength) {
             return padStart(input, targetLength, ' ');
         }
-        /* 格式化 SI 样式 */
-        function formatSI(num) {
+        /* 格式化 SI 样式，precision 默认为 3 */
+        function formatSI(num, precision) {
             if (num === 0) return '0';
+            /* 如果未传参，则默认保留 3 位有效数字 */
+            if (precision === undefined) precision = 3;
 
             var absNum = Math.abs(num);
 
@@ -91,80 +93,77 @@
 
             var prefixes = ['', 'k', 'M', 'G', 'T', 'P', 'E'];
 
-            /* 2. 直接调用你的 log 函数计算数量级 (以 1000 为底) */
-            /* 假设你的 log 函数签名是 log(base, n) */
+            /* 2. 计算数量级 */
             var i = Math.floor(log(1000, absNum));
             var index = Math.min(i, prefixes.length - 1);
 
             var scaled = num / Math.pow(1000, index);
 
-            /* 3. 格式化三位有效数字 */
-            var formatted = scaled.toPrecision(3);
+            /* 3. 使用动态有效位数 */
+            var formatted = scaled.toPrecision(precision);
 
-            /* 4. 进位补偿：处理 999.9 -> 1000 的情况 */
+            /* 4. 进位补偿 */
             if (Math.abs(parseFloat(formatted)) >= 1000 && index < prefixes.length - 1) {
                 index++;
                 scaled /= 1000;
-                formatted = scaled.toPrecision(3);
+                formatted = scaled.toPrecision(precision);
             }
 
-            /* 5. 修正科学计数法（ES5 兼容写法） */
+            /* 5. 修正科学计数法：
+                               例如 1.00e+0，对于 3 位有效数，toFixed 应为 2 */
             if (formatted.indexOf('e') !== -1) {
-                formatted = parseFloat(formatted).toFixed(2);
+                formatted = parseFloat(formatted).toFixed(precision - 1);
             }
 
             return formatted + ' ' + prefixes[index];
         }
-        /* 格式化 IEC 样式 */
-        function formatIEC(num) {
-            /* 1. 处理零的特殊情况 */
+        /* 格式化 IEC 样式，precision 默认为 3 */
+        function formatIEC(num, precision) {
             if (num === 0) return '0';
+            if (precision === undefined) precision = 3;
 
             var absNum = Math.abs(num);
 
-            /* 2. 对于小于 1024 的数字，按原样输出字符串（不补零） */
+            /* 1. 小于 1024 按原样输出 */
             if (absNum < 1024) {
                 return num.toString();
             }
 
-            /* 3. 定义 IEC 二进制词头列表 */
             var prefixes = ['', 'Ki', 'Mi', 'Gi', 'Ti', 'Pi', 'Ei'];
 
-            /* 4. 使用自定义 log 函数计算以 1024 为底的数量级 */
+            /* 2. 计算数量级 */
             var i = Math.floor(log(1024, absNum));
             var index = Math.min(i, prefixes.length - 1);
 
-            /* 5. 计算缩放后的数值 */
             var scaled = num / Math.pow(1024, index);
 
-            /* 6. 核心：强制保留三位有效数字 */
-            var formatted = scaled.toPrecision(3);
+            /* 3. 使用动态有效位数 */
+            var formatted = scaled.toPrecision(precision);
 
-            /* 7. 进位补偿逻辑 */
-            /* 例如：1023.9 可能会被 toPrecision(3) 四舍五入为 "1024" */
-            /* 此时需要进位到下一个词头（如从 Ki 进到 Mi） */
+            /* 4. 进位补偿 */
             if (Math.abs(parseFloat(formatted)) >= 1024 && index < prefixes.length - 1) {
                 index++;
                 scaled /= 1024;
-                formatted = scaled.toPrecision(3);
+                formatted = scaled.toPrecision(precision);
             }
 
-            /* 8. 修正可能出现的科学计数法字符串（如 "1.00e+0"） */
-            /* 使其保持 "1.00" 这种直观的格式 */
+            /* 5. 修正科学计数法 */
             if (formatted.indexOf('e') !== -1) {
-                formatted = parseFloat(formatted).toFixed(2);
+                formatted = parseFloat(formatted).toFixed(precision - 1);
             }
 
             return formatted + ' ' + prefixes[index];
         }
-        /* 对齐函数 */
-        function formatAlignedSI(num) {
-            /* 1.23 K 加上空格共 6 位 */
-            return padSpaces(formatSI(num), 6);
+        /* 假设需要 4 位有效数字并对齐 */
+        function formatAlignedSI(num, precision) {
+            var p = precision || 3;
+            /* 增加有效位数会增加字符串长度，padSpaces 的长度需根据实际需求调整 */
+            return padSpaces(formatSI(num, p), p + 4);
         }
-        function formatAlignedIEC(num) {
-            /* 1.23 Ki 加上空格共 7 位，考虑到最大可能到 1023 Ki，建议设为 8 */
-            return padSpaces(formatIEC(num), 8);
+
+        function formatAlignedIEC(num, precision) {
+            var p = precision || 3;
+            return padSpaces(formatIEC(num, p), p + 5);
         }
     </init>
     <!-- 用于将字符串转成样式 -->
