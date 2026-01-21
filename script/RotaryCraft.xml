@@ -135,7 +135,7 @@
                         ' ' +
                         translate('hud.msg.Reika.Place.NotSamePlayer');
                 }
-                results.push(customLabelFormat(translate('hud.msg.Reika.Place'), nbt.tmp));
+                results.push(customLabelFormat(translate('hud.msg.Reika.Place'), tmp));
             }
             /* 基岩 */
             if (nbt.bedrock) {
