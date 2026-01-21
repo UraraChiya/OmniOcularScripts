@@ -181,66 +181,100 @@
             return results.join('\\n  ');
         }
     </init>
-    <!--通用信息显示-->
-    <tileentity id="RC.*">
+    <tileentity id="RCpulsejet">
         <line displayname='hud.msg.common.Info'>
-            if (
-                nbt.place == undefined &&
-                (nbt.power == undefined || nbt.omega == undefined || nbt.torque == undefined)
-            ) {
-                return;
-            }
-            var hasLimit = undefined;
-            var req = {};
-            var process = {};
-
-            /* 通过特殊 nbt 区分机器 */
-            if (nbt.geartype != undefined) {
-                /* Gearbox */
-                hasLimit = true;
-                req = getLimit(nbt.geartype);
-            } else if (nbt.shafttype != undefined) {
-                /* Shaft */
-                hasLimit = true;
-                req = getLimit(nbt.shafttype);
-            } else if (nbt.grinder != undefined) {
-                /* Grinder */
-                req = { power: 4096, torque: 128 };
-                process = { base: 840, factor: 60 };
-            } else if (nbt.fermenter != undefined) {
-                /* Fermenter */
-                req = { power: 1024, omega: 32 };
-                process = { base: 480, factor: 35 };
-            } else if (nbt.centrifuge != undefined) {
-                /* Centrifuge */
-                req = { power: 16384, omega: 4096 };
-                process = { base: 1200, factor: 60 };
-            } else if (nbt.step != undefined) {
-                /* BedrockBreaker */
-                req = { power: 4194304, torque: 16384 };
-                process = { base: 600, factor: 30 };
-            } else if (nbt.furnLoc != undefined) {
-                /* Friction */
-                req = { power: 8192, torque: 32 };
-            } else if (nbt.temperature != undefined) {
-                /* Heater */
-                req = { power: 8192, torque: 16 };
-            } else if (nbt.fractionationunitin != undefined) {
-                /* Fractionator */
-                req = { power: 65536, omega: 8192 };
-                process = { base: 800, factor: 40 };
-            } else if (nbt.liquefactionmachine != undefined) {
-                /* Wetter */
-                req = { power: 4096, omega: 1024 };
-            } else if (nbt.accel != undefined && nbt.fuel != undefined) {
-                /* Pulsejet */
-                req = { omega: 131072 };
-            }
             return getAllTheInfo({
                 nbt: nbt,
-                hasLimit: hasLimit,
-                req: req,
-                process: process
+                req: { omega: 131072 }
+            });
+        </line>
+    </tileentity>
+    <tileentity id="RCwetter">
+        <line displayname='hud.msg.common.Info'>
+            return getAllTheInfo({
+                nbt: nbt,
+                req: { power: 4096, omega: 1024 }
+            });
+        </line>
+    </tileentity>
+    <tileentity id="RCfractionator">
+        <line displayname='hud.msg.common.Info'>
+            return getAllTheInfo({
+                nbt: nbt,
+                req: { power: 65536, omega: 8192 },
+                process: { base: 800, factor: 40 }
+            });
+        </line>
+    </tileentity>
+    <tileentity id="RCheater">
+        <line displayname='hud.msg.common.Info'>
+            return getAllTheInfo({
+                nbt: nbt,
+                req: { power: 8192, torque: 16 }
+            });
+        </line>
+    </tileentity>
+    <tileentity id="RCshaft">
+        <line displayname='hud.msg.common.Info'>
+            return getAllTheInfo({
+                nbt: nbt,
+                hasLimit: true,
+                req: getLimit(nbt.shafttype)
+            });
+        </line>
+    </tileentity>
+    <tileentity id="RCgearbox">
+        <line displayname='hud.msg.common.Info'>
+            return getAllTheInfo({
+                nbt: nbt,
+                hasLimit: true,
+                req: getLimit(nbt.geartype)
+            });
+        </line>
+    </tileentity>
+    <tileentity id="RCbedrockbreaker">
+        <line displayname='hud.msg.common.Info'>
+            return getAllTheInfo({
+                nbt: nbt,
+                req: { power: 4194304, torque: 16384 },
+                process: { base: 600, factor: 30 }
+            });
+        </line>
+    </tileentity>
+    <tileentity id="RCfermenter">
+        <line displayname='hud.msg.common.Info'>
+            return getAllTheInfo({
+                nbt: nbt,
+                req: { power: 1024, omega: 32 },
+                process: { base: 480, factor: 35 }
+            });
+        </line>
+    </tileentity>
+    <tileentity id="RCcentrifuge">
+        <line displayname='hud.msg.common.Info'>
+            return getAllTheInfo({
+                nbt: nbt,
+                req: { power: 16384, omega: 4096 },
+                process: { base: 1200, factor: 60 }
+            });
+        </line>
+    </tileentity>
+    <tileentity id="RCgrinder">
+        <line displayname='hud.msg.common.Info'>
+            return getAllTheInfo({
+                nbt: nbt,
+                req: { power: 4096, torque: 128 },
+                process: { base: 840, factor: 60 }
+            });
+        </line>
+    </tileentity>
+    <tileentity id="RCcompactro">
+        <line displayname='hud.msg.common.Info'>
+            return getAllTheInfo({
+                nbt: nbt,
+                req: { power: 262144, torque: 4096 },
+                process: { base: 300, factor: 15 }
+                /* process 还有个 4 不知道是干啥的，COMPACTOR(MachineRegistry.COMPACTOR, 		300, 15, 4), */
             });
         </line>
     </tileentity>
@@ -351,6 +385,12 @@
         </line>
     </tileentity>
     <tileentity id="RCfriction">
+        <line displayname='hud.msg.common.Info'>
+            return getAllTheInfo({
+                nbt: nbt,
+                req: { power: 8192, torque: 32 }
+            });
+        </line>
         <line displayname='hud.msg.RotaryCraft.Friction.MaxTemperature'>
             /* 温度公式为 ：T=12*log2(omega 速度)*log2(torque 扭矩) + 30 (在满足机器最低运行要求的情况下) */
             var omega = nbt.omega || 0;
