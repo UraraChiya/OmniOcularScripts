@@ -199,17 +199,17 @@
     </init>
     <!-- CC 共有内容 -->
     <tileentity id="CC.*">
-        <line displayname="hud.msg.ChromatiCraft.Place">
+        <line displayname="hud.msg.Reika.Place">
             var result = '';
             if (nbt.place) {
                 result += nbt.place;
             }
             if (nbt.placeUUID && nbt.place != uuid2name(nbt.placeUUID)) {
                 result +=
-                    ' ' +
+                    ' UUID: ' +
                     uuid2name(nbt.placeUUID) +
                     ' ' +
-                    translate('hud.msg.ChromatiCraft.Place.NotSamePlayer');
+                    translate('hud.msg.Reika.Place.NotSamePlayer');
             }
             if (result) return result;
         </line>

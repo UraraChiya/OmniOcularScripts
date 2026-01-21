@@ -1,6 +1,22 @@
-<!--Date: 2015/06/28-->
-<!--Version: 1.7.10 V6e-->
+<!--Author: UraraChiya-->
+<!--Date: 2026/01/21-->
+<!--Version: V33a-->
+<!--Requie: OmniOcular.xml-->
 <oo>
+    <!-- RC 共有内容 -->
+    <tileentity id="Reactor.*">
+        <line displayname="hud.msg.Reika.Place">
+            var result = '';
+            if (nbt.place) {
+                result += nbt.place;
+            }
+            if (nbt.placeUUID && nbt.place != uuid2name(nbt.placeUUID)) {
+                result +=
+                    ' UUID: ' + uuid2name(nbt.placeUUID) + ' ' + translate('hud.msg.Reika.Place.NotSamePlayer');
+            }
+            if (result) return result;
+        </line>
+    </tileentity>
     <tileentity id="ReactorMagnetic Containment Pipe">
         <line>
             if (nbt['chg'] != 0) return translate('hud.msg.ReactorCraft.chg') + ': ' + nbt['chg'] + 'kV';

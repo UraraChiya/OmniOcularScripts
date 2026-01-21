@@ -126,9 +126,17 @@
 
             /* 放置者 */
             if (nbt.place) {
-                results.push(customLabelFormat(translate('hud.msg.RotaryCraft.Place'), nbt.place));
+                var tmp = '';
+                tmp += nbt.place;
+                if (nbt.placeUUID && nbt.place != uuid2name(nbt.placeUUID)) {
+                    tmp +=
+                        ' UUID: ' +
+                        uuid2name(nbt.placeUUID) +
+                        ' ' +
+                        translate('hud.msg.Reika.Place.NotSamePlayer');
+                }
+                results.push(customLabelFormat(translate('hud.msg.Reika.Place'), nbt.tmp));
             }
-
             /* 基岩 */
             if (nbt.bedrock) {
                 results.push(customLabelFormat(translate('hud.msg.RotaryCraft.Bedrock'), nbt.bedrock));

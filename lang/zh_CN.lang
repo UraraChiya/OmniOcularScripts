@@ -28,8 +28,9 @@ hud.msg.Railcraft.Heat=热量
 
 hud.msg.appliedenergistics2.Parts=部件
 
-hud.msg.ChromatiCraft.Place=放置者
-hud.msg.ChromatiCraft.Place.NotSamePlayer=非相同玩家
+hud.msg.Reika.Place=放置者
+hud.msg.Reika.Place.NotSamePlayer=非相同玩家
+
 hud.msg.ChromatiCraft.CraftRemain=剩余制作时间
 hud.msg.ChromatiCraft.Tier=层级
 hud.msg.ChromatiCraft.Struct=结构
@@ -51,7 +52,6 @@ hud.msg.ChromatiCraft.Wireless.Broadcast=广播
 hud.msg.ChromatiCraft.Wireless.Broadcast.l=广播
 hud.msg.ChromatiCraft.Wireless.Broadcast.2=增强广播
 
-hud.msg.RotaryCraft.Place=放置者
 hud.msg.RotaryCraft.Power=功率
 hud.msg.RotaryCraft.Omega=角速度
 hud.msg.RotaryCraft.Torque=扭矩
