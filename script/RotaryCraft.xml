@@ -200,6 +200,20 @@
             if (result) return result;
         </line>
     </tileentity>
+    <tileentity id="RCsplitter">
+        <line displayname='hud.msg.common.Info'>
+            return getAllTheInfo({
+                nbt: nbt
+            });
+        </line>
+    </tileentity>
+    <tileentity id="RC.*gears">
+        <line displayname='hud.msg.common.Info'>
+            return getAllTheInfo({
+                nbt: nbt
+            });
+        </line>
+    </tileentity>
     <tileentity id="RCscalechest">
         <line displayname='hud.msg.common.Info'>
             return getAllTheInfo({
