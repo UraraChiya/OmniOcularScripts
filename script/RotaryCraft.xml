@@ -56,11 +56,12 @@
 	FILLER(MachineRegistry.FILLER,				22,	2);
     -->
     <init>
-        function getTotalTime(omega, base, factor) {
-            return Math.max(1, Math.ceil(base - factor * log2(omega + 1)));
+        /* 计算操作时间  */
+        function getOperationTime(omega, base, factor, minTime) {
+            minTime = minTime || 1;
+            var rawTime = base - factor * log2(omega + 1);
+            return Math.max(minTime, Math.floor(rawTime));
         }
-    </init>
-    <init>
         /* 计算最小多少转速可达 1 tick 耗时*/
         function getMinOmegaForOneTick(base, factor) {
             var targetTime = 1;
@@ -68,12 +69,30 @@
             var minOmega = Math.pow(2, requiredLog) - 1;
             return Math.ceil(minOmega);
         }
+        /* 计算额外操作 */
+        function getNumberOperations(omega, base, factor) {
+            var threshold = Math.pow(2, 1 + base / factor);
+            if (omega < threshold) {
+                return 1;
+            }
+            var count = 1 + Math.floor(log2(omega) - base / factor);
+            return count;
+        }
     </init>
     <init>
-        function getProcessText(curTime, omega, base, factor) {
-            var totalTime = getTotalTime(omega, base, factor);
-            var result = curTime + ' / ' + totalTime + ' ' + translate('hud.msg.common.Ticks');
-            if (totalTime > 1) {
+        function getProcessText(curTime, omega, base, factor, minTime) {
+            minTime = minTime || 1;
+
+            var operationTime = getOperationTime(omega, base, factor, minTime);
+            var numOps = getNumberOperations(omega, base, factor);
+            /* 基础时间显示 */
+            var result = curTime + ' / ' + operationTime + ' ' + translate('hud.msg.common.Ticks');
+
+            /* 如果当前每 tick 操作数大于 1，则添加额外操作说明 */
+            if (numOps > 1) {
+                result += ' (' + numOps + 'x ' + translate('hud.msg.RotaryCraft.OperationsPerTick') + ')';
+            } else if (operationTime > 1) {
+                /* 如果还没达到 1 tick，显示达到 1 tick 所需的转速提示 */
                 var minOmega = getMinOmegaForOneTick(base, factor);
                 if (omega < minOmega) {
                     result += ' (' + translate('hud.msg.RotaryCraft.OneTickRequires');

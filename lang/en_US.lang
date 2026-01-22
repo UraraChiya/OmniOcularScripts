@@ -56,6 +56,7 @@ hud.msg.RotaryCraft.Power=Power
 hud.msg.RotaryCraft.Omega=Omega
 hud.msg.RotaryCraft.Torque=Torque
 hud.msg.RotaryCraft.Requirements=Requirements
+hud.msg.RotaryCraft.OperationsPerTick=Ops/Tick
 hud.msg.RotaryCraft.Magnet=Magnetic Flux Density
 hud.msg.RotaryCraft.MicroTesla=µT
 hud.msg.RotaryCraft.OneTickRequires=1 Tick Requires

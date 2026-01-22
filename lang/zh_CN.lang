@@ -56,6 +56,7 @@ hud.msg.RotaryCraft.Power=功率
 hud.msg.RotaryCraft.Omega=角速度
 hud.msg.RotaryCraft.Torque=扭矩
 hud.msg.RotaryCraft.Requirements=需求
+hud.msg.RotaryCraft.OperationsPerTick=操作/刻
 hud.msg.RotaryCraft.Magnet=磁通量密度
 hud.msg.RotaryCraft.MicroTesla= μT
 hud.msg.RotaryCraft.OneTickRequires=1 刻需求
