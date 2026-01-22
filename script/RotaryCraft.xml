@@ -124,19 +124,6 @@
             /* 返回值列表 */
             var results = ['\\n'];
 
-            /* 放置者 */
-            if (nbt.place) {
-                var tmp = '';
-                tmp += nbt.place;
-                if (nbt.placeUUID && nbt.place != uuid2name(nbt.placeUUID)) {
-                    tmp +=
-                        ' UUID: ' +
-                        uuid2name(nbt.placeUUID) +
-                        ' ' +
-                        translate('hud.msg.Reika.Place.NotSamePlayer');
-                }
-                results.push(customLabelFormat(translate('hud.msg.Reika.Place'), tmp));
-            }
             /* 基岩 */
             if (nbt.bedrock) {
                 results.push(customLabelFormat(translate('hud.msg.RotaryCraft.Bedrock'), nbt.bedrock));
@@ -181,6 +168,27 @@
             return results.join('\\n  ');
         }
     </init>
+    <tileentity id="RC.*">
+        <line displayname="hud.msg.Reika.Place">
+            var result = '';
+            if (nbt.place) {
+                result += nbt.place;
+            }
+            if (nbt.placeUUID && nbt.place != uuid2name(nbt.placeUUID)) {
+                result +=
+                    ' UUID: ' + uuid2name(nbt.placeUUID) + ' ' + translate('hud.msg.Reika.Place.NotSamePlayer');
+            }
+            if (result) return result;
+        </line>
+    </tileentity>
+    <tileentity id="RCscalechest">
+        <line displayname='hud.msg.common.Info'>
+            return getAllTheInfo({
+                nbt: nbt,
+                req: { omega: 4096 }
+            });
+        </line>
+    </tileentity>
     <tileentity id="RCpulsejet">
         <line displayname='hud.msg.common.Info'>
             return getAllTheInfo({
