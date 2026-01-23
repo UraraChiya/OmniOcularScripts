@@ -4,6 +4,32 @@
 <!--Requie: OmniOcular.xml-->
 <oo>
     <init>
+        /* 直接从 Java 类中获取静态常量和方法 */
+        var ReikaRFHelper = Packages.Reika.DragonAPI.ModInteract.Power.ReikaRFHelper;
+        var ConfigRegistry = Packages.Reika.RotaryCraft.Registry.ConfigRegistry;
+        var Dynamo = Packages.Reika.RotaryCraft.ModInterface.Conversion.TileEntityDynamo;
+
+        function getDynamoRF(omega, torque, isUpgraded) {
+            /* 1. 从 Java 类中获取硬编码的上限 */
+            var maxTq = isUpgraded ? Dynamo.MAXTORQUE_UPGRADE : Dynamo.MAXTORQUE;
+            var maxOm = Dynamo.MAXOMEGA;
+
+            /* 2. 模拟 getGenRF 内部的 Math.min 逻辑 */
+            var tq = Math.min(torque, maxTq);
+            var om = Math.min(omega, maxOm);
+
+            /* 3. 获取动态的物理转换常数 (关键点) */
+            /* 无论玩家怎么改配置，这个调用拿到的永远是游戏当前运行的值 */
+            var wattsPerRF = ReikaRFHelper.getWattsPerRF();
+            var efficiency = ConfigRegistry.getConverterEfficiency();
+
+            /* 4. 计算功率并转换 */
+            var pwr = tq * om;
+            /* 模拟 Java 的 (int) 强制转换 */
+            return Math.floor((pwr / wattsPerRF) * efficiency);
+        }
+    </init>
+    <init>
         function meetsRequirements(nbt, req) {
             if (req.power && nbt.power < req.power) return false;
             if (req.omega && nbt.omega < req.omega) return false;
@@ -330,15 +356,7 @@
     -->
     <tileentity id="RCdynamo">
         <line displayname='hud.msg.RotaryCraft.Dynamo.Generated'>
-            var omega = nbt.omega || 0;
-            var torque = nbt.torque || 0;
-            if (omega > 1024) omega = 1024;
-            if (nbt.upgrade) {
-                if (torque > 8192) torque = 8192;
-            } else {
-                if (torque > 2048) torque = 2048;
-            }
-            return WHITE + (omega * torque) / 512 + ' RF/t';
+            return getDynamoRF(nbt.omega, nbt.torque, nbt.upgrade) + ' RF/t';
         </line>
     </tileentity>
     <tileentity id="RCfan">
