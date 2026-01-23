@@ -60,7 +60,7 @@
     <tileentity id="Geothermal Generator">
         <line displayname="hudmsg.IC2.LavaAmount">
             if (nbt['fluidTank']['Empty'] == undefined) {
-                return nbt['fluidTank']['Amount'] + GRAY + ' / ' + WHITE + '8000' + GRAY + ' mB';
+                return nbt['fluidTank']['Amount'] + GRAY + ' / ' + WHITE + '8,000' + GRAY + ' mB';
             }
         </line>
     </tileentity>
@@ -71,7 +71,7 @@
     </tileentity>
     <tileentity id="BatBox">
         <line displayname="Stored">
-            return Math.floor(nbt['energy']) + GRAY + ' / ' + WHITE + '40000' + GRAY + ' EU';
+            return numberWithCommas(nbt.energy.toFixed(0)) + GRAY + ' / ' + WHITE + '40,000' + GRAY + ' EU';
         </line>
         <line displayname="Output">
             return '32' + GRAY + ' EU/t';
@@ -113,7 +113,7 @@
     </tileentity>
     <tileentity id="CESU">
         <line displayname="Stored">
-            return Math.floor(nbt['energy']) + GRAY + ' / ' + WHITE + '300000' + GRAY + ' EU';
+            return numberWithCommas(nbt.energy.toFixed(0)) + GRAY + ' / ' + WHITE + '300,000' + GRAY + ' EU';
         </line>
         <line displayname="Output">
             return '128' + GRAY + ' EU/t';
@@ -155,7 +155,7 @@
     </tileentity>
     <tileentity id="MFE">
         <line displayname="Stored">
-            return Math.floor(nbt['energy']) + GRAY + ' / ' + WHITE + '4000000' + GRAY + ' EU';
+            return numberWithCommas(nbt.energy.toFixed(0)) + GRAY + ' / ' + WHITE + '4,000,000' + GRAY + ' EU';
         </line>
         <line displayname="Output">
             return '512' + GRAY + ' EU/t';
@@ -197,10 +197,10 @@
     </tileentity>
     <tileentity id="MFSU">
         <line displayname="Stored">
-            return Math.floor(nbt['energy']) + GRAY + ' / ' + WHITE + '40000000' + GRAY + ' EU';
+            return numberWithCommas(nbt.energy.toFixed(0)) + GRAY + ' / ' + WHITE + '40,000,000' + GRAY + ' EU';
         </line>
         <line displayname="Output">
-            return '2048' + GRAY + ' EU/t';
+            return '2,048' + GRAY + ' EU/t';
         </line>
         <line displayname="hudmsg.IC2.Charging">
             if (nbt['InvSlots']['charge']['Contents'][0]['Damage'] != 1) {
@@ -239,7 +239,7 @@
     </tileentity>
     <tileentity id="Chargepad BatBox">
         <line displayname="Stored">
-            return nbt['energy'] + GRAY + ' / ' + WHITE + '40000' + GRAY + ' EU';
+            return nbt['energy'] + GRAY + ' / ' + WHITE + '40,000' + GRAY + ' EU';
         </line>
         <line displayname="Output">
             return '32' + GRAY + ' EU/t';
@@ -247,7 +247,7 @@
     </tileentity>
     <tileentity id="Chargepad CESU">
         <line displayname="Stored">
-            return Math.floor(nbt['energy']) + GRAY + ' / ' + WHITE + '300000' + GRAY + ' EU';
+            return numberWithCommas(nbt.energy.toFixed(0)) + GRAY + ' / ' + WHITE + '300,000' + GRAY + ' EU';
         </line>
         <line displayname="Output">
             return '128' + GRAY + ' EU/t';
@@ -255,7 +255,7 @@
     </tileentity>
     <tileentity id="Chargepad MFE">
         <line displayname="Stored">
-            return Math.floor(nbt['energy']) + GRAY + ' / ' + WHITE + '4000000' + GRAY + ' EU';
+            return numberWithCommas(nbt.energy.toFixed(0)) + GRAY + ' / ' + WHITE + '4,000,000' + GRAY + ' EU';
         </line>
         <line displayname="Output">
             return '512' + GRAY + ' EU/t';
@@ -263,10 +263,10 @@
     </tileentity>
     <tileentity id="Chargepad MFSU">
         <line displayname="Stored">
-            return Math.floor(nbt['energy']) + GRAY + ' / ' + WHITE + '40000000' + GRAY + ' EU';
+            return numberWithCommas(nbt.energy.toFixed(0)) + GRAY + ' / ' + WHITE + '40,000,000' + GRAY + ' EU';
         </line>
         <line displayname="Output">
-            return '2048' + GRAY + ' EU/t';
+            return '2,048' + GRAY + ' EU/t';
         </line>
     </tileentity>
     <tileentity id="Chargepad.*">
@@ -395,7 +395,7 @@
             }
         </line>
         <line displayname="Output Tank">
-            gticot(nbt, 8000);
+            gticot(nbt, 8,000);
         </line>
         <line displayname="hudmsg.IC2.Discharging">
             return (
@@ -482,7 +482,7 @@
     </tileentity>
     <tileentity id="Pump">
         <line>
-            gticft(nbt, 8000);
+            gticft(nbt, 8,000);
         </line>
         <line displayname="hudmsg.IC2.Discharging">
             return (
@@ -544,7 +544,7 @@
             return nbt['scrap'].toFixed(0);
         </line>
         <line>
-            gticft(nbt, 8000);
+            gticft(nbt, 8,000);
         </line>
         <line displayname="hudmsg.IC2.Discharging">
             return (
@@ -581,7 +581,7 @@
     </tileentity>
     <tileentity id="Crop-Matron">
         <line>
-            gticft(nbt, 2000);
+            gticft(nbt, 2,000);
         </line>
         <line>
             if (nbt['InvSlots']['weedEx']['Contents'][0] == undefined) {
@@ -661,7 +661,7 @@
     </tileentity>
     <tileentity id="Ore Washing Plant">
         <line>
-            gticft(nbt, 8000);
+            gticft(nbt, 8,000);
         </line>
         <line displayname="hudmsg.IC2.Discharging">
             return (
@@ -741,7 +741,7 @@
             }
         </line>
         <line>
-            gticft(nbt, 16000);
+            gticft(nbt, 16,000);
         </line>
         <line displayname="hudmsg.IC2.Discharging">
             return (
@@ -780,7 +780,7 @@
     </tileentity>
     <tileentity id="Fluid Bottler Maschine">
         <line>
-            gticft(nbt, 8000);
+            gticft(nbt, 8,000);
         </line>
         <line displayname="hudmsg.IC2.Discharging">
             return (
