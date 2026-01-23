@@ -363,6 +363,11 @@
             return getAllTheInfo({ nbt: nbt, machineName: 'COMPACTOR' });
         </line>
     </tileentity>
+    <tileentity id="RChydro">
+        <line displayname='hud.msg.common.Info'>
+            return getAllTheInfo({ nbt: nbt, machineName: 'HYDRO' });
+        </line>
+    </tileentity>
     <tileentity id="RCblastfurnace">
         <line displayname='melt'>
             return nbt.melt;
