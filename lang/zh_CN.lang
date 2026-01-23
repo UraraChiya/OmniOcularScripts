@@ -60,6 +60,7 @@ hud.msg.RotaryCraft.OperationsPerTick=操作/刻
 hud.msg.RotaryCraft.Magnet=磁通量密度
 hud.msg.RotaryCraft.MicroTesla= μT
 hud.msg.RotaryCraft.OneTickRequires=1 刻需求
+hud.msg.RotaryCraft.Stage=阶段
 
 hud.msg.RotaryCraft.Dynamo.Generated=生成
 
@@ -68,7 +69,6 @@ hud.msg.RotaryCraft.Fan.Mode=模式
 hud.msg.RotaryCraft.Fan.FireExtinguish=灭火
 hud.msg.RotaryCraft.Fan.Harvesting=收割
 
-hud.msg.RotaryCraft.Extractor.Stage=阶段
 
 hud.msg.RotaryCraft.Friction.MaxTemperature=最高温度
 
