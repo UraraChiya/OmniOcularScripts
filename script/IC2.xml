@@ -395,7 +395,7 @@
             }
         </line>
         <line displayname="Output Tank">
-            gticot(nbt, 8,000);
+            gticot(nbt, 8000);
         </line>
         <line displayname="hudmsg.IC2.Discharging">
             return (
