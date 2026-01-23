@@ -62,6 +62,7 @@ hud.msg.RotaryCraft.MicroTesla= μT
 hud.msg.RotaryCraft.OneTickRequires=1 刻需求
 hud.msg.RotaryCraft.Stage=阶段
 hud.msg.RotaryCraft.Generated=生成
+hud.msg.RotaryCraft.Bedrock=基岩
 
 hud.msg.RotaryCraft.ScaleChest.Slots=插槽
 

@@ -159,7 +159,7 @@
 
             /* 基岩 */
             if (bedrock) {
-                results.push(customLabelFormat(translate('hud.msg.RotaryCraft.Bedrock'), nbt.bedrock));
+                results.push(AQUA + '[' + translate('hud.msg.RotaryCraft.Bedrock') + ']');
             }
 
             var formatInfo = function (val, reqVal, unit, label) {
