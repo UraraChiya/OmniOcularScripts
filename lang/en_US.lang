@@ -64,6 +64,8 @@ hud.msg.RotaryCraft.Stage=Stage
 
 hud.msg.RotaryCraft.Dynamo.Generated=Generated
 
+hud.msg.RotaryCraft.ScaleChest.Slots=Slots
+
 hud.msg.RotaryCraft.Fan.Range=Range
 hud.msg.RotaryCraft.Fan.Mode=Mode
 hud.msg.RotaryCraft.Fan.FireExtinguish=Fire Extinguish

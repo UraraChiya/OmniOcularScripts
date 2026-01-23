@@ -4,35 +4,6 @@
 <!--Requie: OmniOcular.xml-->
 <oo>
     <init>
-        /* 直接从 Java 类中获取静态常量和方法 */
-        var ReikaRFHelper = Packages.Reika.DragonAPI.ModInteract.Power.ReikaRFHelper;
-        var ConfigRegistry = Packages.Reika.RotaryCraft.Registry.ConfigRegistry;
-        var Dynamo = Packages.Reika.RotaryCraft.ModInterface.Conversion.TileEntityDynamo;
-
-        function getDynamoRF(omega, torque, isUpgraded) {
-            /* 1. 从 Java 类中获取硬编码的上限 */
-            var maxTq = isUpgraded ? Dynamo.MAXTORQUE_UPGRADE : Dynamo.MAXTORQUE;
-            var maxOm = Dynamo.MAXOMEGA;
-
-            /* 2. 模拟 getGenRF 内部的 Math.min 逻辑 */
-            var tq = Math.min(torque, maxTq);
-            var om = Math.min(omega, maxOm);
-
-            /* 3. 获取动态的物理转换常数 (关键点) */
-            /* 无论玩家怎么改配置，这个调用拿到的永远是游戏当前运行的值 */
-            var wattsPerRF = ReikaRFHelper.getWattsPerRF();
-            var efficiency = ConfigRegistry.getConverterEfficiency();
-
-            /* 4. 计算功率并转换 */
-            var pwr = tq * om;
-            return {
-                /* 模拟 Java 的 (int) 强制转换 */
-                rf: Math.floor((pwr / wattsPerRF) * efficiency),
-                tq: tq,
-                om: om
-            };
-        }
-
         var PowerReceivers = Packages.Reika.RotaryCraft.Registry.PowerReceivers;
 
         /**
@@ -116,6 +87,7 @@
         }
         function getProcessText(curTime, omega, machineName, stage) {
             stage = stage || 0;
+
             var machine = DurationRegistry.valueOf(machineName);
 
             /* 直接调用 Java 获取当前真实值 */
@@ -217,48 +189,51 @@
 
             /* 处理进度信息 */
             if (machineName != undefined) {
-                var machine = DurationRegistry.valueOf(machineName);
-                var stages = machine.getNumberStages();
-                if (stages == 1) {
-                    if (meetsRequirements(nbt, req)) {
+                try {
+                    var machine = DurationRegistry.valueOf(machineName);
+                    var stages = machine.getNumberStages();
+                    if (stages == 1) {
+                        if (meetsRequirements(nbt, req)) {
+                            results.push(
+                                customLabelFormat(
+                                    translate('hud.msg.common.Process'),
+                                    getProcessText(curTime, omega, machineName, 0)
+                                )
+                            );
+                        }
+                    } else {
+                        var processResults = ['\\n'];
+                        for (var stage = 0; stage < stages; stage++) {
+                            var req = getMachinePowerRequirements(machineName, stage);
+                            var stageNum = stage + 1;
+                            if (meetsRequirements(nbt, req)) {
+                                var processText = getProcessText(
+                                    nbt.CookTime[stage],
+                                    nbt.omega,
+                                    machineName,
+                                    stage
+                                );
+                                var tmp = GREEN + translate('hud.msg.RotaryCraft.Stage') + ' ';
+                                tmp += stageNum + ': ' + WHITE + ' ' + processText;
+                                processResults.push(tmp);
+                            } else {
+                                var tmp =
+                                    RED + translate('hud.msg.RotaryCraft.Stage') + ' ' + stageNum + ': ';
+                                tmp +=
+                                    translate('hud.msg.RotaryCraft.Requirements') +
+                                    ': ' +
+                                    getRequirementText(nbt, req);
+                                processResults.push(tmp);
+                            }
+                        }
                         results.push(
                             customLabelFormat(
                                 translate('hud.msg.common.Process'),
-                                getProcessText(curTime, omega, machineName, 0)
+                                processResults.join('\\n    ')
                             )
                         );
                     }
-                } else {
-                    var processResults = ['\\n'];
-                    for (var stage = 0; stage < stages; stage++) {
-                        var req = getMachinePowerRequirements(machineName, stage);
-                        var stageNum = stage + 1;
-                        if (meetsRequirements(nbt, req)) {
-                            var processText = getProcessText(
-                                nbt.CookTime[stage],
-                                nbt.omega,
-                                machineName,
-                                stage
-                            );
-                            var tmp = GREEN + translate('hud.msg.RotaryCraft.Stage') + ' ';
-                            tmp += stageNum + ': ' + WHITE + ' ' + processText;
-                            processResults.push(tmp);
-                        } else {
-                            var tmp = RED + translate('hud.msg.RotaryCraft.Stage') + ' ' + stageNum + ': ';
-                            tmp +=
-                                translate('hud.msg.RotaryCraft.Requirements') +
-                                ': ' +
-                                getRequirementText(nbt, req);
-                            processResults.push(tmp);
-                        }
-                    }
-                    results.push(
-                        customLabelFormat(
-                            translate('hud.msg.common.Process'),
-                            processResults.join('\\n    ')
-                        )
-                    );
-                }
+                } catch (error) {}
             }
 
             return results.join('\\n  ');
@@ -290,6 +265,32 @@
     <tileentity id="RCscalechest">
         <line displayname='hud.msg.common.Info'>
             return getAllTheInfo({ nbt: nbt, machineName: 'SCALECHEST' });
+        </line>
+        <line displayname='hud.msg.RotaryCraft.ScaleChest.Slots'>
+            var ScaleChest = Packages.Reika.RotaryCraft.TileEntities.Storage.TileEntityScaleableChest;
+            /* 动态获取 Java 类中定义的常量 */
+            var FALLOFF = ScaleChest.FALLOFF;
+            var MAXSIZE = ScaleChest.MAXSIZE;
+            var MAXROWS = ScaleChest.MAXROWS;
+
+            /* 获取动力需求门槛 */
+            var req = getMachinePowerRequirements('SCALECHEST', 0);
+            var MINPOWER = req.power;
+
+            var power = nbt.power;
+            var currentSlots = 0;
+
+            /* 完美模拟 Java 层的 getNumberSlots() 逻辑 */
+            if (power < MINPOWER) {
+                currentSlots = 9;
+            } else {
+                /* Java 源码: size = 9 + (int)(power - MINPOWER) / FALLOFF; */
+                currentSlots = 9 + Math.floor((power - MINPOWER) / FALLOFF);
+            }
+            /* 确保不超过最大值 */
+            currentSlots = Math.min(MAXSIZE, currentSlots);
+
+            return currentSlots.toFixed(0);
         </line>
     </tileentity>
     <tileentity id="RCpulsejet">
@@ -365,8 +366,34 @@
             return getAllTheInfo({ nbt: nbt });
         </line>
         <line displayname='hud.msg.RotaryCraft.Dynamo.Generated'>
-            var rf = getDynamoRF(nbt.omega, nbt.torque, nbt.upgrade);
-            return rf.rf + ' RF/t @ ' + rf.om + ' rad/s ' + rf.tq + ' Nm';
+            /* 直接从 Java 类中获取静态常量和方法 */
+            var ReikaRFHelper = Packages.Reika.DragonAPI.ModInteract.Power.ReikaRFHelper;
+            var ConfigRegistry = Packages.Reika.RotaryCraft.Registry.ConfigRegistry;
+            var Dynamo = Packages.Reika.RotaryCraft.ModInterface.Conversion.TileEntityDynamo;
+
+            /* 1. 从 Java 类中获取硬编码的上限 */
+            var maxTq = nbt.upgrade ? Dynamo.MAXTORQUE_UPGRADE : Dynamo.MAXTORQUE;
+            var maxOm = Dynamo.MAXOMEGA;
+
+            /* 2. 模拟 getGenRF 内部的 Math.min 逻辑 */
+            var tq = Math.min(nbt.torque, maxTq);
+            var om = Math.min(nbt.omega, maxOm);
+
+            /* 3. 获取动态的物理转换常数 (关键点) */
+            /* 无论玩家怎么改配置，这个调用拿到的永远是游戏当前运行的值 */
+            var wattsPerRF = ReikaRFHelper.getWattsPerRF();
+            var efficiency = ConfigRegistry.getConverterEfficiency();
+
+            /* 4. 计算功率并转换 */
+            var pwr = tq * om;
+            var rt = {
+                /* 模拟 Java 的 (int) 强制转换 */
+                rf: Math.floor((pwr / wattsPerRF) * efficiency),
+                tq: tq,
+                om: om
+            };
+
+            return rt.rf + ' RF/t @ ' + rt.om + ' rad/s ' + rt.tq + ' Nm';
         </line>
     </tileentity>
     <tileentity id="RCfan">

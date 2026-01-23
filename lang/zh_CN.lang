@@ -64,6 +64,8 @@ hud.msg.RotaryCraft.Stage=阶段
 
 hud.msg.RotaryCraft.Dynamo.Generated=生成
 
+hud.msg.RotaryCraft.ScaleChest.Slots=插槽
+
 hud.msg.RotaryCraft.Fan.Range=范围
 hud.msg.RotaryCraft.Fan.Mode=模式
 hud.msg.RotaryCraft.Fan.FireExtinguish=灭火
