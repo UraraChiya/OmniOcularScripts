@@ -61,8 +61,7 @@ hud.msg.RotaryCraft.Magnet=磁通量密度
 hud.msg.RotaryCraft.MicroTesla= μT
 hud.msg.RotaryCraft.OneTickRequires=1 刻需求
 hud.msg.RotaryCraft.Stage=阶段
-
-hud.msg.RotaryCraft.Dynamo.Generated=生成
+hud.msg.RotaryCraft.Generated=生成
 
 hud.msg.RotaryCraft.ScaleChest.Slots=插槽
 
@@ -71,8 +70,13 @@ hud.msg.RotaryCraft.Fan.Mode=模式
 hud.msg.RotaryCraft.Fan.FireExtinguish=灭火
 hud.msg.RotaryCraft.Fan.Harvesting=收割
 
-
 hud.msg.RotaryCraft.Friction.MaxTemperature=最高温度
+
+hud.msg.RotaryCraft.Generator.Output=发电产出
+hud.msg.RotaryCraft.Generator.PowerLoss=机械损耗
+hud.msg.RotaryCraft.Generator.OptimizeSuggestion=建议将扭矩降低至以下数值
+hud.msg.RotaryCraft.Generator.ExplosionRisk=爆炸风险
+hud.msg.RotaryCraft.Generator.NoCoolant=缺少冷却液
 
 hud.msg.Forestry.Queen.Info=信息
 hud.msg.Forestry.Queen.Name=名字

@@ -4,6 +4,12 @@
 <!--Requie: OmniOcular.xml-->
 <oo>
     <init>
+        /* 直接从 Java 类中获取静态常量和方法 */
+        var ReikaRFHelper = Packages.Reika.DragonAPI.ModInteract.Power.ReikaRFHelper;
+        var ReikaEUHelper = Packages.Reika.DragonAPI.ModInteract.Power.ReikaEUHelper;
+        var ConfigRegistry = Packages.Reika.RotaryCraft.Registry.ConfigRegistry;
+        var RotaryCraftConfigRegistry = Packages.Reika.RotaryCraft.Registry.ConfigRegistry;
+        var Dynamo = Packages.Reika.RotaryCraft.ModInterface.Conversion.TileEntityDynamo;
         var PowerReceivers = Packages.Reika.RotaryCraft.Registry.PowerReceivers;
 
         /**
@@ -146,12 +152,13 @@
             var curTime = param.nbt.CookTime || 0;
             var hasLimit = param.hasLimit || false; /* 是否是象变速箱那样有上限限制*/
             var machineName = param.machineName;
+            var bedrock = param.nbt.bedrock;
 
             /* 返回值列表 */
             var results = ['\\n'];
 
             /* 基岩 */
-            if (nbt.bedrock) {
+            if (bedrock) {
                 results.push(customLabelFormat(translate('hud.msg.RotaryCraft.Bedrock'), nbt.bedrock));
             }
 
@@ -363,14 +370,9 @@
     </tileentity>
     <tileentity id="RCdynamo">
         <line displayname='hud.msg.common.Info'>
-            return getAllTheInfo({ nbt: nbt });
+            return getAllTheInfo({ nbt: nbt, machineName: 'DYNAMO' });
         </line>
-        <line displayname='hud.msg.RotaryCraft.Dynamo.Generated'>
-            /* 直接从 Java 类中获取静态常量和方法 */
-            var ReikaRFHelper = Packages.Reika.DragonAPI.ModInteract.Power.ReikaRFHelper;
-            var ConfigRegistry = Packages.Reika.RotaryCraft.Registry.ConfigRegistry;
-            var Dynamo = Packages.Reika.RotaryCraft.ModInterface.Conversion.TileEntityDynamo;
-
+        <line displayname='hud.msg.RotaryCraft.Generated'>
             /* 1. 从 Java 类中获取硬编码的上限 */
             var maxTq = nbt.upgrade ? Dynamo.MAXTORQUE_UPGRADE : Dynamo.MAXTORQUE;
             var maxOm = Dynamo.MAXOMEGA;
@@ -394,6 +396,102 @@
             };
 
             return rt.rf + ' RF/t @ ' + rt.om + ' rad/s ' + rt.tq + ' Nm';
+        </line>
+    </tileentity>
+    <tileentity id='RCgenerator'>
+        <line displayname='hud.msg.common.Info'>
+            return getAllTheInfo({ nbt: nbt, machineName: 'GENERATOR' });
+        </line>
+        <line displayname='hud.msg.RotaryCraft.Generated'>
+            /* 1. 动态读取配置和转换常量 (保持原样) */
+            var hardModeEU = RotaryCraftConfigRegistry.HARDEU.getState();
+            var efficiency = RotaryCraftConfigRegistry.getConverterEfficiency();
+            var wattsPerEU = ReikaEUHelper.getWattsPerEU();
+
+            var power = nbt.power;
+            var torque = nbt.torque;
+            var upgraded = nbt.upgrade;
+
+            /* 2. 计算功率损耗阈值 */
+            var t_loss_threshold = upgraded ? 512 : 128;
+            var powerLoss = 0;
+            if (torque > t_loss_threshold) {
+                var diff = torque - t_loss_threshold;
+                var multiplier = upgraded ? 0.0625 : 0.125;
+                powerLoss = Math.floor(Math.pow(diff, 2) * multiplier);
+            }
+
+            /* 3. 计算实际 EU 产出 */
+            var netPower = Math.max(0, power - powerLoss);
+            var offeredEU = Math.floor((netPower / wattsPerEU) * efficiency);
+
+            /* 4. 爆炸风险计算 */
+            var dangerLimit = upgraded ? 4096 : 1024;
+            var explosionChance = 0;
+            var isOverLimit = hardModeEU && torque > dangerLimit;
+            if (isOverLimit) {
+                explosionChance = Math.floor(((torque - dangerLimit) / 20000) * 100);
+            }
+
+            var results = ['\\n'];
+
+            /* A. 显示 EU 产出 */
+            results.push(
+                customLabelFormat(
+                    translate('hud.msg.RotaryCraft.Generator.Output'),
+                    GREEN + numberWithCommas(offeredEU.toFixed(0)) + ' EU/t'
+                )
+            );
+
+            /* B. 产生损耗时的逻辑：显示损失并提醒优化 */
+            if (powerLoss > 0) {
+                /* 显示损失了多少 W */
+                results.push(
+                    customLabelFormat(
+                        translate('hud.msg.RotaryCraft.Generator.PowerLoss'),
+                        RED + '-' + numberWithCommas(powerLoss.toFixed(0)) + ' W'
+                    )
+                );
+                /* 增加优化提醒 (本地化词条: hud.msg.RotaryCraft.OptimizeSuggestion) */
+                /* 建议翻译: "请降低扭矩至 %d Nm 以下以消除损耗" */
+                results.push(
+                    ITALIC +
+                        GOLD +
+                        '  -> ' +
+                        translate('hud.msg.RotaryCraft.Generator.OptimizeSuggestion') +
+                        ': ' +
+                        t_loss_threshold
+                );
+            }
+
+            /* C. 困难模式显示 */
+            if (hardModeEU) {
+                if (isOverLimit) {
+                    var chanceStr = Math.min(100, explosionChance).toFixed(0);
+                    results.push(
+                        RED +
+                            '⚠ ' +
+                            translate('hud.msg.RotaryCraft.Generator.ExplosionRisk') +
+                            ' (' +
+                            numberWithCommas(dangerLimit) +
+                            'Nm+): ' +
+                            chanceStr +
+                            '% ⚠'
+                    );
+                }
+
+                /* 冷却液检查 */
+                if (!nbt.tank || nbt.tank.Amount <= 0) {
+                    results.push(RED + '⚠ ' + translate('hud.msg.RotaryCraft.Generator.NoCoolant') + ' ⚠');
+                }
+            }
+
+            /* D. 升级状态 */
+            if (upgraded) {
+                results.push(AQUA + '[' + translate('upgrade.flux') + ']');
+            }
+
+            return results.join('\\n  ');
         </line>
     </tileentity>
     <tileentity id="RCfan">

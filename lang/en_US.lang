@@ -61,8 +61,7 @@ hud.msg.RotaryCraft.Magnet=Magnetic Flux Density
 hud.msg.RotaryCraft.MicroTesla=µT
 hud.msg.RotaryCraft.OneTickRequires=1 Tick Requires
 hud.msg.RotaryCraft.Stage=Stage
-
-hud.msg.RotaryCraft.Dynamo.Generated=Generated
+hud.msg.RotaryCraft.Generated=Generated
 
 hud.msg.RotaryCraft.ScaleChest.Slots=Slots
 
@@ -71,8 +70,13 @@ hud.msg.RotaryCraft.Fan.Mode=Mode
 hud.msg.RotaryCraft.Fan.FireExtinguish=Fire Extinguish
 hud.msg.RotaryCraft.Fan.Harvesting=Harvesting
 
-
 hud.msg.RotaryCraft.Friction.MaxTemperature=Max Temp
+
+hud.msg.RotaryCraft.Generator.Output=Power Output
+hud.msg.RotaryCraft.Generator.PowerLoss=Mechanical Loss
+hud.msg.RotaryCraft.Generator.OptimizeSuggestion=Suggested Torque Below
+hud.msg.RotaryCraft.Generator.ExplosionRisk=Explosion Risk
+hud.msg.RotaryCraft.Generator.NoCoolant=Missing Coolant
 
 hud.msg.Forestry.Queen.Info=Info
 hud.msg.Forestry.Queen.Name=Name
