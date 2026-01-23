@@ -165,7 +165,7 @@
             var formatInfo = function (val, reqVal, unit, label) {
                 var formattedVal = numberWithCommas(val);
 
-                if (reqVal) {
+                if (reqVal > 1) {
                     /* 判定逻辑说明：
                      * 1. 如果是上限模式 (hasLimit)，绿色条件是 val <= reqVal
                      * 2. 如果是下限模式 (!hasLimit)，绿色条件是 val >= reqVal*/
